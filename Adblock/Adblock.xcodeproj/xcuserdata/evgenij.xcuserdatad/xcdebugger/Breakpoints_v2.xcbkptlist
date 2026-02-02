@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "E200826E-1274-4E34-BCAA-9DA4EA4C235F"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "43B95ABA-FE75-456B-929D-E302A4C15198"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Adblock/MainTabs/Custom/AddCustomRule.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "header"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "672E1156-6380-4342-95EC-2BB4ADFBB451"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Adblock/MainTabs/CustomScreen/AddCustomRuleViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "AddCustomRuleViewModel"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "672E1156-6380-4342-95EC-2BB4ADFBB451 - 117ff0730c8576ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of Adblock.AddCustomRuleViewModel.hideElements : Swift.Bool"
+                  moduleName = "Adblock.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenij/Desktop/Adblock/Adblock/MainTabs/CustomScreen/AddCustomRuleViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "672E1156-6380-4342-95EC-2BB4ADFBB451 - f8160b6d59047e1c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Adblock.AddCustomRuleViewModel.hideElements.getter : Swift.Bool"
+                  moduleName = "Adblock.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenij/Desktop/Adblock/Adblock/MainTabs/CustomScreen/AddCustomRuleViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "672E1156-6380-4342-95EC-2BB4ADFBB451 - cbabafe512295608"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Adblock.AddCustomRuleViewModel.hideElements.setter : Swift.Bool"
+                  moduleName = "Adblock.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenij/Desktop/Adblock/Adblock/MainTabs/CustomScreen/AddCustomRuleViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "672E1156-6380-4342-95EC-2BB4ADFBB451 - 7cd7211e79e45019"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Adblock.AddCustomRuleViewModel.hideElements.modify : Swift.Bool"
+                  moduleName = "Adblock.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenij/Desktop/Adblock/Adblock/MainTabs/CustomScreen/AddCustomRuleViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "672E1156-6380-4342-95EC-2BB4ADFBB451 - beeffb9f474c673f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Adblock.AddCustomRuleViewModel.$hideElements.getter : Combine.Published&lt;Swift.Bool&gt;.Publisher"
+                  moduleName = "Adblock.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenij/Desktop/Adblock/Adblock/MainTabs/CustomScreen/AddCustomRuleViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "672E1156-6380-4342-95EC-2BB4ADFBB451 - 7d3ef3b8ded9a57b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Adblock.AddCustomRuleViewModel.$hideElements.setter : Combine.Published&lt;Swift.Bool&gt;.Publisher"
+                  moduleName = "Adblock.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenij/Desktop/Adblock/%3Cstdin%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "672E1156-6380-4342-95EC-2BB4ADFBB451 - 1ea08fc7861ce03c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Adblock.AddCustomRuleViewModel.$hideElements.modify : Combine.Published&lt;Swift.Bool&gt;.Publisher"
+                  moduleName = "Adblock.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/evgenij/Desktop/Adblock/Adblock/MainTabs/CustomScreen/AddCustomRuleViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
