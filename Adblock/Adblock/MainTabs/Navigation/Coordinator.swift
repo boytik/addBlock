@@ -15,7 +15,7 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     func build(route: Route) -> some View {
         switch route {
         case .settings:
-            SettingsView(viewModal: SettingsViewModal(coordinator: self))
+            SettingsView(viewModel: SettingsViewModal(coordinator: self))
         case .general:
             GeneralView(viewModel: GeneralViewModel(coordinator: self))
         case .custom:

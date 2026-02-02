@@ -31,6 +31,7 @@ struct AddCustomRule: View {
                 .font(.custom("Inter18pt-SemiBold", size: 14))
                 .foregroundStyle(.grayText)
                 .padding(.vertical)
+            blockingSetting
             
         }
         .padding(.horizontal)
@@ -44,12 +45,11 @@ struct AddCustomRule: View {
                 Image(systemName: "xmark")
             }
             Spacer()
-                .overlay{
-                    Text("Add Custom Rule")
-                        .foregroundStyle(.white)
-                        .font(.custom("Inter18pt-Bold", size: 18))
-                }
-            
+        }
+        .overlay{
+            Text("Add Custom Rule")
+                .foregroundStyle(.white)
+                .font(.custom("Inter18pt-Bold", size: 18))
         }
     }
     
@@ -59,17 +59,18 @@ struct AddCustomRule: View {
                 .padding(.leading)
             TextField("e.g., youtube.com", text: $viewModel.tagetWeb)
         }
-        .background(Color(.bgForBut))
+        .frame(height: 58)
+        .background(Color(.black))
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
     
     private var blockingSetting: some View {
         VStack {
-            RowForBloking(imageName: "nosign",
+            RowForBloking(imageName: "block",
                           titel: "Block Ads",
                           subTitel: "Removes banner and video ads",
                           isOn: $viewModel.blockAds)
-            RowForBloking(imageName: "eye.slash.fill",
+            RowForBloking(imageName: "Eye",
                           titel: "Block Trackers",
                           subTitel: "Stops analytics & data collection",
                           isOn: $viewModel.blockTrackers)
@@ -95,6 +96,7 @@ private struct RowForBloking: View {
     var body: some View {
         HStack {
         Image("\(imageName)")
+                .frame(width: 40, height: 40)
             VStack (alignment: .leading) {
                 Text("\(titel)")
                 Text("\(subTitel)")

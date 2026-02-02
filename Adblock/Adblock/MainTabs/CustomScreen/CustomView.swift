@@ -5,6 +5,10 @@ struct CustomView: View {
     
     @StateObject var viewModel: CstomViewModel
     
+    init(viewModel: CstomViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
     var body: some View {
         VStack {
             header

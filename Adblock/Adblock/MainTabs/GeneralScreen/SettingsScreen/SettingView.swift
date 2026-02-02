@@ -5,6 +5,9 @@ import SwiftUI
 struct SettingsView: View {
     @StateObject var viewModal: SettingsViewModal
     
+    init(viewModel: SettingsViewModal) {
+          _viewModal = StateObject(wrappedValue: viewModel)
+      }
     var body: some View {
         ZStack {
             VStack {

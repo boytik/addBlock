@@ -6,6 +6,11 @@ struct GeneralView: View {
     @StateObject var viewModel: GeneralViewModel
     @State var isPulsing = false
     
+    init(viewModel: GeneralViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .center) {
