@@ -1,12 +1,13 @@
-//
-//  AddCustomRuleViewModel.swift
-//  Adblock
-//
-//  Created by Евгений on 01.02.2026.
-//
+
 
 import SwiftUI
 import Combine
+
+enum FiltersDates: String {
+    case lastDay = "Last 24h "
+    case lastWeek = "Last week"
+    case lastMonth = "Last month"
+}
 
 class AddCustomRuleViewModel: ObservableObject {
     private let coordinator: CoordinatorProtocol
@@ -17,6 +18,10 @@ class AddCustomRuleViewModel: ObservableObject {
     @Published var blockTrackers: Bool = false
     @Published var antiAdblockKiller: Bool = false
     @Published var hideElements: Bool = false
+    //Domain Activity
+    @Published var isEmptyData:Bool = true
+    @Published var showMenu = false
+    @Published var rangeOfDates: FiltersDates = .lastDay
     
     init(coordinator: CoordinatorProtocol) {
         self.coordinator = coordinator
@@ -24,5 +29,10 @@ class AddCustomRuleViewModel: ObservableObject {
     
     func closeScreen() {
         coordinator.closeCustomRule()
+    }
+    
+    func opneAndCloseMenu(range: FiltersDates) {
+        self.showMenu.toggle()
+        self.rangeOfDates = range
     }
 }
