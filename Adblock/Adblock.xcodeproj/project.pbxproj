@@ -11,6 +11,7 @@
 		3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B0852F30BB3500E5A056 /* Coordinator.swift */; };
 		3E25B1A72F30D45C00E5A056 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A62F30D45C00E5A056 /* RootView.swift */; };
 		3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */; };
+		3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */; };
 		3ECB17B62F2E26D900B28404 /* AdblockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECB17B22F2E26D900B28404 /* AdblockApp.swift */; };
 		3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECB17B42F2E26D900B28404 /* TapBarView.swift */; };
 		3ECB17B82F2E26D900B28404 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ECB17B32F2E26D900B28404 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 		3E25B0852F30BB3500E5A056 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3E25B1A62F30D45C00E5A056 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModal.swift; sourceTree = "<group>"; };
+		3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickGuideView.swift; sourceTree = "<group>"; };
 		3ECB17A42F2E265900B28404 /* Adblock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adblock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECB17B22F2E26D900B28404 /* AdblockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdblockApp.swift; sourceTree = "<group>"; };
 		3ECB17B32F2E26D900B28404 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		3E25B1AA2F30DEC200E5A056 /* Quick Guide */ = {
 			isa = PBXGroup;
 			children = (
+				3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */,
 			);
 			path = "Quick Guide";
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */,
 				3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */,
 				3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */,
+				3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */,
 				3EFB88A52F2FCB3A0088623E /* AddCustomRuleViewModel.swift in Sources */,
 				3E25B1A72F30D45C00E5A056 /* RootView.swift in Sources */,
 			);
