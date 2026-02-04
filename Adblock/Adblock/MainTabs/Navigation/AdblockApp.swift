@@ -8,6 +8,7 @@ struct AdblockApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(coordinator)
+//            QuickGuideView()
         }
     }
 }

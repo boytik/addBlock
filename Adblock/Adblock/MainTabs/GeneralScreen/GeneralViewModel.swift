@@ -26,6 +26,10 @@ class GeneralViewModel: ObservableObject {
     func didTapSettings() {
         coordinator.openSettings()
     }
+    
+    func openWhiteList(){
+        coordinator.openWhiteList()
+    }
 }
 
 enum TimeRange: CaseIterable {

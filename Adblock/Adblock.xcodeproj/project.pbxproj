@@ -12,6 +12,8 @@
 		3E25B1A72F30D45C00E5A056 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A62F30D45C00E5A056 /* RootView.swift */; };
 		3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */; };
 		3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */; };
+		3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */; };
+		3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */; };
 		3ECB17B62F2E26D900B28404 /* AdblockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECB17B22F2E26D900B28404 /* AdblockApp.swift */; };
 		3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECB17B42F2E26D900B28404 /* TapBarView.swift */; };
 		3ECB17B82F2E26D900B28404 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ECB17B32F2E26D900B28404 /* Assets.xcassets */; };
@@ -33,6 +35,8 @@
 		3E25B1A62F30D45C00E5A056 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModal.swift; sourceTree = "<group>"; };
 		3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickGuideView.swift; sourceTree = "<group>"; };
+		3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListView.swift; sourceTree = "<group>"; };
+		3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListViewModel.swift; sourceTree = "<group>"; };
 		3ECB17A42F2E265900B28404 /* Adblock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adblock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECB17B22F2E26D900B28404 /* AdblockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdblockApp.swift; sourceTree = "<group>"; };
 		3ECB17B32F2E26D900B28404 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -89,6 +93,15 @@
 			path = "Quick Guide";
 			sourceTree = "<group>";
 		};
+		3E6FC3DE2F333A990068A4A5 /* WhiteList */ = {
+			isa = PBXGroup;
+			children = (
+				3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */,
+				3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */,
+			);
+			path = WhiteList;
+			sourceTree = "<group>";
+		};
 		3ECB179B2F2E265900B28404 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +151,7 @@
 		3ECB17BF2F2E273C00B28404 /* GeneralScreen */ = {
 			isa = PBXGroup;
 			children = (
+				3E6FC3DE2F333A990068A4A5 /* WhiteList */,
 				3ECB17BB2F2E271200B28404 /* GeneralView.swift */,
 				3ECB17C12F2E36D100B28404 /* GeneralViewModel.swift */,
 				3E25AED82F30ABCF00E5A056 /* SettingsScreen */,
@@ -245,7 +259,9 @@
 			files = (
 				3ECB17BC2F2E271200B28404 /* GeneralView.swift in Sources */,
 				3ECB17BE2F2E272600B28404 /* CustomView.swift in Sources */,
+				3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */,
 				3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */,
+				3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */,
 				3ECB17C22F2E36D100B28404 /* GeneralViewModel.swift in Sources */,
 				3E25AEDA2F30ABE800E5A056 /* SettingView.swift in Sources */,
 				3EFB889F2F2F7A2F0088623E /* CustomViewModel.swift in Sources */,

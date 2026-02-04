@@ -22,6 +22,8 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
                 CustomView(viewModel: CstomViewModel(coordinator: self))
         case .addCustom:
             AddCustomRule(viewModel: AddCustomRuleViewModel(coordinator: self))
+        case .whiteList:
+            WhiteListView(viewModel: WhiteListViewModel(coordinator: self))
         }
     }
     
@@ -43,6 +45,14 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     func closeCustomRule() {
         route = nil
     }
+    
+    func openWhiteList() {
+        route = .whiteList
+    }
+    
+    func closeWhiteList() {
+        route = nil
+    }
 }
 //MARK: Contract
 protocol CoordinatorProtocol: AnyObject {
@@ -52,6 +62,10 @@ protocol CoordinatorProtocol: AnyObject {
     //CustomRules
     func addCustomRule()
     func closeCustomRule()
+    //White List
+    func openWhiteList()
+    func closeWhiteList()
+    
     
 }
 
@@ -65,4 +79,5 @@ enum Route: Identifiable {
     case settings
     case custom
     case addCustom
+    case whiteList
 }

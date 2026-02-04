@@ -182,9 +182,40 @@ struct GeneralView: View {
                 subtitle: "Avoid detection scripts",
                 isOn: $viewModel.isAntiAdblokKiller
             )
+            whiteList
+            
         }
         .background(Color("BgForBut"))
         .clipShape(RoundedRectangle(cornerRadius: 24))
+    }
+    
+    private var whiteList: some View {
+        HStack {
+            Image("WhiteList")
+                .frame(width: 40, height: 40)
+                .foregroundStyle(.accent)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Anti-Adblock killer")
+                    .font(.custom("Inter18pt-Medium", size: 16))
+                    .foregroundStyle(.white)
+
+                Text("Avoid setections scripts")
+                    .font(.custom("Inter18pt-Regular", size: 12))
+                    .foregroundStyle(.grayText)
+            }
+
+            Spacer()
+
+            Button(action: {
+                viewModel.openWhiteList()
+            }) {
+                Image(systemName: "chevron.right")
+            }
+            .padding(.trailing)
+        }
+        .padding(.horizontal)
+        .padding(.vertical)
     }
     
     
