@@ -10,17 +10,25 @@ struct CustomView: View {
     }
     
     var body: some View {
-        VStack {
-            header
-            customSearchBar
-                .padding(.vertical)
-            RowForCustomView(icon: "Shield",
-                             titel: "All Domains",
-                             subTitel: "Blocking ads & trackers",
-                             isOn: $viewModel.blockAllDomains)
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
+            ScrollView {
+                VStack {
+                    header
+                    customSearchBar
+                        .padding(.vertical)
+                    RowForCustomView(icon: "Shield",
+                                     titel: "All Domains",
+                                     subTitel: "Blocking ads & trackers",
+                                     isOn: $viewModel.blockAllDomains)
+                    inactiveBlock
+                    
+                }
+                .padding(.horizontal)
+
+            }
         }
-        .padding(.horizontal)
-        .background(Color(.black))
     }
     
     private var header: some View {
@@ -56,6 +64,22 @@ struct CustomView: View {
         .background(Color("BgForBut"))
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
+    
+    private var inactiveBlock: some View {
+        HStack {
+            Text("INACTIVE")
+                .font(.custom("Inter18pt-Bold", size: 12))
+                .foregroundColor(.grayText)
+            Spacer()
+        }
+    }
+    
+    private var basement: some View {
+        VStack {
+            Image("CastomRules")
+                .frame(width: 96, height: 96)
+        }
+    }
 }
 
 struct RowForCustomView: View {
@@ -66,19 +90,25 @@ struct RowForCustomView: View {
     
     var body: some View {
         HStack {
-            Image("\(icon)")
-                .frame(width: 40, height: 40 )
-            VStack(alignment: .leading) {
-                Text("\(titel)")
-                    .font(.custom("Inter18pt-SemiBold", size: 16))
-                    .foregroundStyle(.white)
-                Text("\(subTitel)")
-                    .font(.custom("Inter18pt-Regular", size: 12))
-                    .foregroundStyle(.grayText)
+            Group{
+                Image("\(icon)")
+                    .frame(width: 40, height: 40 )
+                    .padding(.horizontal)
+                VStack(alignment: .leading) {
+                    Text("\(titel)")
+                        .font(.custom("Inter18pt-SemiBold", size: 16))
+                        .foregroundStyle(.white)
+                        .padding(.bottom, 4)
+                    Text("\(subTitel)")
+                        .font(.custom("Inter18pt-Regular", size: 12))
+                        .foregroundStyle(.grayText)
+                }
             }
+            Spacer()
             Toggle("", isOn: $isOn)
                 .labelsHidden()
                 .tint(.accent)
+                .padding(.horizontal)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 72)

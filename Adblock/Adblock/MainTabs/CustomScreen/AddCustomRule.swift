@@ -19,6 +19,7 @@ struct AddCustomRule: View {
             
             VStack(alignment: .center) {
                 header
+                    .padding(.vertical)
                 
                 //SearchBar
                 inputTextField
@@ -41,8 +42,7 @@ struct AddCustomRule: View {
             .background(Color(.black))
             if viewModel.showMenu {
                        dropdownMenu
-                           .zIndex(100) // выше вообще всего
-                   }
+                           .zIndex(100)                    }
         }
     }
     
