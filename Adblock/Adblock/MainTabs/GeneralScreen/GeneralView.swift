@@ -12,6 +12,9 @@ struct GeneralView: View {
     
     
     var body: some View {
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
         ScrollView {
             VStack(alignment: .center) {
                 header
@@ -47,7 +50,11 @@ struct GeneralView: View {
             }
             .padding(.horizontal)
         }
-        .background(Color.black) 
+        }
+        .onAppear(){ //Создано для теста удалить 
+            let suite = UserDefaults(suiteName: "group.com.botyik.adblock")
+            suite?.set("Hello from App", forKey: "appGroupTest")
+        }
     }
     //MARK: Header
     private var header: some View {
