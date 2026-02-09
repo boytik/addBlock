@@ -4,6 +4,7 @@ import SwiftUI
 
 struct WhiteListView: View {
     @StateObject var viewModel: WhiteListViewModel
+    @EnvironmentObject var coordinator: AppCoordinator
 
     init(viewModel: WhiteListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -24,8 +25,16 @@ struct WhiteListView: View {
                     whiteList
                 }
                 mainButton
+                    .padding(.bottom)
             }
             .padding(.horizontal)
+        }
+        .sheet(item: $coordinator.sheet) { sheet in
+            switch sheet {
+            case .addWebsite:
+                AddNewUrlView(viewModel: AddWebSiteViewModel(coordinator: coordinator,
+                                                             whitelist: coordinator.whiteListStore))
+            }
         }
     }
     
@@ -67,7 +76,9 @@ struct WhiteListView: View {
     
     
     private var mainButton: some View {
-        Button(action: {}) {
+        Button(action: {
+            viewModel.openAddWeb()
+        }) {
             HStack {
                 Image("Shield")
                     .renderingMode(.template)

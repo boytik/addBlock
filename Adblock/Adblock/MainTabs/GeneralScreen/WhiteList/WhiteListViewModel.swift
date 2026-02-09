@@ -21,6 +21,10 @@ class WhiteListViewModel: ObservableObject {
     func closeWhiteList() {
         coordinator.closeWhiteList()
     }
+    
+    func openAddWeb(){
+        coordinator.presentAddWebsite()
+    }
 }
 
 private extension WhiteListViewModel {

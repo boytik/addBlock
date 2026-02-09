@@ -10,8 +10,13 @@ import Combine
 
 final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     @Published var route: Route?
+    @Published var sheet: Sheet?
+    
     private let ruleService = RulesService()
     private let whiteList = WhiteListStore()
+    var whiteListStore: WhiteListStore {
+          whiteList
+      }
     
     @ViewBuilder
     func build(route: Route) -> some View {
@@ -31,8 +36,8 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
         }
     }
     
+    //MARK: NAVIGATION
     //Settings
-    
     func openSettings() {
         route = .settings
     }
@@ -49,13 +54,22 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     func closeCustomRule() {
         route = nil
     }
-    
+    //WhiteList
     func openWhiteList() {
         route = .whiteList
     }
     
     func closeWhiteList() {
         route = nil
+    }
+    
+    //MARK: SHEETS
+    func presentAddWebsite() {
+        sheet = .addWebsite
+    }
+    
+    func dismissSheet() {
+        sheet = nil
     }
 }
 //MARK: Contract
@@ -69,6 +83,9 @@ protocol CoordinatorProtocol: AnyObject {
     //White List
     func openWhiteList()
     func closeWhiteList()
+    //Sheets
+    func presentAddWebsite()
+    func dismissSheet()
     
     
 }
@@ -84,4 +101,14 @@ enum Route: Identifiable {
     case custom
     case addCustom
     case whiteList
+}
+//MARK: Sheets
+enum Sheet: Identifiable {
+    case addWebsite
+    var id: String {
+        switch self {
+        case .addWebsite:
+            return "addWebSite"
+        }
+    }
 }
