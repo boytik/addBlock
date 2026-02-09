@@ -10,6 +10,8 @@ import Combine
 
 final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     @Published var route: Route?
+    private let ruleService = RulesService()
+    private let whiteList = WhiteListStore()
     
     @ViewBuilder
     func build(route: Route) -> some View {
@@ -17,13 +19,15 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
         case .settings:
             SettingsView(viewModel: SettingsViewModal(coordinator: self))
         case .general:
-            GeneralView(viewModel: GeneralViewModel(coordinator: self))
+            GeneralView(viewModel: GeneralViewModel(coordinator: self,
+                                                    ruleService: ruleService))
         case .custom:
                 CustomView(viewModel: CstomViewModel(coordinator: self))
         case .addCustom:
             AddCustomRule(viewModel: AddCustomRuleViewModel(coordinator: self))
         case .whiteList:
-            WhiteListView(viewModel: WhiteListViewModel(coordinator: self))
+            WhiteListView(viewModel: WhiteListViewModel(coordinator: self,
+                                                        whiteListStore: whiteList))
         }
     }
     

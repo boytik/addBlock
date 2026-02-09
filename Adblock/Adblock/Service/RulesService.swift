@@ -1,9 +1,3 @@
-//
-//  RulesService.swift
-//  Adblock
-//
-//  Created by Евгений on 05.02.2026.
-//
 
 import Foundation
 

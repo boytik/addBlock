@@ -18,11 +18,29 @@ class GeneralViewModel: ObservableObject {
     @Published var isBlockAds: Bool = false
     @Published var isBlockTrackers: Bool = false
     @Published var isAntiAdblokKiller: Bool = false
+    var whiteList:[String] = []
     
-    init(coordinator: CoordinatorProtocol) {
+    private let ruleServise: RulesService
+    
+    init(coordinator: CoordinatorProtocol,
+         ruleService: RulesService) {
         self.coordinator = coordinator
+        self.ruleServise = ruleService
+    }
+    //Создаем конфиг
+    func makeConfig() -> ContentBlockerConfig {
+        ContentBlockerConfig(isEnabled: isWorking,
+                             blockAds: isBlockAds,
+                             blockTrackers: isBlockTrackers,
+                             whiteListedDomains: whiteList)
+    }
+    //Обновляем правила
+    func updateRules() {
+        let config = makeConfig()
+        ruleServise.updateRules(config: config)
     }
     
+    //MARK: Navigation
     func didTapSettings() {
         coordinator.openSettings()
     }

@@ -11,6 +11,8 @@
 		3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B0852F30BB3500E5A056 /* Coordinator.swift */; };
 		3E25B1A72F30D45C00E5A056 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A62F30D45C00E5A056 /* RootView.swift */; };
 		3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */; };
+		3E3FF8152F3A08B40090A937 /* WhiteListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */; };
+		3E3FF8172F3A08CC0090A937 /* WhiteListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */; };
 		3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */; };
 		3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */; };
 		3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */; };
@@ -62,6 +64,8 @@
 		3E25B0852F30BB3500E5A056 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3E25B1A62F30D45C00E5A056 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModal.swift; sourceTree = "<group>"; };
+		3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListStore.swift; sourceTree = "<group>"; };
+		3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListItem.swift; sourceTree = "<group>"; };
 		3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickGuideView.swift; sourceTree = "<group>"; };
 		3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListView.swift; sourceTree = "<group>"; };
 		3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListViewModel.swift; sourceTree = "<group>"; };
@@ -172,6 +176,7 @@
 			children = (
 				3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */,
 				3EC50F232F3497C30046D7C3 /* BlockingAction.swift */,
+				3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -180,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				3EC50F262F349CFE0046D7C3 /* RulesService.swift */,
+				3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -392,11 +398,13 @@
 				3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */,
 				3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */,
 				3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */,
+				3E3FF8172F3A08CC0090A937 /* WhiteListItem.swift in Sources */,
 				3ECB17C22F2E36D100B28404 /* GeneralViewModel.swift in Sources */,
 				3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */,
 				3E25AEDA2F30ABE800E5A056 /* SettingView.swift in Sources */,
 				3EFB889F2F2F7A2F0088623E /* CustomViewModel.swift in Sources */,
 				3ECB17B62F2E26D900B28404 /* AdblockApp.swift in Sources */,
+				3E3FF8152F3A08B40090A937 /* WhiteListStore.swift in Sources */,
 				3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */,
 				3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */,
 				3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */,
@@ -422,7 +430,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = AdblockSafariExtension/AdblockSafariExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -440,8 +448,9 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = boytik.Adblock.AdblockSafariExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = test.com.adblock.blocker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -456,7 +465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = AdblockSafariExtension/AdblockSafariExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -474,8 +483,9 @@
 					"-framework",
 					SafariServices,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = boytik.Adblock.AdblockSafariExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = test.com.adblock.blocker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -611,7 +621,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Adblock/Adblock.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
@@ -627,8 +637,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = boytik.Adblock;
+				PRODUCT_BUNDLE_IDENTIFIER = test.com.adblock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -649,7 +660,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Adblock/Adblock.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
@@ -665,8 +676,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = boytik.Adblock;
+				PRODUCT_BUNDLE_IDENTIFIER = test.com.adblock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

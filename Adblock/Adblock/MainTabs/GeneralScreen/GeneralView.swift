@@ -84,6 +84,7 @@ struct GeneralView: View {
         Button(action: {
             withAnimation(.easeInOut(duration: 0.25)) {
                    viewModel.isWorking.toggle()
+                viewModel.updateRules()
                }
         }) {
             ZStack {
