@@ -13,6 +13,8 @@
 		3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */; };
 		3E3FF8152F3A08B40090A937 /* WhiteListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */; };
 		3E3FF8172F3A08CC0090A937 /* WhiteListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */; };
+		3E3FF8952F3A2B8A0090A937 /* AddNewUrlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8932F3A2B8A0090A937 /* AddNewUrlView.swift */; };
+		3E3FF8972F3A2B930090A937 /* AddNewUrlViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8962F3A2B930090A937 /* AddNewUrlViewModel.swift */; };
 		3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */; };
 		3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */; };
 		3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */; };
@@ -66,6 +68,8 @@
 		3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModal.swift; sourceTree = "<group>"; };
 		3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListStore.swift; sourceTree = "<group>"; };
 		3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListItem.swift; sourceTree = "<group>"; };
+		3E3FF8932F3A2B8A0090A937 /* AddNewUrlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUrlView.swift; sourceTree = "<group>"; };
+		3E3FF8962F3A2B930090A937 /* AddNewUrlViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUrlViewModel.swift; sourceTree = "<group>"; };
 		3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickGuideView.swift; sourceTree = "<group>"; };
 		3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListView.swift; sourceTree = "<group>"; };
 		3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListViewModel.swift; sourceTree = "<group>"; };
@@ -162,9 +166,19 @@
 			path = "Quick Guide";
 			sourceTree = "<group>";
 		};
+		3E3FF8942F3A2B8A0090A937 /* AddNewUrl */ = {
+			isa = PBXGroup;
+			children = (
+				3E3FF8932F3A2B8A0090A937 /* AddNewUrlView.swift */,
+				3E3FF8962F3A2B930090A937 /* AddNewUrlViewModel.swift */,
+			);
+			path = AddNewUrl;
+			sourceTree = "<group>";
+		};
 		3E6FC3DE2F333A990068A4A5 /* WhiteList */ = {
 			isa = PBXGroup;
 			children = (
+				3E3FF8942F3A2B8A0090A937 /* AddNewUrl */,
 				3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */,
 				3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */,
 			);
@@ -403,9 +417,11 @@
 				3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */,
 				3E25AEDA2F30ABE800E5A056 /* SettingView.swift in Sources */,
 				3EFB889F2F2F7A2F0088623E /* CustomViewModel.swift in Sources */,
+				3E3FF8972F3A2B930090A937 /* AddNewUrlViewModel.swift in Sources */,
 				3ECB17B62F2E26D900B28404 /* AdblockApp.swift in Sources */,
 				3E3FF8152F3A08B40090A937 /* WhiteListStore.swift in Sources */,
 				3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */,
+				3E3FF8952F3A2B8A0090A937 /* AddNewUrlView.swift in Sources */,
 				3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */,
 				3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */,
 				3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */,
@@ -430,9 +446,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = AdblockSafariExtension/AdblockSafariExtension.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = PDWNRK423C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AdblockSafariExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AdblockSafariExtension;
@@ -465,9 +482,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = AdblockSafariExtension/AdblockSafariExtension.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = PDWNRK423C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AdblockSafariExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AdblockSafariExtension;
@@ -621,9 +639,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Adblock/Adblock.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = PDWNRK423C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Adblock/Info.plist;
@@ -660,9 +679,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Adblock/Adblock.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = PDWNRK423C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Adblock/Info.plist;
