@@ -70,9 +70,12 @@ struct WhiteListView: View {
         List {
             ForEach(viewModel.items) { item in
                 RowForList(titel: item.name, url: item.url)
+                    .listRowBackground(Color.black)
             }
         }
-    }
+        .listStyle(.plain)
+          .scrollContentBackground(.hidden)
+          .background(Color.black)    }
     
     
     private var mainButton: some View {
@@ -116,6 +119,7 @@ struct RowForList:  View {
                             .font(.custom("Inter18pt-Regular", size: 12))
                             .foregroundColor(.grayText)
                     }
+                    .padding(.leading)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
@@ -125,6 +129,7 @@ struct RowForList:  View {
             }
             Divider()
         }
+        .background(Color(.clear))
     }
 }
 

@@ -25,7 +25,7 @@ struct AddNewUrlView: View {
                 webLink
                 nameOfWeb
                 Button(action: {
-                    
+                    viewModel.addNewUrl()
                 }) {
                     HStack {
                         Text("Add to Whitelist")
@@ -48,7 +48,9 @@ struct AddNewUrlView: View {
                 .foregroundColor(.red)
             
             Spacer()
-            Button(action: {}) {
+            Button(action: {
+                viewModel.closeSheet()
+            }) {
                 Text("Cancel")
                     .font(.custom("Inter18pt-Medium", fixedSize: 14))
                     .foregroundColor(.red)

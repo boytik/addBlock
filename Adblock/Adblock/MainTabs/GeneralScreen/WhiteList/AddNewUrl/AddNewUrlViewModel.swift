@@ -18,5 +18,10 @@ class AddWebSiteViewModel: ObservableObject {
     func addNewUrl() {
         let normolTitel = titel.isEmpty ? nil : titel
         whiteListStore.add(url: url, name: normolTitel)
+        coordinator.dismissSheet()
+    }
+    
+    func closeSheet() {
+        coordinator.dismissSheet()
     }
 }
