@@ -12,10 +12,33 @@ final class WhiteListStore: ObservableObject {
         reStore()
     }
     
+    private func normolizeDomain(input: String) -> String {
+        var domain = input.lowercased()
+        
+        if domain.hasPrefix("http://")  {
+            domain.removeFirst(7)
+        }
+        
+        if domain.hasPrefix("https://") {
+            domain.removeFirst(8)
+        }
+        
+        if domain.hasPrefix("www.") {
+            domain.removeFirst(4)
+        }
+        
+        if let slashIndex = domain.firstIndex(of: "/") {
+            domain = String(domain[..<slashIndex])
+        }
+        
+        return domain
+    }
+    
     ///Добавляем элемент в список
     func add(url: String, name: String?) {
-        guard !whiteList.contains(where: { $0.url == url }) else { return }
-        whiteList.append(WhiteListItem(name: name, url: url))
+        let normolized = normolizeDomain(input: url)
+        guard !whiteList.contains(where: { $0.url == normolized }) else { return }
+        whiteList.append(WhiteListItem(name: name, url: normolized))
         persist()
     }
     

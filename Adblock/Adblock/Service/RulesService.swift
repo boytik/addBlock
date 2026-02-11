@@ -6,40 +6,61 @@ final class RulesService {
     private let easyListService = EasyListService()
     
     func updateRules(config: ContentBlockerConfig) {
+
         easyListService.buildBlockingRules { [weak self] easyRules in
-            
+
             guard let self else { return }
+
+            let localRules = self.generateLocalRules(config: config)
+            let whitelistRules = self.generateWhitelistRules(config: config)
+
+            var rules: [BlockingRule] = []
+
+            rules.append(contentsOf: easyRules)      // Изи лист
+            rules.append(contentsOf: localRules)     // Локальные
+            rules.append(contentsOf: whitelistRules) // Наш вайт лист
             
-            var rules = self.generateRules(config: config)
-            rules.append(contentsOf: easyRules)
-            
+            //На время дебага
+            print("🔵 EasyList rules:", easyRules.count)
+            print("🟢 Local rules:", localRules.count)
+            print("🟣 Whitelist rules:", whitelistRules.count)
+            print("📦 Total rules:", rules.count)
+            print("----- FIRST 3 RULES -----")
+            rules.prefix(3).forEach { print($0) }
+
+            print("----- LAST 3 RULES -----")
+            rules.suffix(3).forEach { print($0) }
+
             let data = self.encodeRules(rules)
-            
             self.saveRulesToAppGroup(data)
             self.reloadContentBlocker()
         }
     }
     
-    func generateRules(config: ContentBlockerConfig) -> [BlockingRule] {
+
+    
+    func generateLocalRules(config: ContentBlockerConfig) -> [BlockingRule] {
         var rules: [BlockingRule] = []
-        
         guard config.isEnabled else {
             return rules
         }
-        
+
         if config.blockAds {
             rules.append(makeAdsBlockingRule())
         }
-        
+
         if config.blockTrackers {
             rules.append(makeTrackersBlockingRule())
         }
-        
-        for domain in config.whiteListedDomains {
-            rules.append(makeWhitelistRule(for: domain))
-        }
-        
+
         return rules
+    }
+    
+    func generateWhitelistRules(config: ContentBlockerConfig) -> [BlockingRule] {
+
+        config.whiteListedDomains.map {
+            makeWhitelistRule(for: $0)
+        }
     }
     
     func makeAdsBlockingRule() -> BlockingRule {

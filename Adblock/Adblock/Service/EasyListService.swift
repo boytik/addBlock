@@ -13,6 +13,7 @@ final class EasyListService {
     private let url = URL(string: "https://easylist.to/easylist/easylist.txt")!
     private let appGroupID = "group.test.com.adblock"
     private let fileName = "easylist.txt"
+    private let cacheLifetime: TimeInterval = 60*60*24
     
     func downloadEasyList(completion: @escaping (String?) -> Void) {
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -29,13 +30,16 @@ final class EasyListService {
     
     func buildBlockingRules(completion: @escaping([BlockingRule]) -> Void) {
         //Если кэш есть
-        if let cached = loadCacheList() {
+        if isCacheValid(),
+            let cached = loadCacheList() {
+            
             let parsed = parser.parse(from: cached)
             let converted = converter.convert(rules: parsed)
             completion(converted)
             return
         }
-        // Если кэша нет 
+        
+        // Если кэша нет
         downloadEasyList { [weak self] text in
             guard let self,
                   let text else {
@@ -71,5 +75,19 @@ final class EasyListService {
     private func saveToCache(text: String) {
         guard let url = easyListFileURL() else { return }
         try? text.data(using: .utf8)?.write(to: url)
+    }
+    
+    private func isCacheValid() -> Bool {
+        guard
+                let url = easyListFileURL(),
+                FileManager.default.fileExists(atPath: url.path),
+                let attributes = try? FileManager.default.attributesOfItem(atPath: url.path),
+                let modificationDate = attributes[.modificationDate] as? Date
+            else {
+                return false
+            }
+
+            let age = Date().timeIntervalSince(modificationDate)
+            return age < cacheLifetime
     }
 }
