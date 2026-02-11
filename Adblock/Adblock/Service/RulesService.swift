@@ -6,7 +6,7 @@ final class RulesService {
     private let easyListService = EasyListService()
     
     func updateRules(config: ContentBlockerConfig) {
-        easyListService.buildBlockingTules { [weak self] easyRules in
+        easyListService.buildBlockingRules { [weak self] easyRules in
             
             guard let self else { return }
             

@@ -42,6 +42,7 @@ class GeneralViewModel: ObservableObject {
                              blockTrackers: isBlockTrackers,
                              whiteListedDomains: whiteList.domains)
     }
+    ///Привязка к изменению состояния и отправка его в сафари
     private func bindToggles() {
         Publishers.CombineLatest4 ($isWorking,
                                    $isBlockAds,
@@ -53,7 +54,7 @@ class GeneralViewModel: ObservableObject {
         }
         .store(in: &cancellables)
     }
-    
+    ///Привязка к изменению списка и отправка его в сафари
     func bindWhiteList() {
         whiteList.$whiteList
             .dropFirst()
@@ -63,7 +64,7 @@ class GeneralViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    //Обновляем правила
+    ///Обновляем правила
     func updateRules() {
         guard isWorking else {
             ruleServise.updateRules(config: makeConfig())
