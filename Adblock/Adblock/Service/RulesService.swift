@@ -1,5 +1,6 @@
 
 import Foundation
+import SafariServices
 
 final class RulesService {
     
@@ -7,6 +8,7 @@ final class RulesService {
         let rules = generateRules(config: config)
         let data = encodeRules(rules)
         saveRulesToAppGroup(data)
+        reloadContentBlocker()
     }
     
     func generateRules(config: ContentBlockerConfig) -> [BlockingRule] {
@@ -68,11 +70,23 @@ final class RulesService {
     func saveRulesToAppGroup( _ data : Data?) {
         guard let data,
               let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.boytik.adblock")
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.test.com.adblock")
         else {
             return
         }
         let fileURL = containerURL.appendingPathComponent("blockerList.json")
         try? data.write(to: fileURL)
+    }
+    
+    private func reloadContentBlocker() {
+        SFContentBlockerManager.reloadContentBlocker(
+               withIdentifier: "test.com.adblock.blocker"
+           ) { error in
+               if let error {
+                   print("❌ Content Blocker reload failed:", error.localizedDescription)
+               } else {
+                   print("✅ Content Blocker reloaded successfully")
+               }
+           }
     }
  }

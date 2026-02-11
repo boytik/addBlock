@@ -25,7 +25,8 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
             SettingsView(viewModel: SettingsViewModal(coordinator: self))
         case .general:
             GeneralView(viewModel: GeneralViewModel(coordinator: self,
-                                                    ruleService: ruleService))
+                                                    ruleService: ruleService,
+                                                    whiteListStore: whiteListStore))
         case .custom:
                 CustomView(viewModel: CstomViewModel(coordinator: self))
         case .addCustom:

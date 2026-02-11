@@ -31,7 +31,7 @@ final class WhiteListStore: ObservableObject {
     private func persist() {
         guard
             let data = try? JSONEncoder().encode(whiteList),
-            let defaults = UserDefaults(suiteName: "group.com.boytik.adblock") //поменять потом бандл
+            let defaults = UserDefaults(suiteName: "group.test.com.adblock") //поменять потом бандл
         else { return }
         defaults.set(data, forKey: starageKey)
     }
@@ -39,7 +39,7 @@ final class WhiteListStore: ObservableObject {
     ///Получаем сохраненные данные
     private func reStore() {
         guard
-            let defaults = UserDefaults(suiteName: "group.com.boytik.adblock"), // поменять бандл
+            let defaults = UserDefaults(suiteName: "group.test.com.adblock"), // поменять бандл
             let data = defaults.data(forKey: starageKey),
                 let items = try? JSONDecoder().decode([WhiteListItem].self, from: data )
         else { return }

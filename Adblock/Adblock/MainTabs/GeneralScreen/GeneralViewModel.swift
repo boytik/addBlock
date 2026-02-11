@@ -18,24 +18,57 @@ class GeneralViewModel: ObservableObject {
     @Published var isBlockAds: Bool = false
     @Published var isBlockTrackers: Bool = false
     @Published var isAntiAdblokKiller: Bool = false
-    var whiteList:[String] = []
     
+    //Services
     private let ruleServise: RulesService
+    private let whiteList: WhiteListStore
+    private var cancellables = Set<AnyCancellable>()
+    
     
     init(coordinator: CoordinatorProtocol,
-         ruleService: RulesService) {
+         ruleService: RulesService,
+         whiteListStore: WhiteListStore
+    ) {
         self.coordinator = coordinator
         self.ruleServise = ruleService
+        self.whiteList = whiteListStore
+        bindWhiteList()
+        bindToggles()
     }
     //Создаем конфиг
     func makeConfig() -> ContentBlockerConfig {
         ContentBlockerConfig(isEnabled: isWorking,
                              blockAds: isBlockAds,
                              blockTrackers: isBlockTrackers,
-                             whiteListedDomains: whiteList)
+                             whiteListedDomains: whiteList.domains)
     }
+    private func bindToggles() {
+        Publishers.CombineLatest4 ($isWorking,
+                                   $isBlockAds,
+                                   $isBlockTrackers,
+                                   $isAntiAdblokKiller)
+        .dropFirst()
+        .sink{ [weak self] _, _, _, _ in
+            self?.updateRules()
+        }
+        .store(in: &cancellables)
+    }
+    
+    func bindWhiteList() {
+        whiteList.$whiteList
+            .dropFirst()
+            .sink { [ weak self] _ in
+                self?.updateRules()
+            }
+            .store(in: &cancellables)
+    }
+    
     //Обновляем правила
     func updateRules() {
+        guard isWorking else {
+            ruleServise.updateRules(config: makeConfig())
+            return
+        }
         let config = makeConfig()
         ruleServise.updateRules(config: config)
     }

@@ -111,7 +111,7 @@ struct RowForList:  View {
                 Group {
                     Image("ImgRow")
                         .frame(width: 40, height: 40)
-                    VStack {
+                    VStack(alignment: .leading) {
                         Text("\(titel ?? "Website")")
                             .font(.custom("Inter18pt-Medium", size: 16))
                             .foregroundColor(.white)
