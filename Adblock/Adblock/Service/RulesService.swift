@@ -3,12 +3,21 @@ import Foundation
 import SafariServices
 
 final class RulesService {
+    private let easyListService = EasyListService()
     
     func updateRules(config: ContentBlockerConfig) {
-        let rules = generateRules(config: config)
-        let data = encodeRules(rules)
-        saveRulesToAppGroup(data)
-        reloadContentBlocker()
+        easyListService.buildBlockingTules { [weak self] easyRules in
+            
+            guard let self else { return }
+            
+            var rules = self.generateRules(config: config)
+            rules.append(contentsOf: easyRules)
+            
+            let data = self.encodeRules(rules)
+            
+            self.saveRulesToAppGroup(data)
+            self.reloadContentBlocker()
+        }
     }
     
     func generateRules(config: ContentBlockerConfig) -> [BlockingRule] {
@@ -40,6 +49,7 @@ final class RulesService {
                                               resourceType: ["image", "script"]),
                      action: BlockingAction(type: .block))
     }
+ 
     
     func makeTrackersBlockingRule() -> BlockingRule {
         BlockingRule(trigger: BlockingTrigger(urlFilter: ".*",
