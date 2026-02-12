@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E1776F32F3DCE5C00B28E8E /* EasyPrivacyService .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1776F22F3DCE5C00B28E8E /* EasyPrivacyService .swift */; };
+		3E1776F52F3E016600B28E8E /* ToggleKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1776F42F3E016600B28E8E /* ToggleKeys.swift */; };
 		3E25AEDA2F30ABE800E5A056 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25AED92F30ABE800E5A056 /* SettingView.swift */; };
 		3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B0852F30BB3500E5A056 /* Coordinator.swift */; };
 		3E25B1A72F30D45C00E5A056 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A62F30D45C00E5A056 /* RootView.swift */; };
@@ -68,6 +69,7 @@
 
 /* Begin PBXFileReference section */
 		3E1776F22F3DCE5C00B28E8E /* EasyPrivacyService .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EasyPrivacyService .swift"; sourceTree = "<group>"; };
+		3E1776F42F3E016600B28E8E /* ToggleKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleKeys.swift; sourceTree = "<group>"; };
 		3E25AED92F30ABE800E5A056 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		3E25B0852F30BB3500E5A056 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3E25B1A62F30D45C00E5A056 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 		3EC50F222F3497B30046D7C3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3E1776F42F3E016600B28E8E /* ToggleKeys.swift */,
 				3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */,
 				3EC50F232F3497C30046D7C3 /* BlockingAction.swift */,
 				3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */,
@@ -426,6 +429,7 @@
 				3ECB17BC2F2E271200B28404 /* GeneralView.swift in Sources */,
 				3ECB17BE2F2E272600B28404 /* CustomView.swift in Sources */,
 				3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */,
+				3E1776F52F3E016600B28E8E /* ToggleKeys.swift in Sources */,
 				3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */,
 				3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */,
 				3E3FF8172F3A08CC0090A937 /* WhiteListItem.swift in Sources */,

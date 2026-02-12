@@ -36,4 +36,13 @@ struct BlockingTrigger: Codable {
 struct BlockingRule: Codable {
     let trigger: BlockingTrigger
     let action: BlockingAction
+    
+   
+    var dedupeKey: String {
+        let domain = trigger.ifDomain?.joined(separator: ",") ?? ""
+        let load = trigger.loadType?.joined(separator: ",") ?? ""
+        let resource = trigger.resourceType?.joined(separator: ",") ?? ""
+
+        return "\(trigger.urlFilter)|\(domain)|\(load)|\(resource)|\(action.type.rawValue)"
+    }
 }

@@ -58,6 +58,34 @@ class GeneralViewModel: ObservableObject {
         .store(in: &cancellables)
     }
     
+    private func loadState() {
+        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+        
+        isWorking = defaults?.bool(forKey: Keys.isWorking) ?? false
+        isBlockAds = defaults?.bool(forKey: Keys.blockAds) ?? false
+        isBlockTrackers = defaults?.bool(forKey: Keys.blockTrackers) ?? false
+        isAntiAdblokKiller = defaults?.bool(forKey: Keys.antiAdblock) ?? false
+        
+    }
+    
+    private func bindStatePersistance() {
+        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+        
+        $isWorking
+            .sink { defaults?.set($0, forKey: Keys.isWorking) }
+            .store(in: &cancellables)
+        $isBlockAds
+            .sink { defaults?.set($0, forKey: Keys.blockAds) }
+            .store(in: &cancellables)
+        $isBlockTrackers
+            .sink { defaults?.set($0, forKey: Keys.blockTrackers) }
+            .store(in: &cancellables)
+        $isAntiAdblokKiller
+            .sink { defaults?.set($0, forKey: Keys.antiAdblock) }
+            .store(in: &cancellables)
+    }
+    
+    
     ///Обновляем правила
     func updateRules() {
         let config = makeConfig()
