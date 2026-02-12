@@ -1,13 +1,8 @@
-//
-//  EasyListParser.swift
-//  Adblock
-//
-//  Created by Евгений on 11.02.2026.
-//
+
 
 import Foundation
 
-final class EasyListParser {
+struct EasyListParser {
     
     func parse(from text: String) -> [ABPRule] {
         let lines = text.components(separatedBy: .newlines)

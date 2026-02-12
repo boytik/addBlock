@@ -1,9 +1,3 @@
-//
-//  EasyListService.swift
-//  Adblock
-//
-//  Created by Евгений on 11.02.2026.
-//
 
 import Foundation
 
@@ -15,43 +9,37 @@ final class EasyListService {
     private let fileName = "easylist.txt"
     private let cacheLifetime: TimeInterval = 60*60*24
     
-    func downloadEasyList(completion: @escaping (String?) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data,
-                    error == nil,
-                  let text = String(data: data, encoding: .utf8)
-            else {
-                completion(nil)
-                return
-            }
-            completion(text)
-        }.resume()
-    }
-    
-    func buildBlockingRules(completion: @escaping([BlockingRule]) -> Void) {
-        //Если кэш есть
+    func buildBlockingRules() async -> [BlockingRule] {
         if isCacheValid(),
-            let cached = loadCacheList() {
-            
+           let cached = loadCacheList() {
             let parsed = parser.parse(from: cached)
             let converted = converter.convert(rules: parsed)
-            completion(converted)
-            return
+            return converted
         }
         
-        // Если кэша нет
-        downloadEasyList { [weak self] text in
-            guard let self,
-                  let text else {
-                completion([])
-                return
-            }
-            
-            let parsed = self.parser.parse(from: text)
-            let converted = self.converter.convert(rules: parsed)
-            completion(converted)
+        guard let text = await downloadEasyList() else {
+            return []
+        }
+        
+        saveToCache(text: text)
+        
+        let parsed = parser.parse(from: text)
+        let converted = converter.convert(rules: parsed)
+        
+        return converted
+    }
+    
+    //Скачиваем список
+    private func downloadEasyList() async -> String? {
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            return String(data: data, encoding: .utf8)
+        } catch {
+            print("Easy List error download")
+            return nil
         }
     }
+        
     ///Путь к списку
     private func easyListFileURL() -> URL? {
         FileManager.default
@@ -63,7 +51,7 @@ final class EasyListService {
     private func loadCacheList() -> String? {
         guard
             let url = easyListFileURL(),
-            FileManager.default.fileExists(atPath: url.path()),
+            FileManager.default.fileExists(atPath: url.path),
             let data = try? Data(contentsOf: url),
             let text = String(data: data , encoding: .utf8)
         else {
@@ -72,11 +60,13 @@ final class EasyListService {
         return text
     }
     
+    //Сохраняем кэш
     private func saveToCache(text: String) {
         guard let url = easyListFileURL() else { return }
         try? text.data(using: .utf8)?.write(to: url)
     }
     
+    //Проверка актуальности
     private func isCacheValid() -> Bool {
         guard
                 let url = easyListFileURL(),

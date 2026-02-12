@@ -4,37 +4,55 @@ import SafariServices
 
 final class RulesService {
     private let easyListService = EasyListService()
+    private let easyPrivacyService = EasyPrivacyService()
     
-    func updateRules(config: ContentBlockerConfig) {
-
-        easyListService.buildBlockingRules { [weak self] easyRules in
-
-            guard let self else { return }
-
-            let localRules = self.generateLocalRules(config: config)
-            let whitelistRules = self.generateWhitelistRules(config: config)
-
-            var rules: [BlockingRule] = []
-
-            rules.append(contentsOf: easyRules)      // Изи лист
-            rules.append(contentsOf: localRules)     // Локальные
-            rules.append(contentsOf: whitelistRules) // Наш вайт лист
-            
-            //На время дебага
-            print("🔵 EasyList rules:", easyRules.count)
-            print("🟢 Local rules:", localRules.count)
-            print("🟣 Whitelist rules:", whitelistRules.count)
-            print("📦 Total rules:", rules.count)
-            print("----- FIRST 3 RULES -----")
-            rules.prefix(3).forEach { print($0) }
-
-            print("----- LAST 3 RULES -----")
-            rules.suffix(3).forEach { print($0) }
-
-            let data = self.encodeRules(rules)
-            self.saveRulesToAppGroup(data)
-            self.reloadContentBlocker()
+    private var currentTask: Task<Void, Never>?
+    //limis
+    private let maxTotalRules = 50_000
+    private let maxEasyListWhenBoth = 35_000
+    private let maxPrivacyWhenBoth = 15_000
+    
+    func updateRules(config: ContentBlockerConfig)  {
+        
+        currentTask?.cancel()
+        
+        currentTask = Task {[weak self] in
+            await self?.performUpdate(config: config)
         }
+    }
+    private func performUpdate (config: ContentBlockerConfig) async {
+        guard !Task.isCancelled else { return }
+        
+        guard config.isEnabled else {
+            saveRulesToAppGroup(encodeRules([]))
+            reloadContentBlocker()
+            return
+        }
+        
+        async let easyRules = easyListService.buildBlockingRules()
+        async let privacyRule: [BlockingRule] =
+        config.blockTrackers
+        ? easyPrivacyService.buildBlockingRules()
+        : []
+        
+        let listRules = Array ((await easyRules).prefix(maxEasyListWhenBoth))
+        print("🔵 EasyList rules:", listRules.count)
+        let trackerRules = Array ((await privacyRule).prefix(maxPrivacyWhenBoth))
+        print("🟣 EasyPrivacy rules:", trackerRules.count)
+        
+        var rules: [BlockingRule] = []
+      
+        rules.append(contentsOf: listRules)
+        rules.append(contentsOf: trackerRules)
+        
+        rules.append(contentsOf: generateLocalRules(config: config))
+        rules.append(contentsOf: generateWhitelistRules(config: config))
+        
+        print("📦 Total rules:", rules.count)
+        
+        let data = encodeRules(rules)
+        saveRulesToAppGroup(data)
+        reloadContentBlocker()
     }
     
 
@@ -48,9 +66,9 @@ final class RulesService {
         if config.blockAds {
             rules.append(makeAdsBlockingRule())
         }
-
-        if config.blockTrackers {
-            rules.append(makeTrackersBlockingRule())
+        
+        if config.antiAdblock {
+            rules.append(makeAntiAdblockRule())
         }
 
         return rules
@@ -70,15 +88,19 @@ final class RulesService {
                                               resourceType: ["image", "script"]),
                      action: BlockingAction(type: .block))
     }
- 
     
-    func makeTrackersBlockingRule() -> BlockingRule {
-        BlockingRule(trigger: BlockingTrigger(urlFilter: ".*",
-                                              ifDomain: nil,
-                                              loadType: ["third-party"],
-                                              resourceType: nil),
-                     action: BlockingAction(type: .block))
+    func makeAntiAdblockRule() -> BlockingRule {
+        BlockingRule(
+            trigger: BlockingTrigger(
+                urlFilter: ".*(adblock|antiadblock|blockdetect).*",
+                ifDomain: nil,
+                loadType: nil,
+                resourceType: ["script"]
+            ),
+            action: BlockingAction(type: .block)
+        )
     }
+ 
     
     func makeWhitelistRule(for domain: String ) -> BlockingRule {
         BlockingRule(trigger: BlockingTrigger(urlFilter: ".*",
@@ -90,7 +112,6 @@ final class RulesService {
     
     func encodeRules(_ rules: [BlockingRule])-> Data? {
         let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted]
         do {
             return try encoder.encode(rules)
         } catch {

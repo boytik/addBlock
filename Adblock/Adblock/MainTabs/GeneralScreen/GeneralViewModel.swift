@@ -32,44 +32,34 @@ class GeneralViewModel: ObservableObject {
         self.coordinator = coordinator
         self.ruleServise = ruleService
         self.whiteList = whiteListStore
-        bindWhiteList()
-        bindToggles()
+        bindConfigChanges()
     }
     //Создаем конфиг
     func makeConfig() -> ContentBlockerConfig {
         ContentBlockerConfig(isEnabled: isWorking,
                              blockAds: isBlockAds,
                              blockTrackers: isBlockTrackers,
+                             antiAdblock: isAntiAdblokKiller,
                              whiteListedDomains: whiteList.domains)
     }
-    ///Привязка к изменению состояния и отправка его в сафари
-    private func bindToggles() {
-        Publishers.CombineLatest4 ($isWorking,
-                                   $isBlockAds,
-                                   $isBlockTrackers,
-                                   $isAntiAdblokKiller)
-        .dropFirst()
-        .sink{ [weak self] _, _, _, _ in
+    
+    private func bindConfigChanges() {
+        Publishers.CombineLatest4(
+            $isWorking,
+            $isBlockAds,
+            $isBlockTrackers,
+            whiteList.$whiteList
+        )
+        .debounce(for: .milliseconds(400), scheduler: DispatchQueue.main)
+        .removeDuplicates(by: { _, _ in false }) // optional
+        .sink { [weak self] _, _, _, _ in
             self?.updateRules()
         }
         .store(in: &cancellables)
     }
-    ///Привязка к изменению списка и отправка его в сафари
-    func bindWhiteList() {
-        whiteList.$whiteList
-            .dropFirst()
-            .sink { [ weak self] _ in
-                self?.updateRules()
-            }
-            .store(in: &cancellables)
-    }
     
     ///Обновляем правила
     func updateRules() {
-        guard isWorking else {
-            ruleServise.updateRules(config: makeConfig())
-            return
-        }
         let config = makeConfig()
         ruleServise.updateRules(config: config)
     }
