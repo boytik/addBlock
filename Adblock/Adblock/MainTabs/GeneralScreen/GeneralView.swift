@@ -15,45 +15,39 @@ struct GeneralView: View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
-        ScrollView {
-            VStack(alignment: .center) {
-                header
-                    .padding(.vertical)
-                
-                mainButton
-                
-                titelsUnderButton
-                
-                timeRangePicker
-                    .padding(.vertical)
-                
-                HStack(spacing: 16) {
-                    ReusableCardView(titel: "ADS BLOCKED",
-                                     generalCount: 1000,
-                                     currentCount: viewModel.adsBlockedCount,
-                                     icon: "nosign")
-                    ReusableCardView(titel: "TRACKERS",
-                                     generalCount: 1000,
-                                     currentCount: viewModel.trackersBlokedCount,
-                                     icon: "eye.slash.fill")
+            ScrollView {
+                VStack(alignment: .center) {
+                    header
+                        .padding(.vertical)
+                    
+                    mainButton
+                    
+                    titelsUnderButton
+                    
+                    timeRangePicker
+                        .padding(.vertical)
+                    
+                    HStack(spacing: 16) {
+                        ReusableCardView(titel: "ADS BLOCKED",
+                                         currentCount: viewModel.adsBlockedCount,
+                                         icon: "nosign")
+                        ReusableCardView(titel: "TRACKERS",
+                                         currentCount: viewModel.trackersBlokedCount,
+                                         icon: "eye.slash.fill")
+                    }
+                    HStack {
+                        Text("GLOBAL PROTECTION RULES")
+                            .font(.custom("Inter18pt-Bold", size: 12))
+                            .foregroundStyle(.grayText)
+                            .padding(.top)
+                        Spacer()
+                    }
+                    
+                    turnOnBlock
+                        .padding(.vertical)
                 }
-                HStack {
-                    Text("GLOBAL PROTECTION RULES")
-                        .font(.custom("Inter18pt-Bold", size: 12))
-                        .foregroundStyle(.grayText)
-                        .padding(.top)
-                    Spacer()
-                }
-                
-                turnOnBlock
-                    .padding(.vertical)
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
-        }
-        }
-        .onAppear(){ //Создано для теста удалить 
-            let suite = UserDefaults(suiteName: "group.com.botyik.adblock")
-            suite?.set("Hello from App", forKey: "appGroupTest")
         }
     }
     //MARK: Header
@@ -83,7 +77,7 @@ struct GeneralView: View {
     private var mainButton: some View {
         Button(action: {
             withAnimation(.easeInOut(duration: 0.25)) {
-                   viewModel.isWorking.toggle()
+                viewModel.toggleProtection()
                }
         }) {
             ZStack {
@@ -113,9 +107,16 @@ struct GeneralView: View {
                     .frame(width: 84, height: 84)
                     .foregroundStyle(.white)
             }
+            .disabled(viewModel.isUpdatingRules)
             .onChange(of: viewModel.isWorking, perform: { isOn in
                 isPulsing = isOn
             })
+            .overlay {
+                if viewModel.isUpdatingRules {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
+            }
         }
     }
     
@@ -207,7 +208,7 @@ struct GeneralView: View {
                     .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundStyle(.white)
 
-                Text("Avoid setections scripts")
+                Text("Avoid detections scripts")
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundStyle(.grayText)
             }
@@ -263,13 +264,9 @@ struct ProtectionRowView: View {
 
 struct ReusableCardView : View {
     let titel: String
-    let generalCount: Int
     let currentCount: Int
     let icon: String
-    private var percentOfBar: Double {
-        guard generalCount > 0 else { return 0 }
-        return Double(currentCount) / Double(generalCount)
-    }
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
@@ -288,18 +285,6 @@ struct ReusableCardView : View {
                 Text("\(currentCount)")
                     .font(.custom("Inter18pt-Bold", size: 30))
                     .foregroundStyle(.white)
-                
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        Capsule()
-                            .fill(Color.gray.opacity(0.3))
-                        Capsule()
-                            .fill(Color.accent)
-                            .frame(width: geo.size.width * percentOfBar)
-                    }
-                }
-                .frame(height: 4)
-                .padding(.top, 8)
             }
             .padding(.horizontal)
             .padding(.vertical)

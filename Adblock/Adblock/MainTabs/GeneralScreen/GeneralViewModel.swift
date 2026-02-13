@@ -19,6 +19,8 @@ class GeneralViewModel: ObservableObject {
     @Published var isBlockTrackers: Bool = false
     @Published var isAntiAdblokKiller: Bool = false
     
+    @Published private(set) var isUpdatingRules: Bool = false
+    
     //Services
     private let ruleServise: RulesService
     private let whiteList: WhiteListStore
@@ -32,7 +34,16 @@ class GeneralViewModel: ObservableObject {
         self.coordinator = coordinator
         self.ruleServise = ruleService
         self.whiteList = whiteListStore
+        loadState()
+        bindStatePersistance()
         bindConfigChanges()
+        
+        let config = makeConfig()
+        ruleService.validateOnLaunch(config: config)
+        
+        ruleServise.$isUpdating
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$isUpdatingRules)
     }
     //Создаем конфиг
     func makeConfig() -> ContentBlockerConfig {
@@ -43,16 +54,39 @@ class GeneralViewModel: ObservableObject {
                              whiteListedDomains: whiteList.domains)
     }
     
+    func toggleProtection() {
+        let newValue = !isWorking
+
+        Task {
+            let success = await ruleServise.updateRules(
+                config: makeConfig(with: newValue)
+            )
+
+            if success {
+                self.isWorking = newValue
+            }
+        }
+    }
+    
+    func makeConfig(with isEnabled: Bool) -> ContentBlockerConfig {
+        ContentBlockerConfig(
+            isEnabled: isEnabled,
+            blockAds: isBlockAds,
+            blockTrackers: isBlockTrackers,
+            antiAdblock: isAntiAdblokKiller,
+            whiteListedDomains: whiteList.domains
+        )
+    }
+    
     private func bindConfigChanges() {
-        Publishers.CombineLatest4(
-            $isWorking,
+        Publishers.CombineLatest3(
             $isBlockAds,
             $isBlockTrackers,
             whiteList.$whiteList
         )
+        .dropFirst()
         .debounce(for: .milliseconds(400), scheduler: DispatchQueue.main)
-        .removeDuplicates(by: { _, _ in false }) // optional
-        .sink { [weak self] _, _, _, _ in
+        .sink { [weak self] _, _, _ in
             self?.updateRules()
         }
         .store(in: &cancellables)
@@ -89,7 +123,10 @@ class GeneralViewModel: ObservableObject {
     ///Обновляем правила
     func updateRules() {
         let config = makeConfig()
-        ruleServise.updateRules(config: config)
+
+        Task {
+             await ruleServise.updateRules(config: config)
+        }
     }
     
     //MARK: Navigation

@@ -1,7 +1,10 @@
 
 import Foundation
 import SafariServices
+import Combine
+import CryptoKit
 
+@MainActor
 final class RulesService {
     private let easyListService = EasyListService()
     private let easyPrivacyService = EasyPrivacyService()
@@ -14,69 +17,77 @@ final class RulesService {
     //Protect
     private var currentTask: Task<Void, Never>?
     private var lastConfigHash: String?
+    @Published private(set) var isUpdating: Bool = false
     
     init() {
-        let defaults = UserDefaults(suiteName: "group.test.om.adblock")
+        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
         lastConfigHash = defaults?.string(forKey: "lastConfigHash")
         
         print("!!Loaded last Config Hash")
     }
     
     func validateOnLaunch(config: ContentBlockerConfig) {
-        let newHas = hashConfig(config: config)
-        
-        if newHas != lastConfigHash {
-            updateRules(config: config)
-            print("!!Config changed")
-        } else {
-            print("!!Config unchanged on launch")
-        }
-    }
-    
-    func updateRules(config: ContentBlockerConfig)  {
         let newHash = hashConfig(config: config)
-        
-        guard newHash != lastConfigHash else {
-            return
+
+        if newHash != lastConfigHash {
+            Task {
+                await updateRules(config: config)
+            }
+            print("!! Config changed")
+        } else {
+            print("!! Config unchanged on launch")
         }
-        
-        lastConfigHash = newHash
-        
+    }
+    
+    func updateRules(config: ContentBlockerConfig) async -> Bool {
+
+        let newHash = hashConfig(config: config)
+        guard newHash != lastConfigHash else { return true }
+
         currentTask?.cancel()
-        
-        currentTask = Task {[weak self] in
-            await self?.performUpdate(config: config)
+
+        currentTask = Task {
+            self.isUpdating = true
+            defer { self.isUpdating = false }
+
+            let success = await performUpdate(config: config)
+
+            if success {
+                self.lastConfigHash = newHash
+                let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+                defaults?.set(newHash, forKey: "lastConfigHash")
+            }
         }
+
+        return true
     }
     
+
     func hashConfig(config: ContentBlockerConfig) -> String {
-        let raw = "\(config.isEnabled)|\(config.blockAds)|\(config.blockTrackers)|\(config.antiAdblock)|\(config.whiteListedDomains.joined())"
-        return String(raw.hashValue)
+        let raw = "\(config.isEnabled)|\(config.blockAds)|\(config.blockTrackers)|\(config.antiAdblock)|\(config.whiteListedDomains.sorted().joined())"
+        let data = Data(raw.utf8)
+        let hash = SHA256.hash(data: data)
+        return hash.compactMap { String(format: "%02x", $0) }.joined()
     }
-    
-    private func performUpdate (config: ContentBlockerConfig) async {
-        guard !Task.isCancelled else { return }
+    private func performUpdate (config: ContentBlockerConfig) async -> Bool {
+        guard !Task.isCancelled else { return false}
         
         guard config.isEnabled else {
             saveRulesToAppGroup(encodeRules([]))
-            reloadContentBlocker()
-            return
+            let success = await reloadContentBlocker()
+            return success
         }
-        
-        let downloadStart = Date()
         
         async let easyRules = easyListService.buildBlockingRules()
         async let privacyRule: [BlockingRule] =
         config.blockTrackers
         ? easyPrivacyService.buildBlockingRules()
         : []
-        let downloadTime = Date().timeIntervalSince(downloadStart)
-        print("⏱ Download time:", String(format: "%.2f sec", downloadTime))
         
         let listRules = Array ((await easyRules).prefix(maxEasyListWhenBoth))
-        print("🔵 EasyList rules:", listRules.count)
+        guard !Task.isCancelled else { return false }
         let trackerRules = Array ((await privacyRule).prefix(maxPrivacyWhenBoth))
-        print("🟣 EasyPrivacy rules:", trackerRules.count)
+        guard !Task.isCancelled else { return false}
         
         var rules: [BlockingRule] = []
         
@@ -86,21 +97,22 @@ final class RulesService {
         rules.append(contentsOf: generateLocalRules(config: config))
         rules.append(contentsOf: generateWhitelistRules(config: config))
         
-        print("📦 Total rules:", rules.count)
+        guard !Task.isCancelled else { return false}
+        
         rules = removeDuplicates(from: rules)
-        let encodeStart = Date()
-        guard let data = encodeRules(rules) else { return }
-        let encodeTime = Date().timeIntervalSince(encodeStart)
-        print("⏱ Encode time:", String(format: "%.2f sec", encodeTime))
+        
+        guard let data = encodeRules(rules) else { return false}
+        
+        guard !Task.isCancelled else { return false}
+        
         let sizeMB = Double(data.count) / 1024 / 1024
         
         guard sizeMB <= maxJsonSize else {
-            return
+            return false
         }
         saveRulesToAppGroup(data)
-        reloadContentBlocker()
-        let totalTime = Date().timeIntervalSince(downloadStart)
-        print("🚀 Total update time:", String(format: "%.2f sec", totalTime))
+        let reloadSuccess = await reloadContentBlocker()
+        return reloadSuccess
     }
     
     
@@ -198,21 +210,16 @@ final class RulesService {
         return result
     }
     
-    private func reloadContentBlocker() {
-        let reloadStart = Date()
-
-        SFContentBlockerManager.reloadContentBlocker(
-            withIdentifier: "test.com.adblock.blocker"
-        ) { error in
-            let reloadTime = Date().timeIntervalSince(reloadStart)
-
-            if let error {
-                print("❌ Reload failed:", error.localizedDescription)
-            } else {
-                print("✅ Reload success")
+    private func reloadContentBlocker() async -> Bool {
+        await withCheckedContinuation { continuation in
+            SFContentBlockerManager.reloadContentBlocker(
+                withIdentifier: "test.com.adblock.blocker"
+            ) { error in
+                if error != nil {
+                    continuation.resume(returning: false)
+                } else {
+                    continuation.resume(returning: true)
+                }
             }
-
-            print("⏱ Reload time:", String(format: "%.2f sec", reloadTime))
         }
-    }
-}
+    }}
