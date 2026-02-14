@@ -69,6 +69,7 @@ final class RulesService {
         let hash = SHA256.hash(data: data)
         return hash.compactMap { String(format: "%02x", $0) }.joined()
     }
+    
     private func performUpdate (config: ContentBlockerConfig) async -> Bool {
         guard !Task.isCancelled else { return false}
         
@@ -96,11 +97,11 @@ final class RulesService {
         
         rules.append(contentsOf: generateLocalRules(config: config))
         rules.append(contentsOf: generateWhitelistRules(config: config))
-        
+        print("!! Количество правил: \(rules.count)")
         guard !Task.isCancelled else { return false}
         
         rules = removeDuplicates(from: rules)
-        
+        print("!! Количество правил после дедупликации: \(rules.count)")
         guard let data = encodeRules(rules) else { return false}
         
         guard !Task.isCancelled else { return false}

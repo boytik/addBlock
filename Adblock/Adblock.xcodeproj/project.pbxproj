@@ -25,6 +25,10 @@
 		3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */; };
 		3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */; };
 		3E6FC6442F33BB3B0068A4A5 /* AdblockSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3EB584572F4098D90035063F /* AdblockPermissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB584562F4098D90035063F /* AdblockPermissionService.swift */; };
+		3EB584592F409C7B0035063F /* WebExtensionPermissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB584582F409C7B0035063F /* WebExtensionPermissionService.swift */; };
+		3EB5845C2F409CAF0035063F /* ContentBlockerServoce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5845B2F409CAF0035063F /* ContentBlockerServoce.swift */; };
+		3EB5845D2F40B21C0035063F /* AdblockWebExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F232F3497C30046D7C3 /* BlockingAction.swift */; };
 		3EC50F272F349CFE0046D7C3 /* RulesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F262F349CFE0046D7C3 /* RulesService.swift */; };
 		3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */; };
@@ -60,6 +64,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				3EB5845D2F40B21C0035063F /* AdblockWebExtension.appex in Embed Foundation Extensions */,
 				3E6FC6442F33BB3B0068A4A5 /* AdblockSafariExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -87,6 +92,10 @@
 		3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListViewModel.swift; sourceTree = "<group>"; };
 		3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E6FC64B2F33BEDD0068A4A5 /* Adblock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Adblock.entitlements; sourceTree = "<group>"; };
+		3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EB584562F4098D90035063F /* AdblockPermissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdblockPermissionService.swift; sourceTree = "<group>"; };
+		3EB584582F409C7B0035063F /* WebExtensionPermissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebExtensionPermissionService.swift; sourceTree = "<group>"; };
+		3EB5845B2F409CAF0035063F /* ContentBlockerServoce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlockerServoce.swift; sourceTree = "<group>"; };
 		3EC50F232F3497C30046D7C3 /* BlockingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingAction.swift; sourceTree = "<group>"; };
 		3EC50F262F349CFE0046D7C3 /* RulesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesService.swift; sourceTree = "<group>"; };
 		3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlockerConfig.swift; sourceTree = "<group>"; };
@@ -115,6 +124,13 @@
 			);
 			target = 3E6FC62B2F33BB3B0068A4A5 /* AdblockSafariExtension */;
 		};
+		3E9FDAC12F3F5455007E892B /* Exceptions for "AdblockWebExtension" folder in "AdblockWebExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3E9FDAA52F3F5454007E892B /* AdblockWebExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -130,10 +146,29 @@
 			path = AdblockSafariExtension;
 			sourceTree = "<group>";
 		};
+		3E9FDAA72F3F5455007E892B /* AdblockWebExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3E9FDAC12F3F5455007E892B /* Exceptions for "AdblockWebExtension" folder in "AdblockWebExtension" target */,
+			);
+			explicitFolders = (
+				Resources/_locales,
+				Resources/images,
+			);
+			path = AdblockWebExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3E6FC6292F33BB3B0068A4A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3E9FDAA32F3F5454007E892B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -197,6 +232,16 @@
 			path = WhiteList;
 			sourceTree = "<group>";
 		};
+		3EB5845A2F409C970035063F /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				3EB584562F4098D90035063F /* AdblockPermissionService.swift */,
+				3EB584582F409C7B0035063F /* WebExtensionPermissionService.swift */,
+				3EB5845B2F409CAF0035063F /* ContentBlockerServoce.swift */,
+			);
+			path = Permissions;
+			sourceTree = "<group>";
+		};
 		3EC50F222F3497B30046D7C3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +263,7 @@
 				3E69A6CA2F3C9B9B00C73985 /* EasyListConverter.swift */,
 				3E69A6CC2F3C9E4800C73985 /* EasyListService.swift */,
 				3E1776F22F3DCE5C00B28E8E /* EasyPrivacyService .swift */,
+				3EB5845A2F409C970035063F /* Permissions */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -227,6 +273,7 @@
 			children = (
 				3ECB17B52F2E26D900B28404 /* Adblock */,
 				3E6FC62D2F33BB3B0068A4A5 /* AdblockSafariExtension */,
+				3E9FDAA72F3F5455007E892B /* AdblockWebExtension */,
 				3ECB17A52F2E265900B28404 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -236,6 +283,7 @@
 			children = (
 				3ECB17A42F2E265900B28404 /* Adblock.app */,
 				3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */,
+				3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -331,6 +379,28 @@
 			productReference = 3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		3E9FDAA52F3F5454007E892B /* AdblockWebExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3E9FDAC22F3F5455007E892B /* Build configuration list for PBXNativeTarget "AdblockWebExtension" */;
+			buildPhases = (
+				3E9FDAA22F3F5454007E892B /* Sources */,
+				3E9FDAA32F3F5454007E892B /* Frameworks */,
+				3E9FDAA42F3F5454007E892B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3E9FDAA72F3F5455007E892B /* AdblockWebExtension */,
+			);
+			name = AdblockWebExtension;
+			packageProductDependencies = (
+			);
+			productName = AdblockWebExtension;
+			productReference = 3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3ECB17A32F2E265900B28404 /* Adblock */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3ECB17AF2F2E265A00B28404 /* Build configuration list for PBXNativeTarget "Adblock" */;
@@ -365,6 +435,9 @@
 					3E6FC62B2F33BB3B0068A4A5 = {
 						CreatedOnToolsVersion = 26.2;
 					};
+					3E9FDAA52F3F5454007E892B = {
+						CreatedOnToolsVersion = 26.2;
+					};
 					3ECB17A32F2E265900B28404 = {
 						CreatedOnToolsVersion = 26.2;
 					};
@@ -386,12 +459,20 @@
 			targets = (
 				3ECB17A32F2E265900B28404 /* Adblock */,
 				3E6FC62B2F33BB3B0068A4A5 /* AdblockSafariExtension */,
+				3E9FDAA52F3F5454007E892B /* AdblockWebExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3E6FC62A2F33BB3B0068A4A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3E9FDAA42F3F5454007E892B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -420,6 +501,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3E9FDAA22F3F5454007E892B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3ECB17A02F2E265900B28404 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -432,8 +520,10 @@
 				3E1776F52F3E016600B28E8E /* ToggleKeys.swift in Sources */,
 				3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */,
 				3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */,
+				3EB5845C2F409CAF0035063F /* ContentBlockerServoce.swift in Sources */,
 				3E3FF8172F3A08CC0090A937 /* WhiteListItem.swift in Sources */,
 				3ECB17C22F2E36D100B28404 /* GeneralViewModel.swift in Sources */,
+				3EB584572F4098D90035063F /* AdblockPermissionService.swift in Sources */,
 				3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */,
 				3E25AEDA2F30ABE800E5A056 /* SettingView.swift in Sources */,
 				3EFB889F2F2F7A2F0088623E /* CustomViewModel.swift in Sources */,
@@ -448,6 +538,7 @@
 				3E69A6C92F3C8FB600C73985 /* EasyListParser.swift in Sources */,
 				3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */,
 				3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */,
+				3EB584592F409C7B0035063F /* WebExtensionPermissionService.swift in Sources */,
 				3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */,
 				3EFB88A52F2FCB3A0088623E /* AddCustomRuleViewModel.swift in Sources */,
 				3E1776F32F3DCE5C00B28E8E /* EasyPrivacyService .swift in Sources */,
@@ -543,6 +634,76 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		3E9FDABF2F3F5455007E892B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AdblockWebExtension/AdblockWebExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PDWNRK423C;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AdblockWebExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AdblockWebExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = test.com.adblock.AdblockWebExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3E9FDAC02F3F5455007E892B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AdblockWebExtension/AdblockWebExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PDWNRK423C;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AdblockWebExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AdblockWebExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = test.com.adblock.AdblockWebExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -753,6 +914,15 @@
 			buildConfigurations = (
 				3E6FC6472F33BB3B0068A4A5 /* Debug */,
 				3E6FC6482F33BB3B0068A4A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3E9FDAC22F3F5455007E892B /* Build configuration list for PBXNativeTarget "AdblockWebExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3E9FDABF2F3F5455007E892B /* Debug */,
+				3E9FDAC02F3F5455007E892B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

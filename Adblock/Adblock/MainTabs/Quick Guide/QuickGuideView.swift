@@ -152,3 +152,6 @@ struct QuickGuideView: View {
         }
     }
 }
+#Preview {
+    QuickGuideView()
+}
