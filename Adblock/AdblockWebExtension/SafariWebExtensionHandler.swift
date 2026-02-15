@@ -3,25 +3,31 @@ import SafariServices
 class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
 
     func beginRequest(with context: NSExtensionContext) {
-        print("[AdblockWebExtension] beginRequest called")
-
         guard
             let item = context.inputItems.first as? NSExtensionItem,
             let message = item.userInfo?[SFExtensionMessageKey] as? [String: Any],
             let type = message["type"] as? String
         else {
-            print("[AdblockWebExtension] Failed to parse message - inputItems: \(context.inputItems.count)")
             context.completeRequest(returningItems: nil)
             return
         }
 
-        print("[AdblockWebExtension] Received message type: \(type)")
+        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
 
         if type == "blocked" {
-            let defaults = UserDefaults(suiteName: "group.test.com.adblock")
-            let current = defaults?.integer(forKey: "blockedCount") ?? 0
-            defaults?.set(current + 1, forKey: "blockedCount")
-            print("[AdblockWebExtension] Blocked count updated: \(current) -> \(current + 1)")
+            let count = message["count"] as? Int ?? 1
+            let current = defaults?.integer(forKey: "blockedAdsCount") ?? 0
+            defaults?.set(current + count, forKey: "blockedAdsCount")
+            context.completeRequest(returningItems: nil)
+            return
+        }
+
+        if type == "getStats" {
+            let blocked = defaults?.integer(forKey: "blockedAdsCount") ?? 0
+            let response = NSExtensionItem()
+            response.userInfo = [SFExtensionMessageKey: ["blocked": blocked]]
+            context.completeRequest(returningItems: [response])
+            return
         }
 
         context.completeRequest(returningItems: nil)

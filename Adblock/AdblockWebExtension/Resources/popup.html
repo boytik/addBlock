@@ -2,9 +2,40 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style>
+    body {
+        width: 200px;
+        padding: 16px;
+        font-family: -apple-system, sans-serif;
+        background: #1a1a1a;
+        color: white;
+        margin: 0;
+    }
+    .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-bottom: 8px;
+    }
+    .btn-primary {
+        background: #ff3b30;
+        color: white;
+    }
+    .stats {
+        text-align: center;
+        padding: 8px 0;
+        font-size: 13px;
+        color: #888;
+    }
+</style>
 </head>
 <body>
-<button id="btn">Click</button>
-<script src="popup.js"></script>
+    <button class="btn btn-primary" id="pick">Block Elements</button>
+    <div class="stats" id="stats">Loading...</div>
+    <script src="popup.js"></script>
 </body>
 </html>

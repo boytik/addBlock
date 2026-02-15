@@ -1,7 +1,7 @@
 document.getElementById("pick").addEventListener("click", () => {
-    browser.runtime.sendMessage({ type: "startPicker" }).then(() => {
-        window.close();
-    });
+    // Устанавливаем флаг — content.js его подхватит
+    browser.storage.local.set({ pickerActive: true });
+    window.close();
 });
 
 browser.runtime.sendNativeMessage(

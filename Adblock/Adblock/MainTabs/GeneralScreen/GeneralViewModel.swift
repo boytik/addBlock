@@ -61,7 +61,7 @@ class GeneralViewModel: ObservableObject {
     //Подсчет блокировки
     func loadBlockedCount() {
         let defaults = UserDefaults(suiteName: "group.test.com.adblock")
-        adsBlockedCount = defaults?.integer(forKey: "blockedCount") ?? 0
+        adsBlockedCount = defaults?.integer(forKey: "blockedAdsCount") ?? 0
     }
     
     func toggleProtection() {
