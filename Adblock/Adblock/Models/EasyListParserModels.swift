@@ -1,19 +1,19 @@
+////
+////  EasyListParser.swift
+////  Adblock
+////
+////  Created by Евгений on 11.02.2026.
+////
 //
-//  EasyListParser.swift
-//  Adblock
+//import Foundation
 //
-//  Created by Евгений on 11.02.2026.
+//enum ABPRuleType {
+//    case block
+//    case exception
+//}
 //
-
-import Foundation
-
-enum ABPRuleType {
-    case block
-    case exception
-}
-
-struct ABPRule {
-    let pattern: String
-    let type: ABPRuleType
-    let resourceTypes: [String]
-}
+//struct ABPRule {
+//    let pattern: String
+//    let type: ABPRuleType
+//    let resourceTypes: [String]
+//}

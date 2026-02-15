@@ -1,95 +1,121 @@
-//
-//  AddCustomRule.swift
-//  Adblock
-//
-//  Created by Евгений on 01.02.2026.
-//
-
 import SwiftUI
+
 struct AddCustomRule: View {
-    
+
     @StateObject var viewModel: AddCustomRuleViewModel
-    
+
     init(viewModel: AddCustomRuleViewModel) {
-          _viewModel = StateObject(wrappedValue: viewModel)
-      }
-    
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+
     var body: some View {
         ZStack {
-            
             VStack(alignment: .center) {
                 header
                     .padding(.vertical)
-                
-                //SearchBar
+                    .padding(.vertical)
+
                 inputTextField
-                
-                //Block Options
+
                 blockingSetting
-                
+
                 domainAvtivity
                     .padding(.vertical)
-                
-                if viewModel.isEmptyData == true {
+
+                if viewModel.isEmptyData {
                     Image("EmptyData")
                         .zIndex(0)
-                } else {
-                    //тут чарт нарисовать когда будем получать данные
                 }
+
+                Spacer()
+
+                saveButton
+                    .padding(.bottom)
             }
             .padding(.horizontal)
             .frame(maxHeight: .infinity)
             .background(Color(.black))
+
             if viewModel.showMenu {
-                       dropdownMenu
-                           .zIndex(100)                    }
+                dropdownMenu
+                    .zIndex(100)
+            }
         }
     }
-    
+
+    // MARK: - Header
+
     private var header: some View {
         HStack {
             Button(action: {
                 viewModel.closeScreen()
             }) {
                 Image(systemName: "xmark")
+                    .foregroundStyle(.white)
             }
             Spacer()
         }
-        .overlay{
+        .overlay {
             Text("Add Custom Rule")
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
     }
-    
+
+    // MARK: - Input
+
     private var inputTextField: some View {
-        VStack {
+        VStack(spacing: 6) {
             HStack {
                 Text("Target Website")
                     .font(.custom("Inter18pt-SemiBold", size: 14))
                     .foregroundStyle(.white)
                     .padding(.vertical)
+
+                if viewModel.showDuplicateError {
+                    Text("— rule for this domain already exists")
+                        .font(.custom("Inter18pt-Medium", size: 12))
+                        .foregroundColor(.red)
+                        .transition(.opacity)
+                }
+
                 Spacer()
             }
             HStack {
                 Image("Planet")
                     .padding(.leading)
-                TextField("e.g., youtube.com",
-                          text: $viewModel.tagetWeb)
+                ZStack(alignment: .leading) {
+                    if viewModel.tagetWeb.isEmpty {
+                        Text("e.g., youtube.com")
+                            .foregroundColor(Color("PlaceHolder"))
+                    }
+                    TextField("", text: $viewModel.tagetWeb)
+                        .foregroundColor(viewModel.showDuplicateError ? .red : .white)
+                        .autocapitalization(.none)
+                        .onChange(of: viewModel.tagetWeb) { _ in
+                            viewModel.clearError()
+                        }
+                }
             }
             .frame(height: 58)
             .background(Color(.bgForBut))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(viewModel.showDuplicateError ? Color.red : Color.clear, lineWidth: 1)
+            )
             .clipShape(RoundedRectangle(cornerRadius: 16))
+
             HStack {
                 Text("Rule applies to this domain and all its subdomains.")
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundStyle(.grayText)
                 Spacer()
             }
-            
         }
     }
-    
+
+    // MARK: - Blocking Options
+
     private var blockingSetting: some View {
         VStack {
             HStack {
@@ -111,7 +137,8 @@ struct AddCustomRule: View {
                               subTitel: "Stops analytics & data collection",
                               isOn: $viewModel.blockTrackers)
                 RowForBloking(imageName: "orangeShield",
-                              titel: "Anti-Adblock Killer", bgForIcon: "orangeWithAlpha",
+                              titel: "Anti-Adblock Killer",
+                              bgForIcon: "orangeWithAlpha",
                               subTitel: "Bypasses Disable Adblock popups",
                               isOn: $viewModel.antiAdblockKiller)
                 RowForBloking(imageName: "MagicWand",
@@ -124,14 +151,17 @@ struct AddCustomRule: View {
             .foregroundStyle(.bgForBut)
         }
     }
+
+    // MARK: - Domain Activity
+
     private var domainAvtivity: some View {
         HStack {
             Text("Domain Activity")
                 .font(.custom("Inter18pt-SemiBold", size: 14))
                 .foregroundStyle(.white)
             Spacer()
-            
-            if viewModel.showMenu == false {
+
+            if !viewModel.showMenu {
                 Button {
                     withAnimation {
                         viewModel.showMenu.toggle()
@@ -148,7 +178,7 @@ struct AddCustomRule: View {
             }
         }
     }
-    
+
     private var dropdownMenu: some View {
         VStack(alignment: .leading, spacing: 12) {
             Button { viewModel.opneAndCloseMenu(range: .lastDay) } label: {
@@ -167,8 +197,34 @@ struct AddCustomRule: View {
         .shadow(radius: 20)
         .offset(x: 120, y: 220)
     }
-    
+
+    // MARK: - Save Button
+
+    private var saveButton: some View {
+        Button(action: {
+            viewModel.saveRule()
+        }) {
+            HStack {
+                if viewModel.isSaving {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                } else {
+                    Text("Save Rule")
+                        .font(.custom("Inter18pt-SemiBold", size: 16))
+                        .foregroundColor(.white)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
+            .background(Color(.red))
+            .clipShape(RoundedRectangle(cornerRadius: 28))
+        }
+        .disabled(viewModel.tagetWeb.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.isSaving)
+        .opacity(viewModel.tagetWeb.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1.0)
+    }
 }
+
+// MARK: - Row
 
 private struct RowForBloking: View {
     let imageName: String
@@ -176,20 +232,21 @@ private struct RowForBloking: View {
     let bgForIcon: String
     let subTitel: String
     @Binding var isOn: Bool
+
     var body: some View {
         HStack {
             ZStack {
                 Circle()
-                    .fill(Color("\(bgForIcon)"))
+                    .fill(Color(bgForIcon))
                     .frame(width: 40, height: 40)
-                Image("\(imageName)")
-                        .frame(width: 40, height: 40)
+                Image(imageName)
+                    .frame(width: 40, height: 40)
             }
-            VStack (alignment: .leading) {
-                Text("\(titel)")
+            VStack(alignment: .leading) {
+                Text(titel)
                     .font(.custom("Inter18pt-Medium", size: 14))
                     .foregroundStyle(.white)
-                Text("\(subTitel)")
+                Text(subTitel)
                     .font(.custom("Inter18pt-Regular", size: 12))
             }
             Spacer()
@@ -199,5 +256,3 @@ private struct RowForBloking: View {
         .padding()
     }
 }
-
-

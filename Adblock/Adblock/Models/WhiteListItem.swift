@@ -1,9 +1,3 @@
-//
-//  whiteListModel.swift
-//  WhiteList
-//
-//  Created by Евгений on 09.02.2026.
-//
 
 import Foundation
 struct WhiteListItem: Identifiable, Codable, Equatable {

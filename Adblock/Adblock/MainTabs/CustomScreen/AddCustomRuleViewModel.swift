@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 import Combine
 
@@ -11,26 +9,79 @@ enum FiltersDates: String {
 
 class AddCustomRuleViewModel: ObservableObject {
     private let coordinator: CoordinatorProtocol
-    
+    private let customRulesStore: CustomRulesStore
+    private let ruleService: RulesService
+    private let configProvider: () -> ContentBlockerConfig
+
     @Published var tagetWeb: String = ""
-    //Blocking Options
+    // Blocking Options
     @Published var blockAds: Bool = false
     @Published var blockTrackers: Bool = false
     @Published var antiAdblockKiller: Bool = false
     @Published var hideElements: Bool = false
-    //Domain Activity
-    @Published var isEmptyData:Bool = true
+    // Domain Activity
+    @Published var isEmptyData: Bool = true
     @Published var showMenu = false
     @Published var rangeOfDates: FiltersDates = .lastDay
-    
-    init(coordinator: CoordinatorProtocol) {
+    // Validation
+    @Published var showDuplicateError: Bool = false
+    @Published var isSaving: Bool = false
+
+    init(coordinator: CoordinatorProtocol,
+         customRulesStore: CustomRulesStore,
+         ruleService: RulesService,
+         configProvider: @escaping () -> ContentBlockerConfig) {
         self.coordinator = coordinator
+        self.customRulesStore = customRulesStore
+        self.ruleService = ruleService
+        self.configProvider = configProvider
     }
-    
+
+    func saveRule() {
+        let domain = tagetWeb.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !domain.isEmpty else { return }
+
+        // Проверка дубликата
+        if customRulesStore.contains(domain: domain) {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                showDuplicateError = true
+            }
+            return
+        }
+
+        let rule = CustomRule(
+            domain: domain,
+            blockAds: blockAds,
+            blockTrackers: blockTrackers,
+            antiAdblock: antiAdblockKiller,
+            hideElements: hideElements
+        )
+
+        let added = customRulesStore.add(rule: rule)
+        guard added else {
+            showDuplicateError = true
+            return
+        }
+
+        // Обновляем Safari правила
+        isSaving = true
+        Task {
+            await ruleService.updateRules(config: configProvider())
+            isSaving = false
+            coordinator.closeCustomRule()
+        }
+    }
+
+    func clearError() {
+        if showDuplicateError {
+            showDuplicateError = false
+        }
+    }
+
     func closeScreen() {
         coordinator.closeCustomRule()
     }
-    
+
     func opneAndCloseMenu(range: FiltersDates) {
         self.showMenu.toggle()
         self.rangeOfDates = range

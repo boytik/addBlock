@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3E1776F32F3DCE5C00B28E8E /* EasyPrivacyService .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1776F22F3DCE5C00B28E8E /* EasyPrivacyService .swift */; };
 		3E1776F52F3E016600B28E8E /* ToggleKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1776F42F3E016600B28E8E /* ToggleKeys.swift */; };
 		3E25AEDA2F30ABE800E5A056 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25AED92F30ABE800E5A056 /* SettingView.swift */; };
 		3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B0852F30BB3500E5A056 /* Coordinator.swift */; };
@@ -19,14 +18,13 @@
 		3E3FF8972F3A2B930090A937 /* AddNewUrlViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8962F3A2B930090A937 /* AddNewUrlViewModel.swift */; };
 		3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */; };
 		3E69A6C72F3C8F6C00C73985 /* EasyListParserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E69A6C62F3C8F6C00C73985 /* EasyListParserModels.swift */; };
-		3E69A6C92F3C8FB600C73985 /* EasyListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E69A6C82F3C8FB600C73985 /* EasyListParser.swift */; };
-		3E69A6CB2F3C9B9B00C73985 /* EasyListConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E69A6CA2F3C9B9B00C73985 /* EasyListConverter.swift */; };
-		3E69A6CD2F3C9E4800C73985 /* EasyListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E69A6CC2F3C9E4800C73985 /* EasyListService.swift */; };
 		3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */; };
 		3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */; };
 		3E6FC6442F33BB3B0068A4A5 /* AdblockSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3EB5845D2F40B21C0035063F /* AdblockWebExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3EBA52FE2F42203100FEA819 /* ContentBlockerConverter in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBA52FD2F42203100FEA819 /* ContentBlockerConverter */; };
+		3EBA53042F42671D00FEA819 /* CustomRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53032F42671D00FEA819 /* CustomRule.swift */; };
+		3EBA53062F42673A00FEA819 /* CustomRulesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */; };
 		3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F232F3497C30046D7C3 /* BlockingAction.swift */; };
 		3EC50F272F349CFE0046D7C3 /* RulesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F262F349CFE0046D7C3 /* RulesService.swift */; };
 		3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */; };
@@ -71,7 +69,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3E1776F22F3DCE5C00B28E8E /* EasyPrivacyService .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EasyPrivacyService .swift"; sourceTree = "<group>"; };
 		3E1776F42F3E016600B28E8E /* ToggleKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleKeys.swift; sourceTree = "<group>"; };
 		3E25AED92F30ABE800E5A056 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		3E25B0852F30BB3500E5A056 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -83,14 +80,13 @@
 		3E3FF8962F3A2B930090A937 /* AddNewUrlViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUrlViewModel.swift; sourceTree = "<group>"; };
 		3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickGuideView.swift; sourceTree = "<group>"; };
 		3E69A6C62F3C8F6C00C73985 /* EasyListParserModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyListParserModels.swift; sourceTree = "<group>"; };
-		3E69A6C82F3C8FB600C73985 /* EasyListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyListParser.swift; sourceTree = "<group>"; };
-		3E69A6CA2F3C9B9B00C73985 /* EasyListConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyListConverter.swift; sourceTree = "<group>"; };
-		3E69A6CC2F3C9E4800C73985 /* EasyListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyListService.swift; sourceTree = "<group>"; };
 		3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListView.swift; sourceTree = "<group>"; };
 		3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListViewModel.swift; sourceTree = "<group>"; };
 		3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E6FC64B2F33BEDD0068A4A5 /* Adblock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Adblock.entitlements; sourceTree = "<group>"; };
 		3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EBA53032F42671D00FEA819 /* CustomRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRule.swift; sourceTree = "<group>"; };
+		3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRulesStore.swift; sourceTree = "<group>"; };
 		3EC50F232F3497C30046D7C3 /* BlockingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingAction.swift; sourceTree = "<group>"; };
 		3EC50F262F349CFE0046D7C3 /* RulesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesService.swift; sourceTree = "<group>"; };
 		3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlockerConfig.swift; sourceTree = "<group>"; };
@@ -230,10 +226,11 @@
 		3EC50F222F3497B30046D7C3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */,
+				3EBA53032F42671D00FEA819 /* CustomRule.swift */,
 				3E1776F42F3E016600B28E8E /* ToggleKeys.swift */,
 				3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */,
 				3EC50F232F3497C30046D7C3 /* BlockingAction.swift */,
-				3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */,
 				3E69A6C62F3C8F6C00C73985 /* EasyListParserModels.swift */,
 			);
 			path = Models;
@@ -244,10 +241,7 @@
 			children = (
 				3EC50F262F349CFE0046D7C3 /* RulesService.swift */,
 				3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */,
-				3E69A6C82F3C8FB600C73985 /* EasyListParser.swift */,
-				3E69A6CA2F3C9B9B00C73985 /* EasyListConverter.swift */,
-				3E69A6CC2F3C9E4800C73985 /* EasyListService.swift */,
-				3E1776F22F3DCE5C00B28E8E /* EasyPrivacyService .swift */,
+				3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -502,7 +496,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EC50F272F349CFE0046D7C3 /* RulesService.swift in Sources */,
-				3E69A6CB2F3C9B9B00C73985 /* EasyListConverter.swift in Sources */,
+				3EBA53042F42671D00FEA819 /* CustomRule.swift in Sources */,
 				3ECB17BC2F2E271200B28404 /* GeneralView.swift in Sources */,
 				3ECB17BE2F2E272600B28404 /* CustomView.swift in Sources */,
 				3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */,
@@ -515,19 +509,17 @@
 				3E25AEDA2F30ABE800E5A056 /* SettingView.swift in Sources */,
 				3EFB889F2F2F7A2F0088623E /* CustomViewModel.swift in Sources */,
 				3E3FF8972F3A2B930090A937 /* AddNewUrlViewModel.swift in Sources */,
-				3E69A6CD2F3C9E4800C73985 /* EasyListService.swift in Sources */,
 				3ECB17B62F2E26D900B28404 /* AdblockApp.swift in Sources */,
 				3E3FF8152F3A08B40090A937 /* WhiteListStore.swift in Sources */,
 				3E69A6C72F3C8F6C00C73985 /* EasyListParserModels.swift in Sources */,
 				3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */,
+				3EBA53062F42673A00FEA819 /* CustomRulesStore.swift in Sources */,
 				3E3FF8952F3A2B8A0090A937 /* AddNewUrlView.swift in Sources */,
 				3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */,
-				3E69A6C92F3C8FB600C73985 /* EasyListParser.swift in Sources */,
 				3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */,
 				3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */,
 				3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */,
 				3EFB88A52F2FCB3A0088623E /* AddCustomRuleViewModel.swift in Sources */,
-				3E1776F32F3DCE5C00B28E8E /* EasyPrivacyService .swift in Sources */,
 				3E25B1A72F30D45C00E5A056 /* RootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

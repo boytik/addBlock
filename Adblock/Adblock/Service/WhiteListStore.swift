@@ -1,5 +1,3 @@
-
-
 import Foundation
 import Combine
 
@@ -34,15 +32,23 @@ final class WhiteListStore: ObservableObject {
         return domain
     }
     
-    ///Добавляем элемент в список
-    func add(url: String, name: String?) {
+    /// Добавляем элемент в список. Возвращает true если добавлен, false если дубликат.
+    @discardableResult
+    func add(url: String, name: String?) -> Bool {
         let normolized = normolizeDomain(input: url)
+        guard !normolized.isEmpty else { return false }
         guard !whiteList.contains(where: { $0.url == normolized }) else {
-            print("такой домен есть")
-            return }
+            return false
+        }
         whiteList.append(WhiteListItem(name: name, url: normolized))
-        print("добавили")
         persist()
+        return true
+    }
+    
+    /// Проверяет, есть ли домен уже в списке
+    func contains(url: String) -> Bool {
+        let normolized = normolizeDomain(input: url)
+        return whiteList.contains(where: { $0.url == normolized })
     }
     
     ///Удаляем элемент из списка
@@ -57,7 +63,7 @@ final class WhiteListStore: ObservableObject {
     private func persist() {
         guard
             let data = try? JSONEncoder().encode(whiteList),
-            let defaults = UserDefaults(suiteName: "group.test.com.adblock") //поменять потом бандл
+            let defaults = UserDefaults(suiteName: "group.test.com.adblock")
         else { return }
         defaults.set(data, forKey: starageKey)
     }
@@ -65,12 +71,11 @@ final class WhiteListStore: ObservableObject {
     ///Получаем сохраненные данные
     private func reStore() {
         guard
-            let defaults = UserDefaults(suiteName: "group.test.com.adblock"), // поменять бандл
+            let defaults = UserDefaults(suiteName: "group.test.com.adblock"),
             let data = defaults.data(forKey: starageKey),
-                let items = try? JSONDecoder().decode([WhiteListItem].self, from: data )
+            let items = try? JSONDecoder().decode([WhiteListItem].self, from: data)
         else { return }
         
         self.whiteList = items
     }
-    
 }

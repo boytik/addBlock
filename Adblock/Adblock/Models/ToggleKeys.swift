@@ -1,9 +1,3 @@
-//
-//  ToggleKeys.swift
-//  Adblock
-//
-//  Created by Евгений on 12.02.2026.
-//
 
 import Foundation
 
