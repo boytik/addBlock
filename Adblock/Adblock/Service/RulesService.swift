@@ -1,226 +1,188 @@
-
 import Foundation
 import SafariServices
-import Combine
+import ContentBlockerConverter
 import CryptoKit
+import Combine
 
 @MainActor
 final class RulesService {
-    private let easyListService = EasyListService()
-    private let easyPrivacyService = EasyPrivacyService()
     
-    //limis
-    private let maxTotalRules = 50_000
-    private let maxEasyListWhenBoth = 35_000
-    private let maxPrivacyWhenBoth = 15_000
     private let maxJsonSize: Double = 15
-    //Protect
     private var currentTask: Task<Void, Never>?
     private var lastConfigHash: String?
     @Published private(set) var isUpdating: Bool = false
     
+    private let appGroupID = "group.test.com.adblock"
+    private let blockerID = "test.com.adblock.blocker"
+    
+    // URL фильтров
+    private let easyListURL = URL(string: "https://easylist.to/easylist/easylist.txt")!
+    private let easyPrivacyURL = URL(string: "https://easylist.to/easylist/easyprivacy.txt")!
+    
+    private let cacheLifetime: TimeInterval = 60 * 60 * 24
+    
     init() {
-        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+        let defaults = UserDefaults(suiteName: appGroupID)
         lastConfigHash = defaults?.string(forKey: "lastConfigHash")
-        
-        print("!!Loaded last Config Hash")
     }
     
     func validateOnLaunch(config: ContentBlockerConfig) {
         let newHash = hashConfig(config: config)
-
         if newHash != lastConfigHash {
-            Task {
-                await updateRules(config: config)
-            }
-            print("!! Config changed")
-        } else {
-            print("!! Config unchanged on launch")
+            Task { await updateRules(config: config) }
         }
     }
     
+    @discardableResult
     func updateRules(config: ContentBlockerConfig) async -> Bool {
-
         let newHash = hashConfig(config: config)
         guard newHash != lastConfigHash else { return true }
-
+        
         currentTask?.cancel()
-
         currentTask = Task {
             self.isUpdating = true
             defer { self.isUpdating = false }
-
+            
             let success = await performUpdate(config: config)
-
             if success {
                 self.lastConfigHash = newHash
-                let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+                let defaults = UserDefaults(suiteName: appGroupID)
                 defaults?.set(newHash, forKey: "lastConfigHash")
             }
         }
-
         return true
     }
-    
 
-    func hashConfig(config: ContentBlockerConfig) -> String {
-        let raw = "\(config.isEnabled)|\(config.blockAds)|\(config.blockTrackers)|\(config.antiAdblock)|\(config.whiteListedDomains.sorted().joined())"
-        let data = Data(raw.utf8)
-        let hash = SHA256.hash(data: data)
-        return hash.compactMap { String(format: "%02x", $0) }.joined()
-    }
     
-    private func performUpdate (config: ContentBlockerConfig) async -> Bool {
-        guard !Task.isCancelled else { return false}
-        
-        guard config.isEnabled else {
-            saveRulesToAppGroup(encodeRules([]))
-            let success = await reloadContentBlocker()
-            return success
-        }
-        
-        async let easyRules = easyListService.buildBlockingRules()
-        async let privacyRule: [BlockingRule] =
-        config.blockTrackers
-        ? easyPrivacyService.buildBlockingRules()
-        : []
-        
-        let listRules = Array ((await easyRules).prefix(maxEasyListWhenBoth))
+    private func performUpdate(config: ContentBlockerConfig) async -> Bool {
         guard !Task.isCancelled else { return false }
-        let trackerRules = Array ((await privacyRule).prefix(maxPrivacyWhenBoth))
-        guard !Task.isCancelled else { return false}
         
-        var rules: [BlockingRule] = []
-        
-        rules.append(contentsOf: listRules)
-        rules.append(contentsOf: trackerRules)
-        
-        rules.append(contentsOf: generateLocalRules(config: config))
-        rules.append(contentsOf: generateWhitelistRules(config: config))
-        print("!! Количество правил: \(rules.count)")
-        guard !Task.isCancelled else { return false}
-        
-        rules = removeDuplicates(from: rules)
-        print("!! Количество правил после дедупликации: \(rules.count)")
-        guard let data = encodeRules(rules) else { return false}
-        
-        guard !Task.isCancelled else { return false}
-        
-        let sizeMB = Double(data.count) / 1024 / 1024
-        
-        guard sizeMB <= maxJsonSize else {
-            return false
-        }
-        saveRulesToAppGroup(data)
-        let reloadSuccess = await reloadContentBlocker()
-        return reloadSuccess
-    }
-    
-    
-    
-    func generateLocalRules(config: ContentBlockerConfig) -> [BlockingRule] {
-        var rules: [BlockingRule] = []
         guard config.isEnabled else {
-            return rules
+            saveJSON("[]")
+            return await reloadContentBlocker()
         }
+        
+        var lines: [String] = []
         
         if config.blockAds {
-            rules.append(makeAdsBlockingRule())
+            let text = await loadFilter(url: easyListURL, cacheKey: "easylist.txt")
+            lines.append(contentsOf: text.components(separatedBy: .newlines))
         }
         
-        if config.antiAdblock {
-            rules.append(makeAntiAdblockRule())
+        if config.blockTrackers {
+            let text = await loadFilter(url: easyPrivacyURL, cacheKey: "easyprivacy.txt")
+            lines.append(contentsOf: text.components(separatedBy: .newlines))
         }
         
-        return rules
-    }
-    
-    func generateWhitelistRules(config: ContentBlockerConfig) -> [BlockingRule] {
+        guard !Task.isCancelled else { return false }
         
-        config.whiteListedDomains.map {
-            makeWhitelistRule(for: $0)
+        // Whitelist
+        let allWhitelist = Set(config.whiteListedDomains + defaultVideoWhitelist)
+        for domain in allWhitelist {
+            lines.append("@@||\(domain)^$document")
+            lines.append("@@||\(domain)^")
         }
-    }
-    
-    func makeAdsBlockingRule() -> BlockingRule {
-        BlockingRule(trigger: BlockingTrigger(urlFilter: ".*ads.",
-                                              ifDomain: nil,
-                                              loadType: nil,
-                                              resourceType: ["image", "script"]),
-                     action: BlockingAction(type: .block))
-    }
-    
-    func makeAntiAdblockRule() -> BlockingRule {
-        BlockingRule(
-            trigger: BlockingTrigger(
-                urlFilter: ".*(adblock|antiadblock|blockdetect).*",
-                ifDomain: nil,
-                loadType: nil,
-                resourceType: ["script"]
-            ),
-            action: BlockingAction(type: .block)
+        
+        // Конвертируем с лимитом 6MB
+        let result = ContentBlockerConverter().convertArray(
+            rules: lines,
+            safariVersion: .safari16_4,
+            advancedBlocking: false,
+            maxJsonSizeBytes: 6 * 1024 * 1024,
+            progress: nil
         )
+        
+        guard !Task.isCancelled else { return false }
+        
+        let json = result.safariRulesJSON
+        print("!! JSON size: \(json.count) bytes")
+        
+        saveJSON(json)
+        let success = await reloadContentBlocker()
+        print("!! Reload success: \(success)")
+        return success
+    }
+    // MARK: - Video whitelist
+    
+    private let defaultVideoWhitelist = [
+        "youtube.com",
+        "googlevideo.com",
+        "ytimg.com",
+        "twitch.tv",
+        "ttvnw.net",
+        "jtvnw.net",
+        "live-video.net",
+        "vimeo.com",
+        "vimeocdn.com"
+    ]
+    
+    // MARK: - Filter loading with cache
+    
+    private func loadFilter(url: URL, cacheKey: String) async -> String {
+        if let cached = loadCache(key: cacheKey) {
+            return cached
+        }
+        
+        guard let text = await download(url: url) else { return "" }
+        saveCache(text: text, key: cacheKey)
+        return text
     }
     
-    
-    func makeWhitelistRule(for domain: String ) -> BlockingRule {
-        BlockingRule(trigger: BlockingTrigger(urlFilter: ".*",
-                                              ifDomain: [domain],
-                                              loadType: nil,
-                                              resourceType: nil),
-                     action: BlockingAction(type: .ignorePreviousRules))
-    }
-    
-    func encodeRules(_ rules: [BlockingRule])-> Data? {
-        let encoder = JSONEncoder()
+    private func download(url: URL) async -> String? {
         do {
-            return try encoder.encode(rules)
+            let (data, _) = try await URLSession.shared.data(from: url)
+            return String(data: data, encoding: .utf8)
         } catch {
+            print("!! Download error: \(error)")
             return nil
         }
     }
     
-    func saveRulesToAppGroup( _ data : Data?) {
-        guard let data,
-              let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.test.com.adblock")
-        else {
-            return
-        }
-        let fileURL = containerURL.appendingPathComponent("blockerList.json")
-        do {
-            try data.write(to: fileURL, options: .atomic)
-        } catch {
-            print("Faild to write blockerList", error.localizedDescription)
-        }
+    private func cacheURL(key: String) -> URL? {
+        FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: appGroupID)?
+            .appendingPathComponent(key)
     }
     
-    private func removeDuplicates(from rules: [BlockingRule]) -> [BlockingRule] {
-        var seen = Set<String>()
-        var result: [BlockingRule] = []
-
-        for rule in rules {
-            let key = rule.dedupeKey
-
-            if !seen.contains(key) {
-                seen.insert(key)
-                result.append(rule)
-            }
-        }
-
-        return result
+    private func loadCache(key: String) -> String? {
+        guard let url = cacheURL(key: key),
+              FileManager.default.fileExists(atPath: url.path),
+              let attrs = try? FileManager.default.attributesOfItem(atPath: url.path),
+              let modified = attrs[.modificationDate] as? Date,
+              Date().timeIntervalSince(modified) < cacheLifetime,
+              let data = try? Data(contentsOf: url)
+        else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+    
+    private func saveCache(text: String, key: String) {
+        guard let url = cacheURL(key: key) else { return }
+        try? text.data(using: .utf8)?.write(to: url)
+    }
+    
+    // MARK: - JSON save & reload
+    
+    private func saveJSON(_ json: String) {
+        guard let containerURL = FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: appGroupID)
+        else { return }
+        let fileURL = containerURL.appendingPathComponent("blockerList.json")
+        try? json.data(using: .utf8)?.write(to: fileURL, options: .atomic)
     }
     
     private func reloadContentBlocker() async -> Bool {
         await withCheckedContinuation { continuation in
             SFContentBlockerManager.reloadContentBlocker(
-                withIdentifier: "test.com.adblock.blocker"
+                withIdentifier: blockerID
             ) { error in
-                if error != nil {
-                    continuation.resume(returning: false)
-                } else {
-                    continuation.resume(returning: true)
-                }
+                continuation.resume(returning: error == nil)
             }
         }
-    }}
+    }
+    
+    func hashConfig(config: ContentBlockerConfig) -> String {
+        let raw = "\(config.isEnabled)|\(config.blockAds)|\(config.blockTrackers)|\(config.antiAdblock)|\(config.whiteListedDomains.sorted().joined())"
+        let hash = SHA256.hash(data: Data(raw.utf8))
+        return hash.compactMap { String(format: "%02x", $0) }.joined()
+    }
+}

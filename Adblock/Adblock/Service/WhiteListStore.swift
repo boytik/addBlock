@@ -37,8 +37,11 @@ final class WhiteListStore: ObservableObject {
     ///Добавляем элемент в список
     func add(url: String, name: String?) {
         let normolized = normolizeDomain(input: url)
-        guard !whiteList.contains(where: { $0.url == normolized }) else { return }
+        guard !whiteList.contains(where: { $0.url == normolized }) else {
+            print("такой домен есть")
+            return }
         whiteList.append(WhiteListItem(name: name, url: normolized))
+        print("добавили")
         persist()
     }
     

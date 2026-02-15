@@ -21,7 +21,12 @@ struct GeneralView: View {
                         .padding(.vertical)
                     
                     mainButton
-                    
+//                    Button("Test +1") {
+//                        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+//                        let current = defaults?.integer(forKey: "blockedCount") ?? 0
+//                        defaults?.set(current + 1, forKey: "blockedCount")
+//                        viewModel.loadBlockedCount()
+//                    }
                     titelsUnderButton
                     
                     timeRangePicker
@@ -48,6 +53,10 @@ struct GeneralView: View {
                 }
                 .padding(.horizontal)
             }
+        }
+        .onAppear {
+            print("Появвился")
+            viewModel.loadBlockedCount()
         }
     }
     //MARK: Header
@@ -204,7 +213,7 @@ struct GeneralView: View {
                 .foregroundStyle(.accent)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("Anti-Adblock killer")
+                Text("WhiteList")
                     .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundStyle(.white)
 
@@ -214,13 +223,12 @@ struct GeneralView: View {
             }
 
             Spacer()
-
-            Button(action: {
-                viewModel.openWhiteList()
-            }) {
-                Image(systemName: "chevron.right")
-            }
-            .padding(.trailing)
+            Image(systemName: "chevron.right")
+                .foregroundColor(.red)
+                .padding(.trailing)
+        }
+        .onTapGesture {
+            viewModel.openWhiteList()
         }
         .padding(.horizontal)
         .padding(.vertical)

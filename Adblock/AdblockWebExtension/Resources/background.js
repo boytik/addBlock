@@ -1,21 +1,14 @@
-console.log("🔥 background started");
-
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((message) => {
 
     if (message.type === "blocked") {
 
-        console.log("📩 sending to native:", message);
-
         browser.runtime.sendNativeMessage(
             browser.runtime.id,
-            message
-        ).then(response => {
-            console.log("✅ native responded:", response);
-        }).catch(error => {
-            console.error("❌ native error:", error);
+            { type: "blocked" }
+        ).catch(error => {
+            console.log("Native error:", error);
         });
-
-        sendResponse({ ok: true });
-        return true;
     }
+
+    return true;
 });

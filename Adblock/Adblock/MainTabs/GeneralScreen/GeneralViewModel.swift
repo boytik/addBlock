@@ -44,6 +44,11 @@ class GeneralViewModel: ObservableObject {
         ruleServise.$isUpdating
             .receive(on: DispatchQueue.main)
             .assign(to: &$isUpdatingRules)
+        // Временно в init() или при запуске:
+//        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+//        defaults?.removeObject(forKey: "lastConfigHash")
+        print("удалли")
+        loadBlockedCount()
     }
     //Создаем конфиг
     func makeConfig() -> ContentBlockerConfig {
@@ -52,6 +57,11 @@ class GeneralViewModel: ObservableObject {
                              blockTrackers: isBlockTrackers,
                              antiAdblock: isAntiAdblokKiller,
                              whiteListedDomains: whiteList.domains)
+    }
+    //Подсчет блокировки
+    func loadBlockedCount() {
+        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+        adsBlockedCount = defaults?.integer(forKey: "blockedCount") ?? 0
     }
     
     func toggleProtection() {

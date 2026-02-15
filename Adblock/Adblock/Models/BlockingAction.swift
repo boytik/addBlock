@@ -1,9 +1,4 @@
-//
-//  BlockingAction.swift
-//  Adblock
-//
-//  Created by Евгений on 05.02.2026.
-//
+
 
 import Foundation
 
@@ -22,12 +17,14 @@ struct BlockingAction: Codable {
 struct BlockingTrigger: Codable {
     let urlFilter: String
     let ifDomain: [String]?
+    let unlessDomain: [String]?
     let loadType: [String]?
     let resourceType: [String]?
     
     enum CodingKeys: String, CodingKey {
         case urlFilter = "url-filter"
         case ifDomain = "if-domain"
+        case unlessDomain = "unless-domain"
         case loadType = "load-type"
         case resourceType = "resource-type"
     }

@@ -15,4 +15,5 @@ enum ABPRuleType {
 struct ABPRule {
     let pattern: String
     let type: ABPRuleType
+    let resourceTypes: [String]
 }
