@@ -13,6 +13,9 @@ class OnbordingViewModel: ObservableObject {
     @Published var bgTitel: String = "Page1.0"
     @Published var completeOnbording: Bool = false
     
+    private let privacy: String =  "https://example.com/privacy"
+    private let terms: String = "https://example.com/terms"
+    
     
     init(coordinator: AppCoordinator){
         self.coordinator = coordinator
@@ -55,5 +58,17 @@ class OnbordingViewModel: ObservableObject {
     
     func finishOnbording() {
         coordinator?.finishOnbording()
+    }
+    
+    func openPrivacyPolicy() {
+        if let url = URL(string: privacy) {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func openTermsOfService() {
+        if let url = URL(string: terms) {
+            UIApplication.shared.open(url)
+        }
     }
 }

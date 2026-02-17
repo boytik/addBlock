@@ -61,17 +61,17 @@ struct OnbordingView: View {
             if viewModel.showTermOfUseAndPrivacy {
                 HStack(spacing: 32) {
                     Button(action: {
-                        
+                        viewModel.openTermsOfService()
                     }) {
                         Text("Terms of use")
                             .font(.custom("Inter18pt-Regular", size: 14))
                             .foregroundColor(.grayText)
                     }
                     Button(action: {
-                        
+                        viewModel.openPrivacyPolicy()
                     }) {
                         Text("Privacy Policy")
-                            .font(.custom("Inter18pt-Refular", size: 14))
+                            .font(.custom("Inter18pt-Regular", size: 14))
                             .foregroundColor(.grayText)
                     }
                 }

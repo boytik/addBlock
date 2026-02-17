@@ -303,6 +303,7 @@ struct ReusableCardView : View {
             .padding(.horizontal)
             .padding(.vertical)
         }
+        .frame(width: 155, height: 144)
         .background(Color("BgForBut"))
         .clipShape(RoundedRectangle(cornerRadius: 24))
     }
