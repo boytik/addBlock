@@ -13,12 +13,28 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     @Published var route: Route?
     @Published var sheet: Sheet?
     
-    private let customRulesStore = CustomRulesStore()
-    private lazy var ruleService = RulesService(customRulesStore: customRulesStore)
+    let customRulesStore = CustomRulesStore()
+    lazy var ruleService = RulesService(customRulesStore: customRulesStore)
     private let whiteList = WhiteListStore()
-    var whiteListStore: WhiteListStore {
-        whiteList
+    var whiteListStore: WhiteListStore { whiteList }
+    
+    var customRuleConfigProvider: () -> ContentBlockerConfig {
+        { [weak self] in
+            guard let self else {
+                return ContentBlockerConfig(isEnabled: false, blockAds: false,
+                    blockTrackers: false, antiAdblock: false, whiteListedDomains: [])
+            }
+            let defaults = UserDefaults(suiteName: "group.test.com.adblock")
+            return ContentBlockerConfig(
+                isEnabled: defaults?.bool(forKey: "isWorking") ?? false,
+                blockAds: defaults?.bool(forKey: "blockAds") ?? false,
+                blockTrackers: defaults?.bool(forKey: "blockTrackers") ?? false,
+                antiAdblock: defaults?.bool(forKey: "antiAdblock") ?? false,
+                whiteListedDomains: self.whiteList.domains
+            )
+        }
     }
+    
     init(){
         flow = hasSeenOnbording ? .main : .onboarding
     }
@@ -57,19 +73,8 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
                 coordinator: self,
                 customRulesStore: customRulesStore,
                 ruleService: ruleService,
-                configProvider: { [weak self] in
-                    guard let self else {
-                        return ContentBlockerConfig(isEnabled: false, blockAds: false,
-                            blockTrackers: false, antiAdblock: false, whiteListedDomains: [])
-                    }
-                    return ContentBlockerConfig(
-                        isEnabled: UserDefaults(suiteName: "group.test.com.adblock")?.bool(forKey: "isWorking") ?? false,
-                        blockAds: UserDefaults(suiteName: "group.test.com.adblock")?.bool(forKey: "blockAds") ?? false,
-                        blockTrackers: UserDefaults(suiteName: "group.test.com.adblock")?.bool(forKey: "blockTrackers") ?? false,
-                        antiAdblock: UserDefaults(suiteName: "group.test.com.adblock")?.bool(forKey: "antiAdblock") ?? false,
-                        whiteListedDomains: self.whiteList.domains
-                    )
-                }
+                configProvider: customRuleConfigProvider,
+                onDismiss: { self.route = nil }
             ))
         case .whiteList:
             WhiteListView(viewModel: WhiteListViewModel(coordinator: self,
@@ -94,9 +99,9 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
         route = nil
     }
     
-    //Custom Rule
+    //Custom Rule — открывается через CustomView (локальный sheet)
     func addCustomRule() {
-        route = .addCustom
+        // Не используется — CustomViewModel управляет showAddCustomRule
     }
     
     func closeCustomRule() {
@@ -163,13 +168,5 @@ enum Route: Identifiable {
 //MARK: Sheets
 enum Sheet: Identifiable {
     case addWebsite
-    case quickGuide
-    var id: String {
-        switch self {
-        case .addWebsite:
-            return "addWebSite"
-        case .quickGuide:
-            return "quickGuide"
-        }
-    }
+    var id: String { "addWebSite" }
 }

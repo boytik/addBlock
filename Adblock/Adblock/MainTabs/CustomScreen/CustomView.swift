@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct CustomView: View {
-
     @StateObject var viewModel: CstomViewModel
+    @EnvironmentObject var coordinator: AppCoordinator
 
     init(viewModel: CstomViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -57,6 +57,15 @@ struct CustomView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 32)
             }
+        }
+        .sheet(isPresented: $viewModel.showAddCustomRule, onDismiss: { viewModel.dismissAddCustomRule() }) {
+            AddCustomRule(viewModel: AddCustomRuleViewModel(
+                coordinator: coordinator,
+                customRulesStore: coordinator.customRulesStore,
+                ruleService: coordinator.ruleService,
+                configProvider: coordinator.customRuleConfigProvider,
+                onDismiss: { viewModel.dismissAddCustomRule() }
+            ))
         }
     }
 

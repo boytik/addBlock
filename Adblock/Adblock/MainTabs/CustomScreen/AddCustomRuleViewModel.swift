@@ -12,6 +12,7 @@ class AddCustomRuleViewModel: ObservableObject {
     private let customRulesStore: CustomRulesStore
     private let ruleService: RulesService
     private let configProvider: () -> ContentBlockerConfig
+    private let onDismiss: () -> Void
 
     @Published var tagetWeb: String = ""
     // Blocking Options
@@ -21,7 +22,6 @@ class AddCustomRuleViewModel: ObservableObject {
     @Published var hideElements: Bool = false
     // Domain Activity
     @Published var isEmptyData: Bool = true
-    @Published var showMenu = false
     @Published var rangeOfDates: FiltersDates = .lastDay
     // Validation
     @Published var showDuplicateError: Bool = false
@@ -30,11 +30,13 @@ class AddCustomRuleViewModel: ObservableObject {
     init(coordinator: CoordinatorProtocol,
          customRulesStore: CustomRulesStore,
          ruleService: RulesService,
-         configProvider: @escaping () -> ContentBlockerConfig) {
+         configProvider: @escaping () -> ContentBlockerConfig,
+         onDismiss: @escaping () -> Void) {
         self.coordinator = coordinator
         self.customRulesStore = customRulesStore
         self.ruleService = ruleService
         self.configProvider = configProvider
+        self.onDismiss = onDismiss
     }
 
     func saveRule() {
@@ -68,7 +70,7 @@ class AddCustomRuleViewModel: ObservableObject {
         Task {
             await ruleService.updateRules(config: configProvider())
             isSaving = false
-            coordinator.closeCustomRule()
+            onDismiss()
         }
     }
 
@@ -79,11 +81,10 @@ class AddCustomRuleViewModel: ObservableObject {
     }
 
     func closeScreen() {
-        coordinator.closeCustomRule()
+        onDismiss()
     }
 
-    func opneAndCloseMenu(range: FiltersDates) {
-        self.showMenu.toggle()
-        self.rangeOfDates = range
+    func selectDateRange(_ range: FiltersDates) {
+        rangeOfDates = range
     }
 }

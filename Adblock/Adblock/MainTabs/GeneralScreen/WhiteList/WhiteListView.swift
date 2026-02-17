@@ -29,14 +29,12 @@ struct WhiteListView: View {
             }
             .padding(.horizontal)
         }
-        .sheet(item: $coordinator.sheet) { sheet in
-            switch sheet {
-            case .addWebsite:
-                AddNewUrlView(viewModel: AddWebSiteViewModel(coordinator: coordinator,
-                                                             whitelist: coordinator.whiteListStore))
-            case .quickGuide:
-                QuickGuideView(viewModel: QuickGuideViewModel(coordinator: coordinator))
-            }
+        .sheet(isPresented: Binding(
+            get: { coordinator.sheet == .addWebsite },
+            set: { if !$0 { coordinator.dismissSheet() } }
+        )) {
+            AddNewUrlView(viewModel: AddWebSiteViewModel(coordinator: coordinator,
+                                                         whitelist: coordinator.whiteListStore))
         }
     }
     
@@ -51,7 +49,7 @@ struct WhiteListView: View {
             Spacer()
         }
         .overlay{
-            Text("WhiteL List")
+            Text("White List")
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
@@ -71,7 +69,9 @@ struct WhiteListView: View {
     private var whiteList: some View {
         List {
             ForEach(viewModel.items) { item in
-                RowForList(titel: item.name, url: item.url)
+                RowForList(titel: item.name, url: item.url, onDelete: {
+                    viewModel.deleteUrl(id: item.id)
+                })
                     .listRowBackground(Color.black)
             }
         }
@@ -103,9 +103,10 @@ struct WhiteListView: View {
     }
 }
 
-struct RowForList:  View {
+struct RowForList: View {
     let titel: String?
     let url: String
+    var onDelete: (() -> Void)?
     
     var body: some View {
         VStack {
@@ -124,10 +125,14 @@ struct RowForList:  View {
                     .padding(.leading)
                 }
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(.grayText)
-                    .frame(width: 24, height: 24)
-                    .padding(.horizontal)
+                Button(action: {
+                    onDelete?()
+                }) {
+                    Image(systemName: "trash.fill")
+                        .foregroundStyle(.red)
+                        .frame(width: 24, height: 24)
+                        .padding(.horizontal)
+                }
             }
             Divider()
         }

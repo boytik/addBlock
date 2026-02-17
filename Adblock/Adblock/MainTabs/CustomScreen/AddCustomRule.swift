@@ -10,35 +10,32 @@ struct AddCustomRule: View {
 
     var body: some View {
         ZStack {
-            VStack(alignment: .center) {
-                header
-                    .padding(.vertical)
-                    .padding(.vertical)
+            Color.black
+                .ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .center) {
+                    header
+                        .padding(.vertical)
 
-                inputTextField
+                    inputTextField
 
-                blockingSetting
+                    blockingSetting
 
-                domainAvtivity
-                    .padding(.vertical)
+                    domainAvtivity
+                        .padding(.vertical)
 
-                if viewModel.isEmptyData {
-                    Image("EmptyData")
-                        .zIndex(0)
+                    if viewModel.isEmptyData {
+                        Image("EmptyData")
+                    }
+
+                    Spacer()
+
+                    saveButton
+                        .padding(.vertical, 24)
                 }
-
-                Spacer()
-
-                saveButton
-                    .padding(.bottom)
-            }
-            .padding(.horizontal)
-            .frame(maxHeight: .infinity)
-            .background(Color(.black))
-
-            if viewModel.showMenu {
-                dropdownMenu
-                    .zIndex(100)
+                .padding(.horizontal)
+                .frame(maxHeight: .infinity)
+                .background(Color(.black))
             }
         }
     }
@@ -161,41 +158,27 @@ struct AddCustomRule: View {
                 .foregroundStyle(.white)
             Spacer()
 
-            if !viewModel.showMenu {
-                Button {
-                    withAnimation {
-                        viewModel.showMenu.toggle()
-                    }
-                } label: {
-                    HStack {
-                        Text("Last 24h")
-                            .font(.custom("Inter18pt-Regular", size: 12))
-                            .foregroundStyle(.grayText)
-                        Image(systemName: "chevron.down")
-                            .foregroundStyle(.grayText)
-                    }
+            Menu {
+                Button("Last 24h") {
+                    viewModel.selectDateRange(.lastDay)
+                }
+                Button("Last week") {
+                    viewModel.selectDateRange(.lastWeek)
+                }
+                Button("Last month") {
+                    viewModel.selectDateRange(.lastMonth)
+                }
+            } label: {
+                HStack(spacing: 4) {
+                    Text(viewModel.rangeOfDates.rawValue)
+                        .font(.custom("Inter18pt-Regular", size: 12))
+                        .foregroundStyle(.grayText)
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.grayText)
                 }
             }
         }
-    }
-
-    private var dropdownMenu: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Button { viewModel.opneAndCloseMenu(range: .lastDay) } label: {
-                Text("Last 24h").foregroundStyle(.grayText)
-            }
-            Button { viewModel.opneAndCloseMenu(range: .lastWeek) } label: {
-                Text("Last week").foregroundStyle(.grayText)
-            }
-            Button { viewModel.opneAndCloseMenu(range: .lastMonth) } label: {
-                Text("Last month").foregroundStyle(.grayText)
-            }
-        }
-        .padding()
-        .background(.bgForBut)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(radius: 20)
-        .offset(x: 120, y: 220)
     }
 
     // MARK: - Save Button

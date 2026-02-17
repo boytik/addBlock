@@ -11,6 +11,7 @@ class CstomViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published private(set) var activeRules: [CustomRule] = []
     @Published private(set) var inactiveRules: [CustomRule] = []
+    @Published var showAddCustomRule: Bool = false
 
     init(coordinator: CoordinatorProtocol,
          customRulesStore: CustomRulesStore,
@@ -82,6 +83,10 @@ class CstomViewModel: ObservableObject {
     }
 
     func openAddCustomRule() {
-        coordinator.addCustomRule()
+        showAddCustomRule = true
+    }
+    
+    func dismissAddCustomRule() {
+        showAddCustomRule = false
     }
 }
