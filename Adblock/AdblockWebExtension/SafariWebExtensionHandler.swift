@@ -20,26 +20,24 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             let blockAds = defaults?.bool(forKey: "blockAds") ?? false
             let blockTrackers = defaults?.bool(forKey: "blockTrackers") ?? false
             
+            var adsToAdd = 0
+            var trackersToAdd = 0
             if blockAds && blockTrackers {
-                // Примерно 60% ads, 40% trackers
-                let adsCount = max(1, Int(round(Double(count) * 0.6)))
-                let trackersCount = max(0, count - adsCount)
-                let currentAds = defaults?.integer(forKey: "blockedAdsCount") ?? 0
-                let currentTrackers = defaults?.integer(forKey: "blockedTrackersCount") ?? 0
-                defaults?.set(currentAds + adsCount, forKey: "blockedAdsCount")
-                defaults?.set(currentTrackers + trackersCount, forKey: "blockedTrackersCount")
+                adsToAdd = max(1, Int(round(Double(count) * 0.6)))
+                trackersToAdd = max(0, count - adsToAdd)
             } else if blockAds {
-                let current = defaults?.integer(forKey: "blockedAdsCount") ?? 0
-                defaults?.set(current + count, forKey: "blockedAdsCount")
+                adsToAdd = count
             } else if blockTrackers {
-                let current = defaults?.integer(forKey: "blockedTrackersCount") ?? 0
-                defaults?.set(current + count, forKey: "blockedTrackersCount")
+                trackersToAdd = count
+            }
+            
+            if adsToAdd > 0 || trackersToAdd > 0, let defaults {
+                addBlockedToDailyStats(ads: adsToAdd, trackers: trackersToAdd, defaults: defaults)
             }
             context.completeRequest(returningItems: nil)
 
         case "getStats":
-            let ads = defaults?.integer(forKey: "blockedAdsCount") ?? 0
-            let trackers = defaults?.integer(forKey: "blockedTrackersCount") ?? 0
+            let (ads, trackers) = loadAllTimeStats(defaults: defaults)
             let response = NSExtensionItem()
             response.userInfo = [SFExtensionMessageKey: ["blocked": ads, "trackers": trackers]]
             context.completeRequest(returningItems: [response])
@@ -62,6 +60,39 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
 
         default:
             context.completeRequest(returningItems: nil)
+        }
+    }
+    
+    private func loadAllTimeStats(defaults: UserDefaults?) -> (ads: Int, trackers: Int) {
+        guard let defaults,
+              let data = defaults.data(forKey: "blockedStatsByDay"),
+              let stats = try? JSONDecoder().decode([String: [String: Int]].self, from: data)
+        else { return (0, 0) }
+        let ads = stats.values.reduce(0) { $0 + ($1["ads"] ?? 0) }
+        let trackers = stats.values.reduce(0) { $0 + ($1["trackers"] ?? 0) }
+        return (ads, trackers)
+    }
+    
+    /// Сохраняет блокировки по дням. Формат: [дата: ["ads": Int, "trackers": Int]]
+    private func addBlockedToDailyStats(ads: Int, trackers: Int, defaults: UserDefaults) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = TimeZone.current
+        let today = formatter.string(from: Date())
+        
+        var stats: [String: [String: Int]] = [:]
+        if let data = defaults.data(forKey: "blockedStatsByDay"),
+           let decoded = try? JSONDecoder().decode([String: [String: Int]].self, from: data) {
+            stats = decoded
+        }
+        
+        var todayStats = stats[today] ?? ["ads": 0, "trackers": 0]
+        todayStats["ads"] = (todayStats["ads"] ?? 0) + ads
+        todayStats["trackers"] = (todayStats["trackers"] ?? 0) + trackers
+        stats[today] = todayStats
+        
+        if let data = try? JSONEncoder().encode(stats) {
+            defaults.set(data, forKey: "blockedStatsByDay")
         }
     }
 }

@@ -10,20 +10,21 @@ class GeneralViewModel: ObservableObject {
     private let coordinator: CoordinatorProtocol
     
     @Published var selectedRange: TimeRange = .today
-    @Published var isWorking: Bool = false
+    @Published var isWorking: Bool = true
     //Info About Work
     @Published var adsBlockedCount: Int = 0
     @Published var trackersBlokedCount: Int = 0
-    //Protection Rules
-    @Published var isBlockAds: Bool = false
-    @Published var isBlockTrackers: Bool = false
-    @Published var isAntiAdblokKiller: Bool = false
+    //Protection Rules — изначально все включены
+    @Published var isBlockAds: Bool = true
+    @Published var isBlockTrackers: Bool = true
+    @Published var isAntiAdblokKiller: Bool = true
     
     @Published private(set) var isUpdatingRules: Bool = false
     
     //Services
     private let ruleServise: RulesService
     private let whiteList: WhiteListStore
+    private let blockedStatsStore = BlockedStatsStore()
     private var cancellables = Set<AnyCancellable>()
     
     
@@ -44,6 +45,7 @@ class GeneralViewModel: ObservableObject {
         ruleServise.$isUpdating
             .receive(on: DispatchQueue.main)
             .assign(to: &$isUpdatingRules)
+        bindBlockedCountToRange()
         loadBlockedCount()
     }
     //Создаем конфиг
@@ -55,11 +57,20 @@ class GeneralViewModel: ObservableObject {
                              whiteListedDomains: whiteList.domains)
     }
     
-    //Подсчет блокировки
+    //Подсчет блокировки с учётом выбранного диапазона (Today / Week / All Time)
     func loadBlockedCount() {
-        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
-        adsBlockedCount = defaults?.integer(forKey: "blockedAdsCount") ?? 0
-        trackersBlokedCount = defaults?.integer(forKey: "blockedTrackersCount") ?? 0
+        let stats = blockedStatsStore.loadStats(range: selectedRange)
+        adsBlockedCount = stats.ads
+        trackersBlokedCount = stats.trackers
+    }
+    
+    private func bindBlockedCountToRange() {
+        $selectedRange
+            .dropFirst()
+            .sink { [weak self] _ in
+                self?.loadBlockedCount()
+            }
+            .store(in: &cancellables)
     }
     
     func toggleProtection() {
@@ -103,11 +114,11 @@ class GeneralViewModel: ObservableObject {
     private func loadState() {
         let defaults = UserDefaults(suiteName: "group.test.com.adblock")
         
-        isWorking = defaults?.bool(forKey: Keys.isWorking) ?? false
-        isBlockAds = defaults?.bool(forKey: Keys.blockAds) ?? false
-        isBlockTrackers = defaults?.bool(forKey: Keys.blockTrackers) ?? false
-        isAntiAdblokKiller = defaults?.bool(forKey: Keys.antiAdblock) ?? false
-        
+        // При первом входе (ключей нет) — все тоглы включены (true)
+        isWorking = defaults?.object(forKey: Keys.isWorking) as? Bool ?? true
+        isBlockAds = defaults?.object(forKey: Keys.blockAds) as? Bool ?? true
+        isBlockTrackers = defaults?.object(forKey: Keys.blockTrackers) as? Bool ?? true
+        isAntiAdblokKiller = defaults?.object(forKey: Keys.antiAdblock) as? Bool ?? true
     }
     
     private func bindStatePersistance() {

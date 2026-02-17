@@ -28,6 +28,7 @@
 		3EBA52FE2F42203100FEA819 /* ContentBlockerConverter in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBA52FD2F42203100FEA819 /* ContentBlockerConverter */; };
 		3EBA53042F42671D00FEA819 /* CustomRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53032F42671D00FEA819 /* CustomRule.swift */; };
 		3EBA53062F42673A00FEA819 /* CustomRulesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */; };
+		3EBA53102F42674000FEA819 /* BlockedStatsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */; };
 		3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F232F3497C30046D7C3 /* BlockingAction.swift */; };
 		3EC50F272F349CFE0046D7C3 /* RulesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F262F349CFE0046D7C3 /* RulesService.swift */; };
 		3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */; };
@@ -93,6 +94,7 @@
 		3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EBA53032F42671D00FEA819 /* CustomRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRule.swift; sourceTree = "<group>"; };
 		3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRulesStore.swift; sourceTree = "<group>"; };
+		3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedStatsStore.swift; sourceTree = "<group>"; };
 		3EC50F232F3497C30046D7C3 /* BlockingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingAction.swift; sourceTree = "<group>"; };
 		3EC50F262F349CFE0046D7C3 /* RulesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesService.swift; sourceTree = "<group>"; };
 		3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlockerConfig.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 		3EC50F252F349CE30046D7C3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */,
 				3EC50F262F349CFE0046D7C3 /* RulesService.swift */,
 				3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */,
 				3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */,
@@ -534,6 +537,7 @@
 				3E69A6C72F3C8F6C00C73985 /* EasyListParserModels.swift in Sources */,
 				3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */,
 				3EBA53062F42673A00FEA819 /* CustomRulesStore.swift in Sources */,
+				3EBA53102F42674000FEA819 /* BlockedStatsStore.swift in Sources */,
 				3E3FF8952F3A2B8A0090A937 /* AddNewUrlView.swift in Sources */,
 				3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */,
 				3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */,
