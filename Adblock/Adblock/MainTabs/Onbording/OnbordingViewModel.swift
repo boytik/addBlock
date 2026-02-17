@@ -4,13 +4,19 @@ import SwiftUI
 import Combine
 
 class OnbordingViewModel: ObservableObject {
+    private weak var coordinator: AppCoordinator?
+    
     @Published var currentPage: Int = 0
     @Published var textForButton: String  = "Start"
     @Published var shuoldRequestReview: Bool = false
     @Published var showTermOfUseAndPrivacy: Bool = false
     @Published var bgTitel: String = "Page1.0"
+    @Published var completeOnbording: Bool = false
     
     
+    init(coordinator: AppCoordinator){
+        self.coordinator = coordinator
+    }
     
     func nextStep() {
         if currentPage < 4 {
@@ -24,6 +30,9 @@ class OnbordingViewModel: ObservableObject {
         }
         if currentPage > 2  {
             showTermOfUseAndPrivacy = true
+        }
+        if currentPage == 4 {
+            finishOnbording()
         }
     }
     
@@ -42,5 +51,9 @@ class OnbordingViewModel: ObservableObject {
     
     private func changeBg() {
         bgTitel = "Page\(currentPage + 1).0"
+    }
+    
+    func finishOnbording() {
+        coordinator?.finishOnbording()
     }
 }

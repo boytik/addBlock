@@ -4,7 +4,9 @@ import SwiftUI
 import StoreKit
 
 struct OnbordingView: View {
-    @StateObject var viewModel = OnbordingViewModel()
+
+    
+    @StateObject var viewModel: OnbordingViewModel
     @Environment(\.requestReview) private var requestReView
     
     var body: some View {
@@ -14,12 +16,12 @@ struct OnbordingView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
                 .animation(.easeInOut(duration: 0.4), value: viewModel.bgTitel)
-
-                    VStack {
-                        Spacer()
-                        basement
-                            .padding(.bottom)
-                    }
+            
+            VStack {
+                Spacer()
+                basement
+            }
+            .padding(.bottom, 50)
         }
         .onChange(of: viewModel.shuoldRequestReview) { newValue in
             if newValue {

@@ -145,6 +145,10 @@ class GeneralViewModel: ObservableObject {
     func openWhiteList(){
         coordinator.openWhiteList()
     }
+    
+    func didTapQuickGuide() {
+        coordinator.openQuickGuide()
+    }
 }
 
 enum TimeRange: CaseIterable {

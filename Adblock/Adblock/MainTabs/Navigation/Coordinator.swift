@@ -1,14 +1,15 @@
-//
-//  Coordinator.swift
-//  Adblock
-//
-//  Created by Евгений on 02.02.2026.
-//
 
 import SwiftUI
 import Combine
 
+enum AppFlow {
+    case onboarding
+    case main
+}
+
 final class AppCoordinator: ObservableObject, CoordinatorProtocol {
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnbording: Bool = false
+    @Published var flow: AppFlow = .onboarding
     @Published var route: Route?
     @Published var sheet: Sheet?
     
@@ -17,6 +18,9 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     private let whiteList = WhiteListStore()
     var whiteListStore: WhiteListStore {
         whiteList
+    }
+    init(){
+        flow = hasSeenOnbording ? .main : .onboarding
     }
     
     @ViewBuilder
@@ -70,7 +74,14 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
         case .whiteList:
             WhiteListView(viewModel: WhiteListViewModel(coordinator: self,
                                                         whiteListStore: whiteList))
+        case .quickGuide:
+            QuickGuideView(viewModel: QuickGuideViewModel(coordinator: self))
         }
+    }
+    
+    func finishOnbording() {
+        hasSeenOnbording = true
+        flow = .main
     }
     
     //MARK: NAVIGATION
@@ -108,6 +119,14 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     func dismissSheet() {
         sheet = nil
     }
+    
+    func openQuickGuide() {
+        route = .quickGuide
+    }
+
+    func closeQuickGuide() {
+        route = nil
+    }
 }
 //MARK: Contract
 protocol CoordinatorProtocol: AnyObject {
@@ -124,28 +143,33 @@ protocol CoordinatorProtocol: AnyObject {
     func presentAddWebsite()
     func dismissSheet()
     
+    func openQuickGuide()
+    func closeQuickGuide()
+    
     
 }
 
 //MARK: Screens
 enum Route: Identifiable {
-    
-    var id: String {
-        String(describing: self)
-    }
+    var id: String { String(describing: self) }
     case general
     case settings
     case custom
     case addCustom
     case whiteList
+    case quickGuide  // ← add this
 }
+
 //MARK: Sheets
 enum Sheet: Identifiable {
     case addWebsite
+    case quickGuide
     var id: String {
         switch self {
         case .addWebsite:
             return "addWebSite"
+        case .quickGuide:
+            return "quickGuide"
         }
     }
 }

@@ -21,12 +21,6 @@ struct GeneralView: View {
                         .padding(.vertical)
                     
                     mainButton
-//                    Button("Test +1") {
-//                        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
-//                        let current = defaults?.integer(forKey: "blockedCount") ?? 0
-//                        defaults?.set(current + 1, forKey: "blockedCount")
-//                        viewModel.loadBlockedCount()
-//                    }
                     titelsUnderButton
                     
                     timeRangePicker
@@ -62,6 +56,18 @@ struct GeneralView: View {
     //MARK: Header
     private var header: some View {
         HStack {
+            Button(action: {
+                viewModel.didTapQuickGuide()
+            }) {
+                ZStack {
+                    Circle()
+                        .fill(Color("BgForBut"))
+                        .frame(width: 40, height: 40)
+                    Image(systemName: "questionmark.circle")
+                        .foregroundStyle(.white)
+                        .frame(width: 40, height: 40)
+                }
+            }
             Spacer()
             Button(action: {viewModel.didTapSettings()}) {
                 ZStack {

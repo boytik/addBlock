@@ -3,6 +3,12 @@
 import SwiftUI
 
 struct QuickGuideView: View {
+    @StateObject var viewModal: QuickGuideViewModel
+    
+    init(viewModel: QuickGuideViewModel) {
+          _viewModal = StateObject(wrappedValue: viewModel)
+      }
+    
     var body: some View {
         ZStack {
             Color.black
@@ -33,7 +39,7 @@ struct QuickGuideView: View {
     private var header: some View {
         HStack {
             Button(action: {
-              
+                viewModal.closeSheet()
             }) {
                 Image(systemName: "xmark")
             }
@@ -128,7 +134,9 @@ struct QuickGuideView: View {
     
     private var buttons: some View {
         VStack(spacing: 16) {
-            Button(action: {}){
+            Button(action: {
+                viewModal.openSettings()
+            }){
                 HStack {
                     Text("Go to Settings")
                         .font(.custom("Inter18pt-SemiBold", size: 16))
@@ -142,7 +150,9 @@ struct QuickGuideView: View {
                 .background(RoundedRectangle(cornerRadius: 24))
                 .foregroundColor(.red)
             }
-            Button(action: {}) {
+            Button(action: {
+                viewModal.closeSheet()
+            }) {
                 Text("I'll do this later")
                     .font(.custom("Inter18pt-Medium", size: 14))
                     .foregroundColor(.grayText)
@@ -151,7 +161,4 @@ struct QuickGuideView: View {
             }
         }
     }
-}
-#Preview {
-    QuickGuideView()
 }

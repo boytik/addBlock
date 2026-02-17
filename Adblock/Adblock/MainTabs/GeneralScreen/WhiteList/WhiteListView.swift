@@ -34,6 +34,8 @@ struct WhiteListView: View {
             case .addWebsite:
                 AddNewUrlView(viewModel: AddWebSiteViewModel(coordinator: coordinator,
                                                              whitelist: coordinator.whiteListStore))
+            case .quickGuide:
+                QuickGuideView(viewModel: QuickGuideViewModel(coordinator: coordinator))
             }
         }
     }
