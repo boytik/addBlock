@@ -12,6 +12,7 @@
 		3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B0852F30BB3500E5A056 /* Coordinator.swift */; };
 		3E25B1A72F30D45C00E5A056 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A62F30D45C00E5A056 /* RootView.swift */; };
 		3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */; };
+		3E33BD042F43823200A8BBD3 /* OnbordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E33BD032F43823200A8BBD3 /* OnbordingView.swift */; };
 		3E3FF8152F3A08B40090A937 /* WhiteListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */; };
 		3E3FF8172F3A08CC0090A937 /* WhiteListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */; };
 		3E3FF8952F3A2B8A0090A937 /* AddNewUrlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8932F3A2B8A0090A937 /* AddNewUrlView.swift */; };
@@ -21,6 +22,7 @@
 		3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */; };
 		3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */; };
 		3E6FC6442F33BB3B0068A4A5 /* AdblockSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3E85B4EE2F44820B001583D0 /* OnbordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85B4ED2F44820B001583D0 /* OnbordingViewModel.swift */; };
 		3EB5845D2F40B21C0035063F /* AdblockWebExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3EBA52FE2F42203100FEA819 /* ContentBlockerConverter in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBA52FD2F42203100FEA819 /* ContentBlockerConverter */; };
 		3EBA53042F42671D00FEA819 /* CustomRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53032F42671D00FEA819 /* CustomRule.swift */; };
@@ -74,6 +76,7 @@
 		3E25B0852F30BB3500E5A056 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3E25B1A62F30D45C00E5A056 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		3E25B1A82F30D81100E5A056 /* SettingsViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModal.swift; sourceTree = "<group>"; };
+		3E33BD032F43823200A8BBD3 /* OnbordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbordingView.swift; sourceTree = "<group>"; };
 		3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListStore.swift; sourceTree = "<group>"; };
 		3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListItem.swift; sourceTree = "<group>"; };
 		3E3FF8932F3A2B8A0090A937 /* AddNewUrlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUrlView.swift; sourceTree = "<group>"; };
@@ -84,6 +87,7 @@
 		3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListViewModel.swift; sourceTree = "<group>"; };
 		3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E6FC64B2F33BEDD0068A4A5 /* Adblock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Adblock.entitlements; sourceTree = "<group>"; };
+		3E85B4ED2F44820B001583D0 /* OnbordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbordingViewModel.swift; sourceTree = "<group>"; };
 		3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EBA53032F42671D00FEA819 /* CustomRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRule.swift; sourceTree = "<group>"; };
 		3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRulesStore.swift; sourceTree = "<group>"; };
@@ -223,6 +227,15 @@
 			path = WhiteList;
 			sourceTree = "<group>";
 		};
+		3E85B4EC2F4481FB001583D0 /* Onbording */ = {
+			isa = PBXGroup;
+			children = (
+				3E33BD032F43823200A8BBD3 /* OnbordingView.swift */,
+				3E85B4ED2F44820B001583D0 /* OnbordingViewModel.swift */,
+			);
+			path = Onbording;
+			sourceTree = "<group>";
+		};
 		3EC50F222F3497B30046D7C3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +305,7 @@
 		3ECB17BA2F2E270100B28404 /* MainTabs */ = {
 			isa = PBXGroup;
 			children = (
+				3E85B4EC2F4481FB001583D0 /* Onbording */,
 				3E25B1AA2F30DEC200E5A056 /* Quick Guide */,
 				3E25B1A52F30D43D00E5A056 /* Navigation */,
 				3ECB17BF2F2E273C00B28404 /* GeneralScreen */,
@@ -500,6 +514,7 @@
 				3ECB17BC2F2E271200B28404 /* GeneralView.swift in Sources */,
 				3ECB17BE2F2E272600B28404 /* CustomView.swift in Sources */,
 				3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */,
+				3E33BD042F43823200A8BBD3 /* OnbordingView.swift in Sources */,
 				3E1776F52F3E016600B28E8E /* ToggleKeys.swift in Sources */,
 				3E25B0862F30BB3500E5A056 /* Coordinator.swift in Sources */,
 				3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */,
@@ -511,6 +526,7 @@
 				3E3FF8972F3A2B930090A937 /* AddNewUrlViewModel.swift in Sources */,
 				3ECB17B62F2E26D900B28404 /* AdblockApp.swift in Sources */,
 				3E3FF8152F3A08B40090A937 /* WhiteListStore.swift in Sources */,
+				3E85B4EE2F44820B001583D0 /* OnbordingViewModel.swift in Sources */,
 				3E69A6C72F3C8F6C00C73985 /* EasyListParserModels.swift in Sources */,
 				3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */,
 				3EBA53062F42673A00FEA819 /* CustomRulesStore.swift in Sources */,

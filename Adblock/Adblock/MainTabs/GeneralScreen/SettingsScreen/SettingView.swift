@@ -17,23 +17,23 @@ struct SettingsView: View {
 
                 RowForSettings(iconName: "feedback",
                                titel: "Share feedback",
-                               action: {})
-                
+                               action: { viewModal.shareFeedback() })
+
                 RowForSettings(iconName: "rate",
                                titel: "Rate Our App",
-                               action: {})
-                
+                               action: { viewModal.rateApp() })
+
                 RowForSettings(iconName: "contact",
                                titel: "Contact Us",
-                               action: {})
-                
+                               action: { viewModal.contactUs() })
+
                 RowForSettings(iconName: "privacy",
                                titel: "Privacy Policy",
-                               action: {})
-                
+                               action: { viewModal.openPrivacyPolicy() })
+
                 RowForSettings(iconName: "terms",
                                titel: "Terms of Service",
-                               action: {})
+                               action: { viewModal.openTermsOfService() })
                 Spacer()
              
             }

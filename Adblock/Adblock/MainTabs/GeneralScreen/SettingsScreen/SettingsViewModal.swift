@@ -1,7 +1,6 @@
-
-
 import SwiftUI
 import Combine
+import StoreKit
 
 class SettingsViewModal: ObservableObject {
     
@@ -13,5 +12,38 @@ class SettingsViewModal: ObservableObject {
     
     func closeSettings() {
         coordinator.closeSettings()
+    }
+    
+    func shareFeedback() {
+        let email = "support@example.com"
+        let subject = "App Feedback"
+        if let url = URL(string: "mailto:\(email)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func rateApp() {
+        if let scene = UIApplication.shared.connectedScenes
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: scene)
+        }
+    }
+    
+    func contactUs() {
+        if let url = URL(string: "https://example.com/contact") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func openPrivacyPolicy() {
+        if let url = URL(string: "https://example.com/privacy") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    func openTermsOfService() {
+        if let url = URL(string: "https://example.com/terms") {
+            UIApplication.shared.open(url)
+        }
     }
 }
