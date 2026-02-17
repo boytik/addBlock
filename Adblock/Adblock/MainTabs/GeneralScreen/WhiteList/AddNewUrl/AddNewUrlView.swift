@@ -44,14 +44,14 @@ struct AddNewUrlView: View {
         HStack {
             Text("Add WebSite")
                 .font(.custom("Inter18pt-Bold", fixedSize: 20))
-                .foregroundColor(.red)
+                .foregroundColor(.white)
             
             Spacer()
             Button(action: {
                 viewModel.closeSheet()
             }) {
                 Text("Cancel")
-                    .font(.custom("Inter18pt-Medium", fixedSize: 14))
+                    .font(.custom("Inter18pt-Medium", fixedSize: 16))
                     .foregroundColor(.red)
             }
         }
@@ -79,16 +79,20 @@ struct AddNewUrlView: View {
                     .foregroundColor(.grayText)
                     .padding(.horizontal)
                 
-                TextField("", text: $viewModel.url, prompt:
-                    Text("https://youtube.com")
-                    .foregroundColor(Color("PlaceHolder"))
-                )
-                .foregroundColor(viewModel.showDuplicateError ? .red : .white)
-                .autocapitalization(.none)
-                .keyboardType(.URL)
-                .onChange(of: viewModel.url) { _ in
-                    viewModel.clearError()
+                ZStack(alignment: .leading) {
+                    if viewModel.url.isEmpty {
+                        Text("https://youtube.com")
+                            .foregroundColor(.gray)
+                    }
+                    TextField("", text: $viewModel.url)
+                        .foregroundColor(viewModel.showDuplicateError ? .red : .white)
+                        .autocapitalization(.none)
+                        .keyboardType(.URL)
+                        .onChange(of: viewModel.url) { _ in
+                            viewModel.clearError()
+                        }
                 }
+                .tint(.gray)
             }
             .frame(maxWidth: .infinity)
             .frame(height: 54)
@@ -134,19 +138,3 @@ struct AddNewUrlView: View {
     }
 }
 
-//// MARK: - Hex Color Extension
-//
-//extension Color {
-//    init(hex: String) {
-//        let hex = hex.trimmingCharacters(in: CharacterSet(charactersIn: "#"))
-//        let scanner = Scanner(string: hex)
-//        var rgbValue: UInt64 = 0
-//        scanner.scanHexInt64(&rgbValue)
-//        
-//        let r = Double((rgbValue & 0xFF0000) >> 16) / 255.0
-//        let g = Double((rgbValue & 0x00FF00) >> 8) / 255.0
-//        let b = Double(rgbValue & 0x0000FF) / 255.0
-//        
-//        self.init(red: r, green: g, blue: b)
-//    }
-//}

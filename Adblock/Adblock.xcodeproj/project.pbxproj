@@ -24,6 +24,8 @@
 		3E6FC6442F33BB3B0068A4A5 /* AdblockSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3E85B4EE2F44820B001583D0 /* OnbordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85B4ED2F44820B001583D0 /* OnbordingViewModel.swift */; };
 		3E85B4F02F4501D5001583D0 /* QuickGuideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85B4EF2F4501D5001583D0 /* QuickGuideViewModel.swift */; };
+		3E85B5832F451234001583D0 /* VisualBlockerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85B5822F451234001583D0 /* VisualBlockerView.swift */; };
+		3E85B5852F451240001583D0 /* VisualBlockerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85B5842F451240001583D0 /* VisualBlockerViewModel.swift */; };
 		3EB5845D2F40B21C0035063F /* AdblockWebExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3EBA52FE2F42203100FEA819 /* ContentBlockerConverter in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBA52FD2F42203100FEA819 /* ContentBlockerConverter */; };
 		3EBA53042F42671D00FEA819 /* CustomRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53032F42671D00FEA819 /* CustomRule.swift */; };
@@ -91,6 +93,8 @@
 		3E6FC64B2F33BEDD0068A4A5 /* Adblock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Adblock.entitlements; sourceTree = "<group>"; };
 		3E85B4ED2F44820B001583D0 /* OnbordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbordingViewModel.swift; sourceTree = "<group>"; };
 		3E85B4EF2F4501D5001583D0 /* QuickGuideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickGuideViewModel.swift; sourceTree = "<group>"; };
+		3E85B5822F451234001583D0 /* VisualBlockerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualBlockerView.swift; sourceTree = "<group>"; };
+		3E85B5842F451240001583D0 /* VisualBlockerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualBlockerViewModel.swift; sourceTree = "<group>"; };
 		3E9FDAA62F3F5454007E892B /* AdblockWebExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockWebExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EBA53032F42671D00FEA819 /* CustomRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRule.swift; sourceTree = "<group>"; };
 		3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRulesStore.swift; sourceTree = "<group>"; };
@@ -241,6 +245,15 @@
 			path = Onbording;
 			sourceTree = "<group>";
 		};
+		3E85B5812F451226001583D0 /* VisualBlocker */ = {
+			isa = PBXGroup;
+			children = (
+				3E85B5822F451234001583D0 /* VisualBlockerView.swift */,
+				3E85B5842F451240001583D0 /* VisualBlockerViewModel.swift */,
+			);
+			path = VisualBlocker;
+			sourceTree = "<group>";
+		};
 		3EC50F222F3497B30046D7C3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +324,7 @@
 		3ECB17BA2F2E270100B28404 /* MainTabs */ = {
 			isa = PBXGroup;
 			children = (
+				3E85B5812F451226001583D0 /* VisualBlocker */,
 				3E85B4EC2F4481FB001583D0 /* Onbording */,
 				3E25B1AA2F30DEC200E5A056 /* Quick Guide */,
 				3E25B1A52F30D43D00E5A056 /* Navigation */,
@@ -517,6 +531,7 @@
 			files = (
 				3EC50F272F349CFE0046D7C3 /* RulesService.swift in Sources */,
 				3EBA53042F42671D00FEA819 /* CustomRule.swift in Sources */,
+				3E85B5832F451234001583D0 /* VisualBlockerView.swift in Sources */,
 				3ECB17BC2F2E271200B28404 /* GeneralView.swift in Sources */,
 				3ECB17BE2F2E272600B28404 /* CustomView.swift in Sources */,
 				3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */,
@@ -539,6 +554,7 @@
 				3EBA53062F42673A00FEA819 /* CustomRulesStore.swift in Sources */,
 				3EBA53102F42674000FEA819 /* BlockedStatsStore.swift in Sources */,
 				3E3FF8952F3A2B8A0090A937 /* AddNewUrlView.swift in Sources */,
+				3E85B5852F451240001583D0 /* VisualBlockerViewModel.swift in Sources */,
 				3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */,
 				3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */,
 				3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */,

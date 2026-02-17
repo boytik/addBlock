@@ -1,5 +1,6 @@
 
 import SwiftUI
+import UIKit
 
 enum Screens {
     case general
@@ -9,6 +10,19 @@ enum Screens {
 struct TapBarView: View {
     @State private var selectedTab: Screens = .general
     @EnvironmentObject var coordinator: AppCoordinator
+
+    init() {
+        // Тёмный tab bar для версий до iOS 26, на 26 — системный
+        if #available(iOS 26.0, *) {
+            // iOS 26+ — не переопределяем
+        } else {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = .black
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
+    }
 
     var body: some View {
         ZStack {

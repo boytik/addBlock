@@ -10,7 +10,7 @@ class GeneralViewModel: ObservableObject {
     private let coordinator: CoordinatorProtocol
     
     @Published var selectedRange: TimeRange = .today
-    @Published var isWorking: Bool = true
+    @Published var isWorking: Bool = false
     //Info About Work
     @Published var adsBlockedCount: Int = 0
     @Published var trackersBlokedCount: Int = 0
@@ -114,8 +114,8 @@ class GeneralViewModel: ObservableObject {
     private func loadState() {
         let defaults = UserDefaults(suiteName: "group.test.com.adblock")
         
-        // При первом входе (ключей нет) — все тоглы включены (true)
-        isWorking = defaults?.object(forKey: Keys.isWorking) as? Bool ?? true
+        // При первом входе — главная кнопка выключена, остальные тоглы включены
+        isWorking = defaults?.object(forKey: Keys.isWorking) as? Bool ?? false
         isBlockAds = defaults?.object(forKey: Keys.blockAds) as? Bool ?? true
         isBlockTrackers = defaults?.object(forKey: Keys.blockTrackers) as? Bool ?? true
         isAntiAdblokKiller = defaults?.object(forKey: Keys.antiAdblock) as? Bool ?? true
