@@ -14,7 +14,8 @@ class QuickGuideViewModel: ObservableObject {
     }
     
     func openSettings() {
-        if let url = URL(string: UIApplication.openSettingsURLString) {
+        // Открываем настройки Safari, а не приложения
+        if let url = URL(string: "App-Prefs:Safari") {
             UIApplication.shared.open(url)
         }
     }

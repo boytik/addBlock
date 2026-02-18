@@ -1,16 +1,20 @@
 
 import SwiftUI
 import Combine
+import SafariServices
 
 
 class GeneralViewModel: ObservableObject {
     
+    private static let blockerID = "test.com.adblock.blocker"
    
     //MARK: Properties
     private let coordinator: CoordinatorProtocol
     
     @Published var selectedRange: TimeRange = .today
     @Published var isWorking: Bool = false
+    /// Content Blocker (AdblockSafariExtension) включён в настройках Safari
+    @Published var isExtensionEnabled: Bool = false
     //Info About Work
     @Published var adsBlockedCount: Int = 0
     @Published var trackersBlokedCount: Int = 0
@@ -47,6 +51,21 @@ class GeneralViewModel: ObservableObject {
             .assign(to: &$isUpdatingRules)
         bindBlockedCountToRange()
         loadBlockedCount()
+        loadExtensionState()
+    }
+    
+    /// Загружает фактическое состояние Content Blocker в настройках Safari
+    func loadExtensionState() {
+        SFContentBlockerManager.getStateOfContentBlocker(withIdentifier: Self.blockerID) { [weak self] state, _ in
+            DispatchQueue.main.async {
+                self?.isExtensionEnabled = state?.isEnabled ?? false
+            }
+        }
+    }
+    
+    /// Content Blocker включён в настройках Safari
+    var areExtensionsEnabled: Bool {
+        isExtensionEnabled
     }
     //Создаем конфиг
     func makeConfig() -> ContentBlockerConfig {
@@ -71,6 +90,21 @@ class GeneralViewModel: ObservableObject {
                 self?.loadBlockedCount()
             }
             .store(in: &cancellables)
+    }
+    
+    func didTapMainButton() {
+        SFContentBlockerManager.getStateOfContentBlocker(withIdentifier: Self.blockerID) { [weak self] blockerState, _ in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                let blockerOn = blockerState?.isEnabled ?? false
+                self.isExtensionEnabled = blockerOn
+                if blockerOn {
+                    self.toggleProtection()
+                } else {
+                    self.coordinator.openQuickGuide()
+                }
+            }
+        }
     }
     
     func toggleProtection() {
@@ -115,7 +149,7 @@ class GeneralViewModel: ObservableObject {
         let defaults = UserDefaults(suiteName: "group.test.com.adblock")
         
         // При первом входе — главная кнопка выключена, остальные тоглы включены
-        isWorking = defaults?.object(forKey: Keys.isWorking) as? Bool ?? false
+        isWorking = defaults?.bool(forKey: Keys.isWorking) ?? false
         isBlockAds = defaults?.object(forKey: Keys.blockAds) as? Bool ?? true
         isBlockTrackers = defaults?.object(forKey: Keys.blockTrackers) as? Bool ?? true
         isAntiAdblokKiller = defaults?.object(forKey: Keys.antiAdblock) as? Bool ?? true

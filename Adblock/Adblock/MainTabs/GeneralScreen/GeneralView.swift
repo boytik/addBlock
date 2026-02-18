@@ -49,8 +49,8 @@ struct GeneralView: View {
             }
         }
         .onAppear {
-            print("Появвился")
             viewModel.loadBlockedCount()
+            viewModel.loadExtensionState()
         }
     }
     //MARK: Header
@@ -92,12 +92,12 @@ struct GeneralView: View {
     private var mainButton: some View {
         Button(action: {
             withAnimation(.easeInOut(duration: 0.25)) {
-                viewModel.toggleProtection()
-               }
+                viewModel.didTapMainButton()
+            }
         }) {
             ZStack {
                 Circle()
-                    .fill(viewModel.isWorking ? Color("AccentColor") : Color("BgForBut"))
+                    .fill(viewModel.isWorking && viewModel.areExtensionsEnabled ? Color("AccentColor") : Color("BgForBut"))
                     .frame(width: 192, height: 192)
                     .scaleEffect(isPulsing ? 1.03 : 1.0)
                     .shadow(
@@ -107,10 +107,10 @@ struct GeneralView: View {
                 
                         .shadow(
                             color: Color("AccentColor").opacity(0.4),
-                            radius: viewModel.isWorking ? 80 : 0
+                            radius: viewModel.isWorking && viewModel.areExtensionsEnabled ? 80 : 0
                         )
                         .animation(
-                                    viewModel.isWorking
+                                    viewModel.isWorking && viewModel.areExtensionsEnabled
                                     ? .easeInOut(duration: 1.2).repeatForever(autoreverses: true)
                                     : .default,
                                     value: isPulsing
@@ -123,9 +123,12 @@ struct GeneralView: View {
                     .foregroundStyle(.white)
             }
             .disabled(viewModel.isUpdatingRules)
-            .onChange(of: viewModel.isWorking, perform: { isOn in
-                isPulsing = isOn
-            })
+            .onChange(of: viewModel.isWorking) { newValue in
+                isPulsing = newValue && viewModel.areExtensionsEnabled
+            }
+            .onChange(of: viewModel.isExtensionEnabled) { newValue in
+                isPulsing = viewModel.isWorking && viewModel.areExtensionsEnabled
+            }
             .overlay {
                 if viewModel.isUpdatingRules {
                     ProgressView()
@@ -138,12 +141,12 @@ struct GeneralView: View {
     //MARK: Titels Under Button
     private var titelsUnderButton: some View {
         Group {
-            Text(viewModel.isWorking ? "Protection Active" : "Protection Inactive")
+            Text(viewModel.isWorking && viewModel.areExtensionsEnabled ? "Protection Active" : "Protection Inactive")
                 .font(.custom("Inter18pt-Bold", size: 30))
                 .foregroundStyle(.white)
             
             Text(
-                viewModel.isWorking
+                viewModel.isWorking && viewModel.areExtensionsEnabled
                 ? "Your device is secure from ads & trackers."
                 : "Your device is not secure from ads & trackers."
             )

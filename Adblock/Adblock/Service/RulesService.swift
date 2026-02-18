@@ -153,7 +153,10 @@ final class RulesService {
         defer { isUpdating = false }
 
         guard config.isEnabled else {
-            let result = await writeAndReload(json: "[]", rulesCount: 0)
+            // Пустой массив [] иногда вызывает сбой reload. Используем минимальное правило (ignore-previous-rules),
+            // которое не блокирует ничего, но позволяет reload пройти успешно.
+            let emptyRulesJSON = #"[{"action":{"type":"ignore-previous-rules"},"trigger":{"url-filter":".*"}}]"#
+            let result = await writeAndReload(json: emptyRulesJSON, rulesCount: 1)
             if result.success { saveHash(hash, rulesCount: 0) }
             return result
         }
@@ -356,6 +359,7 @@ final class RulesService {
             return RulesUpdateResult(success: false, rulesCount: 0, jsonSize: 0, errors: ["JSON write failed: \(error.localizedDescription)"])
         }
 
+        print("[Обновляем правила] - отправлено \(rulesCount) правил")
         var reloadSuccess = false
         for attempt in 0 ..< 3 {
             if attempt > 0 {
@@ -380,8 +384,9 @@ final class RulesService {
         await withCheckedContinuation { continuation in
             SFContentBlockerManager.reloadContentBlocker(withIdentifier: blockerID) { error in
                 if let error {
-                    print("[RulesService] Reload error: \(error.localizedDescription)")
+                    print("ОШИБКА ПЕРЕЗАГРУЗКИ ПРАВИЛ")
                 }
+                print("Правила обновились")
                 continuation.resume(returning: error == nil)
             }
         }
