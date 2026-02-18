@@ -12,6 +12,7 @@ class CstomViewModel: ObservableObject {
     @Published private(set) var activeRules: [CustomRule] = []
     @Published private(set) var inactiveRules: [CustomRule] = []
     @Published var showAddCustomRule: Bool = false
+    @Published var editingRule: CustomRule? = nil
 
     init(coordinator: CoordinatorProtocol,
          customRulesStore: CustomRulesStore,
@@ -83,10 +84,17 @@ class CstomViewModel: ObservableObject {
     }
 
     func openAddCustomRule() {
+        editingRule = nil
+        showAddCustomRule = true
+    }
+    
+    func openEditRule(_ rule: CustomRule) {
+        editingRule = rule
         showAddCustomRule = true
     }
     
     func dismissAddCustomRule() {
         showAddCustomRule = false
+        editingRule = nil
     }
 }

@@ -14,6 +14,7 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     @Published var sheet: Sheet?
     
     let customRulesStore = CustomRulesStore()
+    let domainActivityStore = DomainActivityStore()
     lazy var ruleService = RulesService(customRulesStore: customRulesStore)
     private let whiteList = WhiteListStore()
     var whiteListStore: WhiteListStore { whiteList }
@@ -73,6 +74,7 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
                 coordinator: self,
                 customRulesStore: customRulesStore,
                 ruleService: ruleService,
+                domainActivityStore: domainActivityStore,
                 configProvider: customRuleConfigProvider,
                 onDismiss: { self.route = nil }
             ))
@@ -81,6 +83,8 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
                                                         whiteListStore: whiteList))
         case .quickGuide:
             QuickGuideView(viewModel: QuickGuideViewModel(coordinator: self))
+        case .visualBlocker:
+            VisualBlockerView(viewModel: VisualBlockerViewModel(coordinator: self))
         }
     }
     
@@ -132,6 +136,15 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     func closeQuickGuide() {
         route = nil
     }
+    
+    // Visual Blocker
+    func openVisualBlocker() {
+        route = .visualBlocker
+    }
+    
+    func closeVisualBlocker() {
+        route = nil
+    }
 }
 //MARK: Contract
 protocol CoordinatorProtocol: AnyObject {
@@ -151,7 +164,8 @@ protocol CoordinatorProtocol: AnyObject {
     func openQuickGuide()
     func closeQuickGuide()
     
-    
+    func openVisualBlocker()
+    func closeVisualBlocker()
 }
 
 //MARK: Screens
@@ -162,7 +176,8 @@ enum Route: Identifiable {
     case custom
     case addCustom
     case whiteList
-    case quickGuide  // ← add this
+    case quickGuide
+    case visualBlocker
 }
 
 //MARK: Sheets

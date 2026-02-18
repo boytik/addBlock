@@ -28,7 +28,8 @@ struct CustomView: View {
                                 subtitle: viewModel.subtitle(for: rule),
                                 isEnabled: true,
                                 onToggle: { viewModel.toggleRule(rule) },
-                                onDelete: { viewModel.deleteRule(rule) }
+                                onDelete: { viewModel.deleteRule(rule) },
+                                onTap: { viewModel.openEditRule(rule) }
                             )
                         }
                     }
@@ -43,7 +44,8 @@ struct CustomView: View {
                                 subtitle: "Paused",
                                 isEnabled: false,
                                 onToggle: { viewModel.toggleRule(rule) },
-                                onDelete: { viewModel.deleteRule(rule) }
+                                onDelete: { viewModel.deleteRule(rule) },
+                                onTap: { viewModel.openEditRule(rule) }
                             )
                         }
                     }
@@ -63,8 +65,10 @@ struct CustomView: View {
                 coordinator: coordinator,
                 customRulesStore: coordinator.customRulesStore,
                 ruleService: coordinator.ruleService,
+                domainActivityStore: coordinator.domainActivityStore,
                 configProvider: coordinator.customRuleConfigProvider,
-                onDismiss: { viewModel.dismissAddCustomRule() }
+                onDismiss: { viewModel.dismissAddCustomRule() },
+                editingRule: viewModel.editingRule
             ))
         }
     }
@@ -73,15 +77,25 @@ struct CustomView: View {
 
     private var header: some View {
         HStack {
-            Image("CustomTab")
-                .foregroundStyle(.grayText)
-
+            Button(action: {
+                coordinator.openVisualBlocker()
+            }) {
+                ZStack {
+                    Circle()
+                        .fill(Color("BgForBut"))
+                        .frame(width: 40, height: 40)
+                    Image(systemName: "questionmark.circle")
+                        .foregroundStyle(.white)
+                        .frame(width: 40, height: 40)
+                }
+            }
+            
             Spacer()
             Text("Custom Rules")
                 .font(.custom("Inter18pt-Bold", size: 18))
                 .foregroundStyle(.white)
             Spacer()
-
+            
             Button(action: {
                 viewModel.openAddCustomRule()
             }) {
@@ -150,42 +164,49 @@ struct CustomRuleRow: View {
     let isEnabled: Bool
     let onToggle: () -> Void
     let onDelete: () -> Void
+    let onTap: () -> Void
 
     @State private var toggleState: Bool
 
     init(domain: String, subtitle: String, isEnabled: Bool,
-         onToggle: @escaping () -> Void, onDelete: @escaping () -> Void) {
+         onToggle: @escaping () -> Void, onDelete: @escaping () -> Void,
+         onTap: @escaping () -> Void = {}) {
         self.domain = domain
         self.subtitle = subtitle
         self.isEnabled = isEnabled
         self.onToggle = onToggle
         self.onDelete = onDelete
+        self.onTap = onTap
         self._toggleState = State(initialValue: isEnabled)
     }
 
     var body: some View {
         HStack {
-            // Иконка домена (первая буква)
-            ZStack {
-                Circle()
-                    .fill(isEnabled ? Color.red.opacity(0.2) : Color.gray.opacity(0.2))
-                    .frame(width: 40, height: 40)
-                Text(String(domain.prefix(1)).uppercased())
-                    .font(.custom("Inter18pt-Bold", size: 16))
-                    .foregroundColor(isEnabled ? .red : .grayText)
-            }
-            .padding(.leading)
+            Button(action: onTap) {
+                HStack {
+                    // Иконка домена (первая буква)
+                    ZStack {
+                        Circle()
+                            .fill(isEnabled ? Color.red.opacity(0.2) : Color.gray.opacity(0.2))
+                            .frame(width: 40, height: 40)
+                        Text(String(domain.prefix(1)).uppercased())
+                            .font(.custom("Inter18pt-Bold", size: 16))
+                            .foregroundColor(isEnabled ? .red : .grayText)
+                    }
+                    .padding(.leading)
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text(domain)
-                    .font(.custom("Inter18pt-SemiBold", size: 16))
-                    .foregroundStyle(isEnabled ? .white : .grayText)
-                Text(subtitle)
-                    .font(.custom("Inter18pt-Regular", size: 12))
-                    .foregroundStyle(.grayText)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(domain)
+                            .font(.custom("Inter18pt-SemiBold", size: 16))
+                            .foregroundStyle(isEnabled ? .white : .grayText)
+                        Text(subtitle)
+                            .font(.custom("Inter18pt-Regular", size: 12))
+                            .foregroundStyle(.grayText)
+                    }
+                    Spacer(minLength: 0)
+                }
             }
-
-            Spacer()
+            .buttonStyle(.plain)
 
             Toggle("", isOn: $toggleState)
                 .labelsHidden()

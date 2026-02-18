@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct VisualBlockerView: View {
+    @StateObject var viewModel: VisualBlockerViewModel
+    
+    init(viewModel: VisualBlockerViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
     var body: some View {
         ZStack {
             Color(red: 0.12, green: 0.02, blue: 0.02)
@@ -27,7 +33,9 @@ struct VisualBlockerView: View {
                     Image("V2")
                     Image("V3")
                     Image("V4")
-                    Button(action: {}) {
+                    Button(action: {
+                        viewModel.openSafariTutorial()
+                    }) {
                         HStack {
                             Text("Open Safari Tutorial")
                                 .font(.custom("Inter18pt-Bold", size: 18))
@@ -48,14 +56,15 @@ struct VisualBlockerView: View {
     private var header: some View {
         HStack {
             Button(action: {
-                
+                viewModel.close()
             }) {
                 Image(systemName: "xmark")
+                    .foregroundStyle(.white)
             }
             Spacer()
         }
-        .overlay{
-            Text("Add Custom Rule")
+        .overlay {
+            Text("Visual Blocker")
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
@@ -64,5 +73,5 @@ struct VisualBlockerView: View {
 
 }
 #Preview {
-    VisualBlockerView()
+    VisualBlockerView(viewModel: VisualBlockerViewModel(coordinator: AppCoordinator()))
 }

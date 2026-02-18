@@ -24,8 +24,14 @@ struct AddCustomRule: View {
                     domainAvtivity
                         .padding(.vertical)
 
-                    if viewModel.isEmptyData {
-                        Image("EmptyData")
+                    if viewModel.isEditMode {
+                        if viewModel.isEmptyData {
+                            Image("EmptyData")
+                                .padding(.top, 8)
+                        } else {
+                            DomainActivityChart(values: viewModel.chartData)
+                                .padding(.top, 8)
+                        }
                     }
 
                     Spacer()
@@ -53,7 +59,7 @@ struct AddCustomRule: View {
             Spacer()
         }
         .overlay {
-            Text("Add Custom Rule")
+            Text(viewModel.isEditMode ? "Edit Custom Rule" : "Add Custom Rule")
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
@@ -149,33 +155,39 @@ struct AddCustomRule: View {
         }
     }
 
-    // MARK: - Domain Activity
+    // MARK: - Domain Activity (только в режиме редактирования)
 
     private var domainAvtivity: some View {
-        HStack {
-            Text("Domain Activity")
-                .font(.custom("Inter18pt-SemiBold", size: 14))
-                .foregroundStyle(.white)
-            Spacer()
+        Group {
+            if viewModel.isEditMode {
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack {
+                        Text("Domain Activity")
+                            .font(.custom("Inter18pt-SemiBold", size: 14))
+                            .foregroundStyle(.white)
+                        Spacer()
 
-            Menu {
-                Button("Last 24h") {
-                    viewModel.selectDateRange(.lastDay)
-                }
-                Button("Last week") {
-                    viewModel.selectDateRange(.lastWeek)
-                }
-                Button("Last month") {
-                    viewModel.selectDateRange(.lastMonth)
-                }
-            } label: {
-                HStack(spacing: 4) {
-                    Text(viewModel.rangeOfDates.rawValue)
-                        .font(.custom("Inter18pt-Regular", size: 12))
-                        .foregroundStyle(.grayText)
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundStyle(.grayText)
+                        Menu {
+                            Button("Last 24h") {
+                                viewModel.selectDateRange(.lastDay)
+                            }
+                            Button("Last week") {
+                                viewModel.selectDateRange(.lastWeek)
+                            }
+                            Button("Last month") {
+                                viewModel.selectDateRange(.lastMonth)
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Text(viewModel.rangeOfDates.rawValue)
+                                    .font(.custom("Inter18pt-Regular", size: 12))
+                                    .foregroundStyle(.grayText)
+                                Image(systemName: "chevron.down")
+                                    .font(.system(size: 10, weight: .medium))
+                                    .foregroundStyle(.grayText)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -231,6 +243,7 @@ private struct RowForBloking: View {
                     .foregroundStyle(.white)
                 Text(subTitel)
                     .font(.custom("Inter18pt-Regular", size: 12))
+                    .foregroundColor(.grayText)
             }
             Spacer()
             Toggle("", isOn: $isOn)

@@ -31,6 +31,9 @@
 		3EBA53042F42671D00FEA819 /* CustomRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53032F42671D00FEA819 /* CustomRule.swift */; };
 		3EBA53062F42673A00FEA819 /* CustomRulesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */; };
 		3EBA53102F42674000FEA819 /* BlockedStatsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */; };
+		3EBA53112F42674100FEA819 /* DomainActivityPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53132F42674100FEA819 /* DomainActivityPoint.swift */; };
+		3EBA53122F42674200FEA819 /* DomainActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53142F42674200FEA819 /* DomainActivityStore.swift */; };
+		3EFB88A62F2FCB3B0088623E /* DomainActivityChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB88A72F2FCB3B0088623E /* DomainActivityChart.swift */; };
 		3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F232F3497C30046D7C3 /* BlockingAction.swift */; };
 		3EC50F272F349CFE0046D7C3 /* RulesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F262F349CFE0046D7C3 /* RulesService.swift */; };
 		3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */; };
@@ -99,6 +102,9 @@
 		3EBA53032F42671D00FEA819 /* CustomRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRule.swift; sourceTree = "<group>"; };
 		3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRulesStore.swift; sourceTree = "<group>"; };
 		3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedStatsStore.swift; sourceTree = "<group>"; };
+		3EBA53132F42674100FEA819 /* DomainActivityPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityPoint.swift; sourceTree = "<group>"; };
+		3EBA53142F42674200FEA819 /* DomainActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityStore.swift; sourceTree = "<group>"; };
+		3EFB88A72F2FCB3B0088623E /* DomainActivityChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityChart.swift; sourceTree = "<group>"; };
 		3EC50F232F3497C30046D7C3 /* BlockingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingAction.swift; sourceTree = "<group>"; };
 		3EC50F262F349CFE0046D7C3 /* RulesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesService.swift; sourceTree = "<group>"; };
 		3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlockerConfig.swift; sourceTree = "<group>"; };
@@ -259,6 +265,7 @@
 			children = (
 				3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */,
 				3EBA53032F42671D00FEA819 /* CustomRule.swift */,
+				3EBA53132F42674100FEA819 /* DomainActivityPoint.swift */,
 				3E1776F42F3E016600B28E8E /* ToggleKeys.swift */,
 				3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */,
 				3EC50F232F3497C30046D7C3 /* BlockingAction.swift */,
@@ -274,6 +281,7 @@
 				3EC50F262F349CFE0046D7C3 /* RulesService.swift */,
 				3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */,
 				3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */,
+				3EBA53142F42674200FEA819 /* DomainActivityStore.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -352,6 +360,7 @@
 				3ECB17BD2F2E272600B28404 /* CustomView.swift */,
 				3EFB88A22F2F7DB90088623E /* AddCustomRule.swift */,
 				3EFB88A42F2FCB3A0088623E /* AddCustomRuleViewModel.swift */,
+				3EFB88A72F2FCB3B0088623E /* DomainActivityChart.swift */,
 			);
 			path = CustomScreen;
 			sourceTree = "<group>";
@@ -557,6 +566,9 @@
 				3E85B5852F451240001583D0 /* VisualBlockerViewModel.swift in Sources */,
 				3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */,
 				3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */,
+				3EFB88A62F2FCB3B0088623E /* DomainActivityChart.swift in Sources */,
+				3EBA53112F42674100FEA819 /* DomainActivityPoint.swift in Sources */,
+				3EBA53122F42674200FEA819 /* DomainActivityStore.swift in Sources */,
 				3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */,
 				3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */,
 				3EFB88A52F2FCB3A0088623E /* AddCustomRuleViewModel.swift in Sources */,

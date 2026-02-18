@@ -8,6 +8,8 @@ struct CustomRule: Codable, Identifiable, Equatable {
     var antiAdblock: Bool
     var hideElements: Bool
     var isEnabled: Bool
+    /// Дата создания правила. nil для старых правил (миграция).
+    var createdAt: Date?
 
     init(id: UUID = UUID(),
          domain: String,
@@ -15,7 +17,8 @@ struct CustomRule: Codable, Identifiable, Equatable {
          blockTrackers: Bool = false,
          antiAdblock: Bool = false,
          hideElements: Bool = false,
-         isEnabled: Bool = true) {
+         isEnabled: Bool = true,
+         createdAt: Date? = nil) {
         self.id = id
         self.domain = domain
         self.blockAds = blockAds
@@ -23,5 +26,6 @@ struct CustomRule: Codable, Identifiable, Equatable {
         self.antiAdblock = antiAdblock
         self.hideElements = hideElements
         self.isEnabled = isEnabled
+        self.createdAt = createdAt
     }
 }

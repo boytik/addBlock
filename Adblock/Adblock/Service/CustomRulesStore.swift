@@ -27,7 +27,8 @@ final class CustomRulesStore: ObservableObject {
             blockTrackers: rule.blockTrackers,
             antiAdblock: rule.antiAdblock,
             hideElements: rule.hideElements,
-            isEnabled: rule.isEnabled
+            isEnabled: rule.isEnabled,
+            createdAt: Date()
         )
         rules.append(newRule)
         persist()
@@ -37,14 +38,17 @@ final class CustomRulesStore: ObservableObject {
     /// Обновляет правило по существующему ID (сохраняет id)
     func update(withId id: UUID, rule: CustomRule) {
         guard let index = rules.firstIndex(where: { $0.id == id }) else { return }
+        let domain = normalizeDomain(rule.domain)
+        let existing = rules[index]
         rules[index] = CustomRule(
             id: id,
-            domain: rule.domain,
+            domain: domain,
             blockAds: rule.blockAds,
             blockTrackers: rule.blockTrackers,
             antiAdblock: rule.antiAdblock,
             hideElements: rule.hideElements,
-            isEnabled: rule.isEnabled
+            isEnabled: rule.isEnabled,
+            createdAt: existing.createdAt
         )
         persist()
     }
@@ -59,9 +63,9 @@ final class CustomRulesStore: ObservableObject {
         persist()
     }
 
-    func contains(domain: String) -> Bool {
+    func contains(domain: String, excludingId: UUID? = nil) -> Bool {
         let normalized = normalizeDomain(domain)
-        return rules.contains { $0.domain == normalized }
+        return rules.contains { $0.domain == normalized && $0.id != excludingId }
     }
 
     // MARK: - Generate filter lines for RulesService
