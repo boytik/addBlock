@@ -59,7 +59,7 @@ struct AddCustomRule: View {
             Spacer()
         }
         .overlay {
-            Text(viewModel.isEditMode ? "Edit Custom Rule" : "Add Custom Rule")
+            Text(viewModel.isEditMode ? "Edit Custom Rule".localized : "Add Custom Rule".localized)
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
@@ -70,13 +70,13 @@ struct AddCustomRule: View {
     private var inputTextField: some View {
         VStack(spacing: 6) {
             HStack {
-                Text("Target Website")
+                Text("Target Website".localized)
                     .font(.custom("Inter18pt-SemiBold", size: 14))
                     .foregroundStyle(.white)
                     .padding(.vertical)
 
                 if viewModel.showDuplicateError {
-                    Text("— rule for this domain already exists")
+                    Text("— rule for this domain already exists".localized)
                         .font(.custom("Inter18pt-Medium", size: 12))
                         .foregroundColor(.red)
                         .transition(.opacity)
@@ -89,7 +89,7 @@ struct AddCustomRule: View {
                     .padding(.leading)
                 ZStack(alignment: .leading) {
                     if viewModel.tagetWeb.isEmpty {
-                        Text("e.g., youtube.com")
+                        Text("e.g., youtube.com".localized)
                             .foregroundColor(Color("PlaceHolder"))
                     }
                     TextField("", text: $viewModel.tagetWeb)
@@ -109,7 +109,7 @@ struct AddCustomRule: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
 
             HStack {
-                Text("Rule applies to this domain and all its subdomains.")
+                Text("Rule applies to this domain and all its subdomains.".localized)
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundStyle(.grayText)
                 Spacer()
@@ -122,7 +122,7 @@ struct AddCustomRule: View {
     private var blockingSetting: some View {
         VStack {
             HStack {
-                Text("Blocking Options")
+                Text("Blocking Options".localized)
                     .font(.custom("Inter18pt-SemiBold", size: 14))
                     .foregroundStyle(.grayText)
                     .padding(.vertical)
@@ -130,24 +130,24 @@ struct AddCustomRule: View {
             }
             VStack {
                 RowForBloking(imageName: "block",
-                              titel: "Block Ads",
+                              titel: "Block Ads".localized,
                               bgForIcon: "redWithAlpha",
-                              subTitel: "Removes banner and video ads",
+                              subTitel: "Removes banner and video ads".localized,
                               isOn: $viewModel.blockAds)
                 RowForBloking(imageName: "Eye",
-                              titel: "Block Trackers",
+                              titel: "Block Trackers".localized,
                               bgForIcon: "redWithAlpha",
-                              subTitel: "Stops analytics & data collection",
+                              subTitel: "Stops analytics & data collection".localized,
                               isOn: $viewModel.blockTrackers)
                 RowForBloking(imageName: "orangeShield",
-                              titel: "Anti-Adblock Killer",
+                              titel: "Anti-Adblock Killer".localized,
                               bgForIcon: "orangeWithAlpha",
-                              subTitel: "Bypasses Disable Adblock popups",
+                              subTitel: "Bypasses Disable Adblock popups".localized,
                               isOn: $viewModel.antiAdblockKiller)
                 RowForBloking(imageName: "MagicWand",
-                              titel: "Hide Elements",
+                              titel: "Hide Elements".localized,
                               bgForIcon: "blueWithAlpha",
-                              subTitel: "Social widgets, comments, footers",
+                              subTitel: "Social widgets, comments, footers".localized,
                               isOn: $viewModel.hideElements)
             }
             .background(RoundedRectangle(cornerRadius: 24))
@@ -162,19 +162,19 @@ struct AddCustomRule: View {
             if viewModel.isEditMode {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
-                        Text("Domain Activity")
+                        Text("Domain Activity".localized)
                             .font(.custom("Inter18pt-SemiBold", size: 14))
                             .foregroundStyle(.white)
                         Spacer()
 
                         Menu {
-                            Button("Last 24h") {
+                            Button("Last 24h".localized) {
                                 viewModel.selectDateRange(.lastDay)
                             }
-                            Button("Last week") {
+                            Button("Last week".localized) {
                                 viewModel.selectDateRange(.lastWeek)
                             }
-                            Button("Last month") {
+                            Button("Last month".localized) {
                                 viewModel.selectDateRange(.lastMonth)
                             }
                         } label: {
@@ -204,7 +204,7 @@ struct AddCustomRule: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 } else {
-                    Text("Save Rule")
+                    Text("Save Rule".localized)
                         .font(.custom("Inter18pt-SemiBold", size: 16))
                         .foregroundColor(.white)
                 }

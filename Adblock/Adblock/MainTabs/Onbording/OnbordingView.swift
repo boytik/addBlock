@@ -36,11 +36,11 @@ struct OnbordingView: View {
         VStack(alignment: .center) {
             Spacer()
             VStack(spacing: 12) {
-                Text("Ad Blocker \nNo Ads & Trackers")
+                Text("Ad Blocker \nNo Ads & Trackers".localized)
                     .font(.custom("Inter18pt-Bold", size: 32))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                Text(" Easily navigate your TV with your phone \nUse the touchpad for fast, smooth control")
+                Text(" Easily navigate your TV with your phone \nUse the touchpad for fast, smooth control".localized)
                     .font(.custom("Inter18pt-Medium", size: 14))
                     .foregroundColor(.grayText)
                     .multilineTextAlignment(.center)
@@ -63,14 +63,14 @@ struct OnbordingView: View {
                     Button(action: {
                         viewModel.openTermsOfService()
                     }) {
-                        Text("Terms of use")
+                        Text("Terms of use".localized)
                             .font(.custom("Inter18pt-Regular", size: 14))
                             .foregroundColor(.grayText)
                     }
                     Button(action: {
                         viewModel.openPrivacyPolicy()
                     }) {
-                        Text("Privacy Policy")
+                        Text("Privacy Policy".localized)
                             .font(.custom("Inter18pt-Regular", size: 14))
                             .foregroundColor(.grayText)
                     }

@@ -27,15 +27,15 @@ struct GeneralView: View {
                         .padding(.vertical)
                     
                     HStack(spacing: 16) {
-                        ReusableCardView(titel: "ADS BLOCKED",
+                        ReusableCardView(titel: "ADS BLOCKED".localized,
                                          currentCount: viewModel.adsBlockedCount,
                                          icon: "nosign")
-                        ReusableCardView(titel: "TRACKERS",
+                        ReusableCardView(titel: "TRACKERS".localized,
                                          currentCount: viewModel.trackersBlokedCount,
                                          icon: "eye.slash.fill")
                     }
                     HStack {
-                        Text("GLOBAL PROTECTION RULES")
+                        Text("GLOBAL PROTECTION RULES".localized)
                             .font(.custom("Inter18pt-Bold", size: 12))
                             .foregroundStyle(.grayText)
                             .padding(.top)
@@ -81,7 +81,7 @@ struct GeneralView: View {
             .padding(.trailing)
         }
         .overlay {
-            Text("AdBlocker")
+            Text("AdBlocker".localized)
                 .font(.custom("Inter18pt-Bold", size: 20))
                 .tracking(-0.5)
                 .foregroundStyle(.white)
@@ -141,14 +141,14 @@ struct GeneralView: View {
     //MARK: Titels Under Button
     private var titelsUnderButton: some View {
         Group {
-            Text(viewModel.isWorking && viewModel.areExtensionsEnabled ? "Protection Active" : "Protection Inactive")
+            Text(viewModel.isWorking && viewModel.areExtensionsEnabled ? "Protection Active".localized : "Protection Inactive".localized)
                 .font(.custom("Inter18pt-Bold", size: 30))
                 .foregroundStyle(.white)
             
             Text(
                 viewModel.isWorking && viewModel.areExtensionsEnabled
-                ? "Your device is secure from ads & trackers."
-                : "Your device is not secure from ads & trackers."
+                ? "Your device is secure from ads & trackers.".localized
+                : "Your device is not secure from ads & trackers.".localized
             )
             .font(.custom("Inter18pt-Regular", size: 14))
             .foregroundStyle(.grayText)
@@ -190,22 +190,22 @@ struct GeneralView: View {
         VStack {
             ProtectionRowView(
                 imageName: "phone",
-                title: "Block Ads",
-                subtitle: "Web & In-app banners",
+                title: "Block Ads".localized,
+                subtitle: "Web & In-app banners".localized,
                 isOn: $viewModel.isBlockAds
             )
             
             ProtectionRowView(
                 imageName: "finger",
-                title: "Block Trackers",
-                subtitle: "Prevent user profiling",
+                title: "Block Trackers".localized,
+                subtitle: "Prevent user profiling".localized,
                 isOn: $viewModel.isBlockTrackers
             )
             
             ProtectionRowView(
                 imageName: "bones",
-                title: "Anti-Adblock killer",
-                subtitle: "Avoid detection scripts",
+                title: "Anti-Adblock killer".localized,
+                subtitle: "Avoid detection scripts".localized,
                 isOn: $viewModel.isAntiAdblokKiller
             )
             whiteList
@@ -222,11 +222,11 @@ struct GeneralView: View {
                 .foregroundStyle(.accent)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("WhiteList")
+                Text("WhiteList".localized)
                     .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundStyle(.white)
 
-                Text("Avoid detections scripts")
+                Text("Avoid detections scripts".localized)
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundStyle(.grayText)
             }

@@ -1,0 +1,100 @@
+
+
+// MARK: - General
+"AdBlocker" = "AdBlocker";
+"Settings" = "Settings";
+"Custom Rules" = "Custom Rules";
+"Add Custom Rule" = "Add Custom Rule";
+"Edit Custom Rule" = "Edit Custom Rule";
+"Save Rule" = "Save Rule";
+"Delete Rule" = "Delete Rule";
+"Cancel" = "Cancel";
+
+// MARK: - General View
+"Protection Active" = "Protection Active";
+"Protection Inactive" = "Protection Inactive";
+"Your device is secure from ads & trackers." = "Your device is secure from ads & trackers.";
+"Your device is not secure from ads & trackers." = "Your device is not secure from ads & trackers.";
+"ADS BLOCKED" = "ADS BLOCKED";
+"TRACKERS" = "TRACKERS";
+"GLOBAL PROTECTION RULES" = "GLOBAL PROTECTION RULES";
+"Block Ads" = "Block Ads";
+"Web & In-app banners" = "Web & In-app banners";
+"Block Trackers" = "Block Trackers";
+"Prevent user profiling" = "Prevent user profiling";
+"Anti-Adblock killer" = "Anti-Adblock killer";
+"Avoid detection scripts" = "Avoid detection scripts";
+"WhiteList" = "WhiteList";
+
+// MARK: - Time Range
+"Today" = "Today";
+"Week" = "Week";
+"All Time" = "All Time";
+
+// MARK: - Custom Rules
+"Search domains..." = "Search domains...";
+"ACTIVE" = "ACTIVE";
+"INACTIVE" = "INACTIVE";
+"Paused" = "Paused";
+"Add specific rules to block elements\non sites that bypass general filters." = "Add specific rules to block elements\non sites that bypass general filters.";
+
+// MARK: - Add Custom Rule
+"Target Website" = "Target Website";
+"e.g., youtube.com" = "e.g., youtube.com";
+"Rule applies to this domain and all its subdomains." = "Rule applies to this domain and all its subdomains.";
+"Blocking Options" = "Blocking Options";
+"— rule for this domain already exists" = "— rule for this domain already exists";
+"Removes banner and video ads" = "Removes banner and video ads";
+"Stops analytics & data collection" = "Stops analytics & data collection";
+"Bypasses Disable Adblock popups" = "Bypasses Disable Adblock popups";
+"Social widgets, comments, footers" = "Social widgets, comments, footers";
+"Domain Activity" = "Domain Activity";
+"Last 24h" = "Last 24h";
+"Last week" = "Last week";
+"Last month" = "Last month";
+
+// MARK: - Settings
+"Share feedback" = "Share feedback";
+"Rate Our App" = "Rate Our App";
+"Contact Us" = "Contact Us";
+"Privacy Policy" = "Privacy Policy";
+"Terms of Service" = "Terms of Service";
+
+// MARK: - Onboarding
+"Ad Blocker \nNo Ads & Trackers" = "Ad Blocker \nNo Ads & Trackers";
+" Easily navigate your TV with your phone \nUse the touchpad for fast, smooth control" = " Easily navigate your TV with your phone \nUse the touchpad for fast, smooth control";
+"Terms of use" = "Terms of use";
+
+// MARK: - Quick Guide
+"Let's kill those ads" = "Let's kill those ads";
+"Enable the Safari extension to start \nbrowsing effectively distraction-free." = "Enable the Safari extension to start \nbrowsing effectively distraction-free.";
+"1. Open Settings" = "1. Open Settings";
+"Tap the button below to \nautomatically open iOS Settings." = "Tap the button below to \nautomatically open iOS Settings.";
+"2. Tap Extensions" = "2. Tap Extensions";
+"Scroll down to find " = "Scroll down to find ";
+"Safari" = "Safari";
+", then tap \nExtensions." = ", then tap \nExtensions.";
+"3. Toggle On" = "3. Toggle On";
+"Find this app in the list and switch \ntoggle to " = "Find this app in the list and switch \ntoggle to ";
+"ON." = "ON.";
+"Go to Settings" = "Go to Settings";
+"I'll do this later" = "I'll do this later";
+
+// MARK: - Visual Blocker
+"Visual Blocker" = "Visual Blocker";
+"Manually select and hide annoying elements on \nany webpage to create custom rules." = "Manually select and hide annoying elements on \nany webpage to create custom rules.";
+"Open Safari Tutorial" = "Open Safari Tutorial";
+
+// MARK: - White List
+"White List" = "White List";
+"No web-site in white list yet" = "No web-site in white list yet";
+"Add web-site" = "Add web-site";
+"Website" = "Website";
+"Add WebSite" = "Add WebSite";
+"Add to Whitelist" = "Add to Whitelist";
+"WEBSITE LINK" = "WEBSITE LINK";
+"— this domain is already in WhiteList" = "— this domain is already in WhiteList";
+"https://youtube.com" = "https://youtube.com";
+"NAME " = "NAME ";
+"(OPTIONAL)" = "(OPTIONAL)";
+"My Favorite Site" = "My Favorite Site";

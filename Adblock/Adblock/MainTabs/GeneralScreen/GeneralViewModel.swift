@@ -203,9 +203,9 @@ enum TimeRange: CaseIterable {
     
     var titel: String {
         switch self {
-        case .today: return "Today"
-        case .week: return "Week"
-        case .allTime: return "All Time"
+        case .today: return "Today".localized
+        case .week: return "Week".localized
+        case .allTime: return "All Time".localized
         }
     }
 }

@@ -49,7 +49,7 @@ struct WhiteListView: View {
             Spacer()
         }
         .overlay{
-            Text("White List")
+            Text("White List".localized)
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
@@ -60,7 +60,7 @@ struct WhiteListView: View {
         VStack(spacing: 24) {
             Image("Empty")
                 .frame(width: 96, height: 96)
-            Text("No web-site in white list yet")
+            Text("No web-site in white list yet".localized)
                 .font(.custom("Inter18pt-Regular", size: 14))
                 .foregroundColor(.grayText)
         }
@@ -90,7 +90,7 @@ struct WhiteListView: View {
                     .foregroundColor(.white)
                     .frame(width: 16, height: 16)
                     .padding()
-                Text("Add web-site")
+                Text("Add web-site".localized)
                     .font(.custom("Inter18pt-SemiBold", size: 16))
                     .foregroundColor(.white)
             }
@@ -115,7 +115,7 @@ struct RowForList: View {
                     Image("ImgRow")
                         .frame(width: 40, height: 40)
                     VStack(alignment: .leading) {
-                        Text("\(titel ?? "Website")")
+                        Text("\(titel ?? "Website".localized)")
                             .font(.custom("Inter18pt-Medium", size: 16))
                             .foregroundColor(.white)
                         Text("\(url)")

@@ -33,7 +33,8 @@
 		3EBA53102F42674000FEA819 /* BlockedStatsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */; };
 		3EBA53112F42674100FEA819 /* DomainActivityPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53132F42674100FEA819 /* DomainActivityPoint.swift */; };
 		3EBA53122F42674200FEA819 /* DomainActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53142F42674200FEA819 /* DomainActivityStore.swift */; };
-		3EFB88A62F2FCB3B0088623E /* DomainActivityChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB88A72F2FCB3B0088623E /* DomainActivityChart.swift */; };
+		3EBF84F52F46FE45004BB27C /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBF84F32F46FE45004BB27C /* LocalizationHelper.swift */; };
+		3EBF84F92F46FE4D004BB27C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3EBF84F72F46FE4D004BB27C /* Localizable.strings */; };
 		3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F232F3497C30046D7C3 /* BlockingAction.swift */; };
 		3EC50F272F349CFE0046D7C3 /* RulesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F262F349CFE0046D7C3 /* RulesService.swift */; };
 		3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */; };
@@ -50,6 +51,7 @@
 		3EFB88A12F2F7B930088623E /* Inter_18pt-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EFB88A02F2F7B930088623E /* Inter_18pt-SemiBold.ttf */; };
 		3EFB88A32F2F7DB90088623E /* AddCustomRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB88A22F2F7DB90088623E /* AddCustomRule.swift */; };
 		3EFB88A52F2FCB3A0088623E /* AddCustomRuleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB88A42F2FCB3A0088623E /* AddCustomRuleViewModel.swift */; };
+		3EFB88A62F2FCB3B0088623E /* DomainActivityChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFB88A72F2FCB3B0088623E /* DomainActivityChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +106,8 @@
 		3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedStatsStore.swift; sourceTree = "<group>"; };
 		3EBA53132F42674100FEA819 /* DomainActivityPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityPoint.swift; sourceTree = "<group>"; };
 		3EBA53142F42674200FEA819 /* DomainActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityStore.swift; sourceTree = "<group>"; };
-		3EFB88A72F2FCB3B0088623E /* DomainActivityChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityChart.swift; sourceTree = "<group>"; };
+		3EBF84F32F46FE45004BB27C /* LocalizationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationHelper.swift; sourceTree = "<group>"; };
+		3EBF84F62F46FE4D004BB27C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		3EC50F232F3497C30046D7C3 /* BlockingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingAction.swift; sourceTree = "<group>"; };
 		3EC50F262F349CFE0046D7C3 /* RulesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesService.swift; sourceTree = "<group>"; };
 		3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlockerConfig.swift; sourceTree = "<group>"; };
@@ -123,6 +126,7 @@
 		3EFB88A02F2F7B930088623E /* Inter_18pt-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter_18pt-SemiBold.ttf"; sourceTree = "<group>"; };
 		3EFB88A22F2F7DB90088623E /* AddCustomRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCustomRule.swift; sourceTree = "<group>"; };
 		3EFB88A42F2FCB3A0088623E /* AddCustomRuleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCustomRuleViewModel.swift; sourceTree = "<group>"; };
+		3EFB88A72F2FCB3B0088623E /* DomainActivityChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -260,6 +264,22 @@
 			path = VisualBlocker;
 			sourceTree = "<group>";
 		};
+		3EBF84F42F46FE45004BB27C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3EBF84F32F46FE45004BB27C /* LocalizationHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		3EBF84F82F46FE4D004BB27C /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				3EBF84F72F46FE4D004BB27C /* Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
 		3EC50F222F3497B30046D7C3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,6 +336,8 @@
 				3ECB183A2F2E43BD00B28404 /* Info.plist */,
 				3ECB17BA2F2E270100B28404 /* MainTabs */,
 				3ECB17B92F2E26DC00B28404 /* SystemFiles */,
+				3EBF84F42F46FE45004BB27C /* Helpers */,
+				3EBF84F82F46FE4D004BB27C /* en.lproj */,
 			);
 			path = Adblock;
 			sourceTree = "<group>";
@@ -511,6 +533,7 @@
 			files = (
 				3ECB17B82F2E26D900B28404 /* Assets.xcassets in Resources */,
 				3EFB88A12F2F7B930088623E /* Inter_18pt-SemiBold.ttf in Resources */,
+				3EBF84F92F46FE4D004BB27C /* Localizable.strings in Resources */,
 				3ECB18402F2E521D00B28404 /* Inter_18pt-Medium.ttf in Resources */,
 				3ECB183C2F2E459600B28404 /* Inter_18pt-Bold.ttf in Resources */,
 				3ECB183E2F2E45A200B28404 /* Inter_18pt-Regular.ttf in Resources */,
@@ -558,6 +581,7 @@
 				3ECB17B62F2E26D900B28404 /* AdblockApp.swift in Sources */,
 				3E3FF8152F3A08B40090A937 /* WhiteListStore.swift in Sources */,
 				3E85B4EE2F44820B001583D0 /* OnbordingViewModel.swift in Sources */,
+				3EBF84F52F46FE45004BB27C /* LocalizationHelper.swift in Sources */,
 				3E69A6C72F3C8F6C00C73985 /* EasyListParserModels.swift in Sources */,
 				3E25B1A92F30D81100E5A056 /* SettingsViewModal.swift in Sources */,
 				3EBA53062F42673A00FEA819 /* CustomRulesStore.swift in Sources */,
@@ -585,6 +609,17 @@
 			targetProxy = 3E6FC6422F33BB3B0068A4A5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3EBF84F72F46FE4D004BB27C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3EBF84F62F46FE4D004BB27C /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		3E6FC6472F33BB3B0068A4A5 /* Debug */ = {
@@ -796,6 +831,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -852,6 +888,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
