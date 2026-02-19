@@ -58,6 +58,12 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             response.userInfo = [SFExtensionMessageKey: ["active": active]]
             context.completeRequest(returningItems: [response])
 
+        case "getIsEnabled":
+            let isEnabled = defaults?.bool(forKey: "isWorking") ?? false
+            let response = NSExtensionItem()
+            response.userInfo = [SFExtensionMessageKey: ["isEnabled": isEnabled]]
+            context.completeRequest(returningItems: [response])
+
         default:
             context.completeRequest(returningItems: nil)
         }

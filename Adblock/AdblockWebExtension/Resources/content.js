@@ -78,14 +78,42 @@
             
             if (!el || el.closest("#adblock-picker-overlay")) return;
             
+            // Пропускаем элементы, которые уже скрыты
+            const computedStyle = window.getComputedStyle(el);
+            if (computedStyle.display === "none" || computedStyle.visibility === "hidden") {
+                console.log("[ADBLOCK] Element already hidden, skipping");
+                return;
+            }
+            
             console.log("[ADBLOCK] tapped:", el.tagName, el.className);
             
             if (el === highlightedEl) {
                 const selector = generateSelector(el);
                 if (selector) {
+                    // Visual Blocker работает независимо от состояния блокировки
+                    // Пользователь вручную выбирает элементы для скрытия
+                    console.log("[ADBLOCK] Hiding element with selector:", selector);
+                    
+                    // Скрываем элемент сразу
                     el.style.display = "none";
-                    saveCustomRule(selector, window.location.hostname);
-                    countBlocked(1);
+                    
+                    // Сохраняем правило
+                    saveCustomRule(selector, window.location.hostname)
+                        .then(success => {
+                            if (success) {
+                                console.log("[ADBLOCK] Rule saved for:", window.location.hostname);
+                                // Подсчитываем только если блокировка включена
+                                checkIsEnabled().then(isEnabled => {
+                                    if (isEnabled) {
+                                        countBlocked(1);
+                                    }
+                                });
+                            } else {
+                                console.error("[ADBLOCK] Failed to save rule, element still hidden");
+                            }
+                        });
+                } else {
+                    console.log("[ADBLOCK] Failed to generate selector for element");
                 }
                 highlightedEl = null;
                 return;
@@ -139,10 +167,39 @@
     }
 
     function saveCustomRule(selector, hostname) {
-        browser.runtime.sendMessage({ type: "saveRule", selector, hostname });
+        return browser.runtime.sendMessage({ type: "saveRule", selector, hostname })
+            .then(response => {
+                if (response && response.ok) {
+                    console.log("[ADBLOCK] Rule successfully saved");
+                    return true;
+                } else {
+                    console.error("[ADBLOCK] Failed to save rule");
+                    return false;
+                }
+            })
+            .catch(error => {
+                console.error("[ADBLOCK] Error saving rule:", error);
+                return false;
+            });
+    }
+
+    function checkIsEnabled() {
+        return new Promise((resolve) => {
+            browser.runtime.sendNativeMessage(
+                browser.runtime.id,
+                { type: "getIsEnabled" }
+            ).then(response => {
+                resolve(response && response.isEnabled === true);
+            }).catch(() => {
+                // Если не удалось получить состояние, считаем что блокировка включена (fallback)
+                resolve(true);
+            });
+        });
     }
 
     function applyCustomRules() {
+        // Визуальные правила (custom rules) применяются всегда,
+        // так как это пользовательский выбор элементов для скрытия
         browser.runtime.sendMessage({ type: "getRules", hostname: window.location.hostname })
             .then(response => {
                 if (response && response.rules && response.rules.length > 0) {
@@ -152,40 +209,73 @@
                         .map(r => `${r.selector} { display: none !important; }`)
                         .join("\n");
                     document.head.appendChild(style);
-                    countBlocked(response.rules.length);
+                    // Подсчитываем только если блокировка включена
+                    checkIsEnabled().then(isEnabled => {
+                        if (isEnabled) {
+                            countBlocked(response.rules.length);
+                        }
+                    });
                 }
             })
             .catch(() => {});
     }
 
     function countBlocked(count) {
-        browser.runtime.sendMessage({ type: "blocked", count });
+        // Проверяем состояние блокировки перед подсчетом
+        checkIsEnabled().then(isEnabled => {
+            if (isEnabled) {
+                browser.runtime.sendMessage({ type: "blocked", count });
+            }
+        });
     }
 
     function countBlockedResources() {
-        let blocked = 0;
-        document.querySelectorAll("img").forEach(img => {
-            if (!img.complete || img.naturalWidth === 0) {
-                if (img.src && !img.src.startsWith("data:")) blocked++;
+        checkIsEnabled().then(isEnabled => {
+            if (!isEnabled) {
+                return;
             }
+            
+            let blocked = 0;
+            document.querySelectorAll("img").forEach(img => {
+                if (!img.complete || img.naturalWidth === 0) {
+                    if (img.src && !img.src.startsWith("data:")) blocked++;
+                }
+            });
+            document.querySelectorAll("iframe[src]").forEach(iframe => {
+                try { if (!iframe.contentDocument && iframe.src) blocked++; }
+                catch (e) { blocked++; }
+            });
+            if (blocked > 0) countBlocked(blocked);
         });
-        document.querySelectorAll("iframe[src]").forEach(iframe => {
-            try { if (!iframe.contentDocument && iframe.src) blocked++; }
-            catch (e) { blocked++; }
-        });
-        if (blocked > 0) countBlocked(blocked);
     }
 
+    // Функция удаления правил больше не нужна,
+    // так как визуальные правила применяются всегда
+
     // ====== POLLING ======
-        setInterval(() => {
-            browser.storage.local.get("shouldActivatePicker").then(data => {
-                if (data.shouldActivatePicker) {
-                    console.log("[ADBLOCK] Picker activating from storage!");
-                    activatePicker();
-                    browser.storage.local.set({ shouldActivatePicker: false });
-                }
-            }).catch(() => {});
-        }, 500);
+    let lastIsEnabledState = null;
+    
+    // Инициализируем состояние при первой загрузке
+    checkIsEnabled().then(isEnabled => {
+        lastIsEnabledState = isEnabled;
+    });
+    
+    setInterval(() => {
+        // Проверяем состояние picker
+        browser.storage.local.get("shouldActivatePicker").then(data => {
+            if (data.shouldActivatePicker) {
+                console.log("[ADBLOCK] Picker activating from storage!");
+                activatePicker();
+                browser.storage.local.set({ shouldActivatePicker: false });
+            }
+        }).catch(() => {});
+        
+        // Визуальные правила применяются всегда, независимо от состояния блокировки
+        // Проверяем состояние только для подсчета статистики
+        checkIsEnabled().then(isEnabled => {
+            lastIsEnabledState = isEnabled;
+        });
+    }, 1000);
 
     // ====== INIT ======
     applyCustomRules();
