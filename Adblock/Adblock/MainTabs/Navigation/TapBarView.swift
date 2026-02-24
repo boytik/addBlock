@@ -32,13 +32,13 @@ struct TapBarView: View {
             TabView(selection: $selectedTab) {
                 coordinator.build(route: .general)
                     .tabItem {
-                        Label("General", image: "GeneralTab")
+                        Label("General".localized, image: "GeneralTab")
                     }
                     .tag(Screens.general)
 
                 coordinator.build(route: .custom)
                     .tabItem {
-                        Label("Custom", image: "CustomTab")
+                        Label("Custom".localized, image: "CustomTab")
                     }
                     .tag(Screens.custom)
             }

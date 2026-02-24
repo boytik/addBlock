@@ -168,7 +168,7 @@ struct AddCustomRule: View {
                         Spacer()
 
                         Menu {
-                            Button("Last 24h".localized) {
+                            Button("Last 24h ".localized) {
                                 viewModel.selectDateRange(.lastDay)
                             }
                             Button("Last week".localized) {
@@ -179,7 +179,7 @@ struct AddCustomRule: View {
                             }
                         } label: {
                             HStack(spacing: 4) {
-                                Text(viewModel.rangeOfDates.rawValue)
+                                Text(viewModel.rangeOfDates.localized)
                                     .font(.custom("Inter18pt-Regular", size: 12))
                                     .foregroundStyle(.grayText)
                                 Image(systemName: "chevron.down")

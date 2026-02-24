@@ -5,6 +5,10 @@ enum FiltersDates: String {
     case lastDay = "Last 24h "
     case lastWeek = "Last week"
     case lastMonth = "Last month"
+    
+    var localized: String {
+        return self.rawValue.localized
+    }
 }
 
 class AddCustomRuleViewModel: ObservableObject {

@@ -50,7 +50,7 @@ struct OnbordingView: View {
             Button(action: {
                 viewModel.nextStep()
             } ) {
-                Text("\(viewModel.textForButton)")
+                Text(viewModel.textForButton)
                     .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)

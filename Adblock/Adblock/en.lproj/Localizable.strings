@@ -98,3 +98,26 @@
 "NAME " = "NAME ";
 "(OPTIONAL)" = "(OPTIONAL)";
 "My Favorite Site" = "My Favorite Site";
+
+// MARK: - Tab Bar
+"General" = "General";
+"Custom" = "Custom";
+
+// MARK: - Onboarding Buttons
+"Start" = "Start";
+"Continue" = "Continue";
+"Try Free Trial & Continue" = "Try Free Trial & Continue";
+
+// MARK: - Custom Rules Subtitle
+"No rules configured" = "No rules configured";
+"Blocking " = "Blocking ";
+"ads" = "ads";
+"trackers" = "trackers";
+"anti-adblock" = "anti-adblock";
+"elements" = "elements";
+
+// MARK: - Domain Activity Filters
+"Last 24h " = "Last 24h ";
+
+// MARK: - Settings Additional
+"App Feedback" = "App Feedback";
