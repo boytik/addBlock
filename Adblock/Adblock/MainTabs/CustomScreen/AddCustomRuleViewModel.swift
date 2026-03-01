@@ -28,10 +28,10 @@ class AddCustomRuleViewModel: ObservableObject {
     @Published var hideElements: Bool = false
     
     var isEditMode: Bool { editingRule != nil }
-    // Domain Activity (только в режиме редактирования)
-    @Published var isEmptyData: Bool = true
+    // Domain Activity (всегда показываем — для create маркетинговая модель)
+    @Published var isEmptyData: Bool = false
     @Published var rangeOfDates: FiltersDates = .lastDay
-    @Published var chartData: [Int] = [] // значения для графика (бары)
+    @Published var chartData: [DomainActivityPoint] = []
     // Validation
     @Published var showDuplicateError: Bool = false
     @Published var isSaving: Bool = false
@@ -57,10 +57,8 @@ class AddCustomRuleViewModel: ObservableObject {
             blockTrackers = rule.blockTrackers
             antiAdblockKiller = rule.antiAdblock
             hideElements = rule.hideElements
-            loadActivitiesForChart()
-        } else {
-            isEmptyData = true
         }
+        loadActivitiesForChart()
     }
 
     func saveRule() {
@@ -119,74 +117,80 @@ class AddCustomRuleViewModel: ObservableObject {
     }
 
     func selectDateRange(_ range: FiltersDates) {
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
         rangeOfDates = range
         loadActivitiesForChart()
     }
-    
-    private func loadActivitiesForChart() {
-        guard let ruleId = editingRule?.id else {
-            chartData = []
-            isEmptyData = true
-            return
+
+    private var activityRange: DomainActivityRange {
+        switch rangeOfDates {
+        case .lastDay: return .last24h
+        case .lastWeek: return .lastWeek
+        case .lastMonth: return .lastMonth
         }
-        let all = domainActivityStore.getOrCreateActivities(for: ruleId, createdAt: editingRule?.createdAt)
-        let filtered = filterActivities(all, by: rangeOfDates)
-        chartData = filtered
-        isEmptyData = filtered.isEmpty
     }
-    
-    /// Фильтрует активности по выбранному диапазону и возвращает массив значений для баров.
-    private func filterActivities(_ points: [DomainActivityPoint], by range: FiltersDates) -> [Int] {
+
+    private func loadActivitiesForChart() {
+        if let ruleId = editingRule?.id {
+            let all = domainActivityStore.getOrCreateActivities(for: ruleId, createdAt: editingRule?.createdAt)
+            let aggregated = aggregateActivities(all, by: rangeOfDates)
+            chartData = aggregated
+            isEmptyData = aggregated.allSatisfy { $0.count == 0 }
+        } else {
+            let marketing = domainActivityStore.generateMarketingActivities(
+                blockTrackers: blockTrackers,
+                antiAdblock: antiAdblockKiller,
+                hideElements: hideElements,
+                range: activityRange
+            )
+            chartData = marketing
+            isEmptyData = marketing.allSatisfy { $0.count == 0 }
+        }
+    }
+
+    /// Агрегирует сырые точки в 7 buckets для любого режима.
+    private func aggregateActivities(_ points: [DomainActivityPoint], by range: FiltersDates) -> [DomainActivityPoint] {
         let calendar = Calendar.current
         let now = Date()
-        let sorted = points.sorted { $0.date < $1.date }
-        
+        let bucketCount = 7
+
         switch range {
         case .lastDay:
-            // 8 баров за последние 24ч — делим «сегодня» на 8 частей
-            guard let todayStart = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now) else { return [] }
-            let todayPoints = sorted.filter { $0.date >= todayStart }
-            let todayTotal = todayPoints.reduce(0) { $0 + $1.count }
-            if todayTotal == 0 {
-                return (0..<8).map { _ in Int.random(in: 2...25) }
+            var result: [DomainActivityPoint] = []
+            let hoursPerBucket = 24 / bucketCount
+            for i in 0..<bucketCount {
+                let hourStart = -24 + i * hoursPerBucket
+                guard let bucketStart = calendar.date(byAdding: .hour, value: hourStart, to: now),
+                      let start = calendar.date(bySetting: .minute, value: 0, of: bucketStart) else { continue }
+                let end = calendar.date(byAdding: .hour, value: hoursPerBucket, to: start) ?? start
+                let sum = points.filter { $0.date >= start && $0.date < end }.reduce(0) { $0 + $1.count }
+                result.append(DomainActivityPoint(date: start, count: sum))
             }
-            return splitIntoBars(total: todayTotal, count: 8)
-            
+            return result
+
         case .lastWeek:
-            // 7 баров — последние 7 дней
-            var result: [Int] = []
+            var result: [DomainActivityPoint] = []
             for dayOffset in (0..<7).reversed() {
                 guard let date = calendar.date(byAdding: .day, value: -dayOffset, to: now) else { continue }
                 let start = calendar.startOfDay(for: date)
-                let dayPoints = sorted.filter { calendar.isDate($0.date, inSameDayAs: start) }
-                result.append(dayPoints.reduce(0) { $0 + $1.count })
+                let sum = points.filter { calendar.isDate($0.date, inSameDayAs: start) }.reduce(0) { $0 + $1.count }
+                result.append(DomainActivityPoint(date: start, count: sum))
             }
             return result
-            
+
         case .lastMonth:
-            // 4 бара — 4 недели
-            var result: [Int] = []
-            for weekOffset in (0..<4).reversed() {
-                guard let weekStart = calendar.date(byAdding: .weekOfYear, value: -weekOffset, to: now) else { continue }
-                let weekEnd = calendar.date(byAdding: .day, value: 7, to: weekStart) ?? weekStart
-                let weekPoints = sorted.filter { $0.date >= weekStart && $0.date < weekEnd }
-                result.append(weekPoints.reduce(0) { $0 + $1.count })
+            var result: [DomainActivityPoint] = []
+            let daysPerBucket = 30 / bucketCount
+            for i in 0..<bucketCount {
+                let dayStart = -30 + i * daysPerBucket
+                guard let bucketStart = calendar.date(byAdding: .day, value: dayStart, to: now) else { continue }
+                let start = calendar.startOfDay(for: bucketStart)
+                let end = calendar.date(byAdding: .day, value: daysPerBucket, to: start) ?? start
+                let sum = points.filter { $0.date >= start && $0.date < end }.reduce(0) { $0 + $1.count }
+                result.append(DomainActivityPoint(date: start, count: sum))
             }
             return result
         }
-    }
-    
-    /// Делит total на count баров со случайным распределением (сумма = total).
-    private func splitIntoBars(total: Int, count: Int) -> [Int] {
-        guard count > 0, total >= 0 else { return [] }
-        if total == 0 { return Array(repeating: 0, count: count) }
-        let weights = (0..<count).map { _ in Double.random(in: 0.5...2.0) }
-        let sumW = weights.reduce(0, +)
-        var bars = weights.map { max(0, Int(Double(total) * $0 / sumW)) }
-        let diff = total - bars.reduce(0, +)
-        if diff != 0, let idx = bars.firstIndex(where: { $0 + diff >= 0 }) {
-            bars[idx] += diff
-        }
-        return bars
     }
 }

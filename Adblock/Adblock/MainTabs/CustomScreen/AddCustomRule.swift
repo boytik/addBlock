@@ -24,14 +24,13 @@ struct AddCustomRule: View {
                     domainAvtivity
                         .padding(.vertical)
 
-                    if viewModel.isEditMode {
-                        if viewModel.isEmptyData {
-                            Image("EmptyData")
-                                .padding(.top, 8)
-                        } else {
-                            DomainActivityChart(values: viewModel.chartData)
-                                .padding(.top, 8)
-                        }
+                    if viewModel.isEmptyData {
+                        Image("EmptyData")
+                            .padding(.top, 8)
+                    } else {
+                        DomainActivityChart(points: viewModel.chartData)
+                            .padding(.top, 8)
+                            .id(viewModel.rangeOfDates)
                     }
 
                     Spacer()
@@ -155,39 +154,33 @@ struct AddCustomRule: View {
         }
     }
 
-    // MARK: - Domain Activity (только в режиме редактирования)
+    // MARK: - Domain Activity (всегда показываем)
 
     private var domainAvtivity: some View {
-        Group {
-            if viewModel.isEditMode {
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack {
-                        Text("Domain Activity".localized)
-                            .font(.custom("Inter18pt-SemiBold", size: 14))
-                            .foregroundStyle(.white)
-                        Spacer()
+        HStack {
+            Text("Domain Activity".localized)
+                .font(.custom("Inter18pt-SemiBold", size: 14))
+                .foregroundStyle(.white)
+            Spacer()
 
-                        Menu {
-                            Button("Last 24h ".localized) {
-                                viewModel.selectDateRange(.lastDay)
-                            }
-                            Button("Last week".localized) {
-                                viewModel.selectDateRange(.lastWeek)
-                            }
-                            Button("Last month".localized) {
-                                viewModel.selectDateRange(.lastMonth)
-                            }
-                        } label: {
-                            HStack(spacing: 4) {
-                                Text(viewModel.rangeOfDates.localized)
-                                    .font(.custom("Inter18pt-Regular", size: 12))
-                                    .foregroundStyle(.grayText)
-                                Image(systemName: "chevron.down")
-                                    .font(.system(size: 10, weight: .medium))
-                                    .foregroundStyle(.grayText)
-                            }
-                        }
-                    }
+            Menu {
+                Button("Last 24h ".localized) {
+                    viewModel.selectDateRange(.lastDay)
+                }
+                Button("Last week".localized) {
+                    viewModel.selectDateRange(.lastWeek)
+                }
+                Button("Last month".localized) {
+                    viewModel.selectDateRange(.lastMonth)
+                }
+            } label: {
+                HStack(spacing: 4) {
+                    Text(viewModel.rangeOfDates.localized)
+                        .font(.custom("Inter18pt-Regular", size: 12))
+                        .foregroundStyle(.grayText)
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.grayText)
                 }
             }
         }
@@ -204,7 +197,9 @@ struct AddCustomRule: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 } else {
-                    Text("Save Rule".localized)
+                    Image("whiteShield")
+                        .frame(width:16 , height: 16)
+                    Text((viewModel.isEditMode ? "Save Rule" : "Add Rule").localized)
                         .font(.custom("Inter18pt-SemiBold", size: 16))
                         .foregroundColor(.white)
                 }

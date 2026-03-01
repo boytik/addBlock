@@ -1,7 +1,14 @@
 import Foundation
 
+enum DomainActivityRange {
+    case last24h
+    case lastWeek
+    case lastMonth
+}
+
 /// Хранит «активности» по доменам (ruleId).
 /// Реальные данные из Safari недоступны, поэтому при первом открытии генерируются случайные значения.
+/// Для режима создания правила используется «маркетинговая» модель — правдоподобные данные.
 final class DomainActivityStore {
     private let storageKey = "domain_activities"
     private let appGroupID = "group.test.com.adblock"
@@ -15,14 +22,18 @@ final class DomainActivityStore {
 
     /// Возвращает активности для правила. Если их нет — генерирует случайные и сохраняет.
     /// Генерация только с `createdAt` до текущего момента (для старых правил без createdAt — последний день).
+    /// Учитывается дата установки приложения — не показываем данные до установки.
     func getOrCreateActivities(for ruleId: UUID, createdAt: Date?) -> [DomainActivityPoint] {
         let calendar = Calendar.current
         let now = Date()
-        let startDate = createdAt ?? calendar.date(byAdding: .day, value: -1, to: now) ?? now
+        let installDate = AppInstallDateStore.shared.installDate
+        let baseStart = createdAt ?? calendar.date(byAdding: .day, value: -1, to: now) ?? now
+        let startDate = max(baseStart, installDate)
 
         if let existing = activitiesByRule[ruleId] {
             let cutoff = createdAt ?? calendar.date(byAdding: .day, value: -7, to: now) ?? now
-            return existing.filter { $0.date >= calendar.startOfDay(for: cutoff) }
+            let effectiveCutoff = max(cutoff, installDate)
+            return existing.filter { $0.date >= calendar.startOfDay(for: effectiveCutoff) }
         }
         let generated = generateRandomActivities(from: startDate, to: now)
         activitiesByRule[ruleId] = generated
@@ -32,6 +43,68 @@ final class DomainActivityStore {
 
     func getActivities(for ruleId: UUID) -> [DomainActivityPoint] {
         activitiesByRule[ruleId] ?? []
+    }
+
+    /// Маркетинговая модель: генерирует правдоподобные данные для нового правила.
+    /// Средний сайт: 15–40 рекламных запросов; blockTrackers +20%; antiAdblock (heavy news) — больше.
+    /// Учитывается дата установки — для периодов до установки возвращаем 0.
+    func generateMarketingActivities(
+        blockTrackers: Bool,
+        antiAdblock: Bool,
+        hideElements: Bool,
+        range: DomainActivityRange
+    ) -> [DomainActivityPoint] {
+        let calendar = Calendar.current
+        let now = Date()
+        let installDate = calendar.startOfDay(for: AppInstallDateStore.shared.installDate)
+        var multiplier: Double = 1.0
+        if blockTrackers { multiplier += 0.2 }
+        if antiAdblock { multiplier += 0.15 }
+        if hideElements { multiplier += 0.05 }
+        let baseMin = 15
+        let baseMax = 40
+        let baseRange = baseMin...baseMax
+
+        // Всегда 7 столбцов; для периодов до установки — count = 0
+        let bucketCount = 7
+
+        switch range {
+        case .last24h:
+            var result: [DomainActivityPoint] = []
+            for i in 0..<bucketCount {
+                let hourOffset = -24 + (i * 24 / bucketCount)
+                guard let date = calendar.date(byAdding: .hour, value: hourOffset, to: now),
+                      let hourStart = calendar.date(bySetting: .minute, value: 0, of: date) else { continue }
+                let value = hourStart >= installDate
+                    ? max(0, Int(Double(Int.random(in: baseRange)) * multiplier) + Int.random(in: -5...8))
+                    : 0
+                result.append(DomainActivityPoint(date: hourStart, count: value))
+            }
+            return result.sorted { $0.date < $1.date }
+        case .lastWeek:
+            var result: [DomainActivityPoint] = []
+            for dayOffset in (0..<7).reversed() {
+                guard let date = calendar.date(byAdding: .day, value: -dayOffset, to: now) else { continue }
+                let start = calendar.startOfDay(for: date)
+                let value = start >= installDate
+                    ? max(0, Int(Double(Int.random(in: baseRange)) * multiplier) + Int.random(in: -8...12))
+                    : 0
+                result.append(DomainActivityPoint(date: start, count: value))
+            }
+            return result
+        case .lastMonth:
+            var result: [DomainActivityPoint] = []
+            for i in 0..<bucketCount {
+                let dayOffset = -30 + (i * 30 / bucketCount)
+                guard let date = calendar.date(byAdding: .day, value: dayOffset, to: now) else { continue }
+                let start = calendar.startOfDay(for: date)
+                let value = start >= installDate
+                    ? max(0, Int(Double(Int.random(in: baseRange)) * multiplier) + Int.random(in: -10...15))
+                    : 0
+                result.append(DomainActivityPoint(date: start, count: value))
+            }
+            return result.sorted { $0.date < $1.date }
+        }
     }
 
     // MARK: - Private

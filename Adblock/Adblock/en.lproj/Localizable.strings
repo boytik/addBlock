@@ -7,6 +7,7 @@
 "Add Custom Rule" = "Add Custom Rule";
 "Edit Custom Rule" = "Edit Custom Rule";
 "Save Rule" = "Save Rule";
+"Add Rule" = "Add Rule";
 "Delete Rule" = "Delete Rule";
 "Cancel" = "Cancel";
 
@@ -50,6 +51,7 @@
 "Bypasses Disable Adblock popups" = "Bypasses Disable Adblock popups";
 "Social widgets, comments, footers" = "Social widgets, comments, footers";
 "Domain Activity" = "Domain Activity";
+"No activity yet" = "No activity yet";
 "Last 24h" = "Last 24h";
 "Last week" = "Last week";
 "Last month" = "Last month";

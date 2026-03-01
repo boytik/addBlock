@@ -33,6 +33,7 @@
 		3EBA53102F42674000FEA819 /* BlockedStatsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */; };
 		3EBA53112F42674100FEA819 /* DomainActivityPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53132F42674100FEA819 /* DomainActivityPoint.swift */; };
 		3EBA53122F42674200FEA819 /* DomainActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53142F42674200FEA819 /* DomainActivityStore.swift */; };
+		3EBA53152F42674300FEA819 /* AppInstallDateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53162F42674300FEA819 /* AppInstallDateStore.swift */; };
 		3EBF84F52F46FE45004BB27C /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBF84F32F46FE45004BB27C /* LocalizationHelper.swift */; };
 		3EBF84F92F46FE4D004BB27C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3EBF84F72F46FE4D004BB27C /* Localizable.strings */; };
 		3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F232F3497C30046D7C3 /* BlockingAction.swift */; };
@@ -106,6 +107,7 @@
 		3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedStatsStore.swift; sourceTree = "<group>"; };
 		3EBA53132F42674100FEA819 /* DomainActivityPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityPoint.swift; sourceTree = "<group>"; };
 		3EBA53142F42674200FEA819 /* DomainActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityStore.swift; sourceTree = "<group>"; };
+		3EBA53162F42674300FEA819 /* AppInstallDateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInstallDateStore.swift; sourceTree = "<group>"; };
 		3EBF84F32F46FE45004BB27C /* LocalizationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationHelper.swift; sourceTree = "<group>"; };
 		3EBF84F62F46FE4D004BB27C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		3EC50F232F3497C30046D7C3 /* BlockingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingAction.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 		3EC50F252F349CE30046D7C3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				3EBA53162F42674300FEA819 /* AppInstallDateStore.swift */,
 				3EBA530F2F42674000FEA819 /* BlockedStatsStore.swift */,
 				3EC50F262F349CFE0046D7C3 /* RulesService.swift */,
 				3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */,
@@ -593,6 +596,7 @@
 				3EFB88A62F2FCB3B0088623E /* DomainActivityChart.swift in Sources */,
 				3EBA53112F42674100FEA819 /* DomainActivityPoint.swift in Sources */,
 				3EBA53122F42674200FEA819 /* DomainActivityStore.swift in Sources */,
+				3EBA53152F42674300FEA819 /* AppInstallDateStore.swift in Sources */,
 				3ECB17B72F2E26D900B28404 /* TapBarView.swift in Sources */,
 				3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */,
 				3EFB88A52F2FCB3A0088623E /* AddCustomRuleViewModel.swift in Sources */,

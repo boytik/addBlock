@@ -39,6 +39,7 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     init(){
         flow = hasSeenOnbording ? .main : .onboarding
         _ = ruleService
+        _ = AppInstallDateStore.shared.installDate
     }
     
     @ViewBuilder
