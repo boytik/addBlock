@@ -222,7 +222,7 @@ struct GeneralView: View {
                 .foregroundStyle(.accent)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("White list".localized)
+                Text("White List".localized)
                     .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundStyle(.white)
 

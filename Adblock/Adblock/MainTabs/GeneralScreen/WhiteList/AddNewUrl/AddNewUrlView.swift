@@ -23,7 +23,7 @@ struct AddNewUrlView: View {
                            viewModel.addNewUrl()
                        }                }) {
                     HStack {
-                        Text("Add to Whitelist".localized)
+                        Text("Add to White List".localized)
                             .font(.custom("Inter18pt-SemiBold", size: 16))
                             .foregroundColor(.white)
                     }

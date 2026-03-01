@@ -117,6 +117,9 @@ class GeneralViewModel: ObservableObject {
 
             if result.success {
                 self.isWorking = newValue
+                if newValue {
+                    AppInstallDateStore.shared.recordProtectionEnabled()
+                }
             }
         }
     }
@@ -153,6 +156,11 @@ class GeneralViewModel: ObservableObject {
         isBlockAds = defaults?.object(forKey: Keys.blockAds) as? Bool ?? true
         isBlockTrackers = defaults?.object(forKey: Keys.blockTrackers) as? Bool ?? true
         isAntiAdblokKiller = defaults?.object(forKey: Keys.antiAdblock) as? Bool ?? true
+
+        // Миграция: если защита уже включена, но дата не сохранена — считаем «сегодня» первым включением
+        if isWorking {
+            AppInstallDateStore.shared.recordProtectionEnabled()
+        }
     }
     
     private func bindStatePersistance() {

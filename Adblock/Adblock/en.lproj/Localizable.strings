@@ -90,17 +90,20 @@
 
 // MARK: - White List
 "White List" = "White List";
-"No web-site in white list yet" = "No web-site in white list yet";
-"Add web-site" = "Add web-site";
+"No website in white list yet" = "No website in white list yet";
 "Website" = "Website";
 "Add WebSite" = "Add WebSite";
 "Add to Whitelist" = "Add to Whitelist";
+"Add to White List" = "Add to White List";
 "WEBSITE LINK" = "WEBSITE LINK";
 "— this domain is already in WhiteList" = "— this domain is already in WhiteList";
 "https://youtube.com" = "https://youtube.com";
 "NAME " = "NAME ";
 "(OPTIONAL)" = "(OPTIONAL)";
 "My Favorite Site" = "My Favorite Site";
+"Remove from White List" = "Remove from White List";
+"Are you sure you want to remove this website from the white list?" = "Are you sure you want to remove this website from the white list?";
+"Remove" = "Remove";
 
 // MARK: - Tab Bar
 "General" = "General";

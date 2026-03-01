@@ -5,6 +5,7 @@ import SwiftUI
 struct WhiteListView: View {
     @StateObject var viewModel: WhiteListViewModel
     @EnvironmentObject var coordinator: AppCoordinator
+    @State private var itemToDelete: WhiteListItem?
 
     init(viewModel: WhiteListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -60,7 +61,7 @@ struct WhiteListView: View {
         VStack(spacing: 24) {
             Image("Empty")
                 .frame(width: 96, height: 96)
-            Text("No web-site in white list yet".localized)
+            Text("No website in white list yet".localized)
                 .font(.custom("Inter18pt-Regular", size: 14))
                 .foregroundColor(.grayText)
         }
@@ -70,14 +71,31 @@ struct WhiteListView: View {
         List {
             ForEach(viewModel.items) { item in
                 RowForList(titel: item.name, url: item.url, onDelete: {
-                    viewModel.deleteUrl(id: item.id)
+                    itemToDelete = item
                 })
                     .listRowBackground(Color.black)
             }
         }
         .listStyle(.plain)
-          .scrollContentBackground(.hidden)
-          .background(Color.black)    }
+        .scrollContentBackground(.hidden)
+        .background(Color.black)
+        .alert("Remove from White List".localized, isPresented: Binding(
+            get: { itemToDelete != nil },
+            set: { if !$0 { itemToDelete = nil } }
+        )) {
+            Button("Cancel".localized, role: .cancel) {
+                itemToDelete = nil
+            }
+            Button("Remove".localized, role: .destructive) {
+                if let item = itemToDelete {
+                    viewModel.deleteUrl(id: item.id)
+                }
+                itemToDelete = nil
+            }
+        } message: {
+            Text("Are you sure you want to remove this website from the white list?".localized)
+        }
+    }
     
     
     private var mainButton: some View {
@@ -90,7 +108,7 @@ struct WhiteListView: View {
                     .foregroundColor(.white)
                     .frame(width: 16, height: 16)
                     .padding()
-                Text("Add web-site".localized)
+                Text("Add WebSite".localized)
                     .font(.custom("Inter18pt-SemiBold", size: 16))
                     .foregroundColor(.white)
             }
