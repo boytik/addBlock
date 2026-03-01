@@ -74,8 +74,9 @@ final class RulesService {
 
     // MARK: - Tuning
 
-    private let cacheLifetime: TimeInterval = 60 * 60 * 24
-    private let staleCacheLifetime: TimeInterval = 60 * 60 * 24 * 30
+    /// Кэш правил: 30 дней. Правила скачиваются при первом запуске (preload) и при необходимости.
+    private let cacheLifetime: TimeInterval = 60 * 60 * 24 * 30
+    private let staleCacheLifetime: TimeInterval = 60 * 60 * 24 * 90
     private let maxRetries = 3
     private let retryBaseDelay: UInt64 = 2_000_000_000
     private let maxJsonSizeBytes = 6 * 1024 * 1024
@@ -101,9 +102,19 @@ final class RulesService {
         let defaults = UserDefaults(suiteName: appGroupID)
         lastConfigHash = defaults?.string(forKey: "lastConfigHash")
         lastRulesCount = defaults?.integer(forKey: "lastRulesCount") ?? 0
+
+        Task { await preloadFilters() }
     }
 
     // MARK: - Public API
+
+    /// Скачивает правила при старте приложения (в фоне). Пока пользователь на онбординге — правила уже в кэше.
+    func preloadFilters() async {
+        for source in filterSources {
+            _ = await loadFilterWithRetry(url: source.url, cacheKey: source.cacheKey)
+        }
+        print("[RulesService] Preload завершён — правила в кэше")
+    }
 
     func validateOnLaunch(config: ContentBlockerConfig) {
         let newHash = hashConfig(config)
@@ -222,18 +233,27 @@ final class RulesService {
         guard !Task.isCancelled else { return .cancelled }
 
         // ──────────────────────────────────────
-        // 4. Convert
+        // 4. Convert (в фоне — тяжёлая CPU-работа)
         // ──────────────────────────────────────
-        let result = ContentBlockerConverter().convertArray(
-            rules: allLines,
-            safariVersion: .safari16_4,
-            advancedBlocking: false,
-            maxJsonSizeBytes: maxJsonSizeBytes,
-            progress: nil
-        )
+        let allLinesCopy = allLines
+        let maxBytes = maxJsonSizeBytes
+        let json: String
+        let rulesCount: Int
+        let convertResult = await Task.detached(priority: .userInitiated) {
+            let result = ContentBlockerConverter().convertArray(
+                rules: allLinesCopy,
+                safariVersion: .safari16_4,
+                advancedBlocking: false,
+                maxJsonSizeBytes: maxBytes,
+                progress: nil
+            )
+            let j = result.safariRulesJSON
+            let count = (try? JSONSerialization.jsonObject(with: Data(j.utf8)) as? [[String: Any]])?.count ?? 0
+            return (j, count)
+        }.value
 
-        let json = result.safariRulesJSON
-        let rulesCount = (try? JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])?.count ?? 0
+        json = convertResult.0
+        rulesCount = convertResult.1
 
         guard !Task.isCancelled else { return .cancelled }
 
@@ -259,8 +279,17 @@ final class RulesService {
     // MARK: - Filter loading with retry + stale fallback
 
     private func loadFilterWithRetry(url: URL, cacheKey: String) async -> String {
-        if let cached = loadCache(key: cacheKey, maxAge: cacheLifetime) {
+        if let cached = loadCache(key: cacheKey, maxAge: nil) {
+            print("[RulesService] \(cacheKey): из кэша (\(cached.count) символов)")
             return cached
+        }
+
+        for waitSeconds in [2, 4] {
+            try? await Task.sleep(nanoseconds: UInt64(waitSeconds) * 1_000_000_000)
+            if let cached = loadCache(key: cacheKey, maxAge: nil) {
+                print("[RulesService] \(cacheKey): из кэша после ожидания preload (\(cached.count) символов)")
+                return cached
+            }
         }
 
         for attempt in 0 ..< maxRetries {
@@ -278,13 +307,9 @@ final class RulesService {
                     continue
                 }
                 saveCache(text: text, key: cacheKey)
+                print("[RulesService] \(cacheKey): скачано (\(text.count) символов)")
                 return text
             }
-        }
-
-        if let stale = loadCache(key: cacheKey, maxAge: staleCacheLifetime) {
-            print("[RulesService] Using stale cache for \(cacheKey)")
-            return stale
         }
 
         print("[RulesService] All attempts failed for \(cacheKey)")
@@ -319,14 +344,18 @@ final class RulesService {
         containerURL()?.appendingPathComponent("cache_\(key)")
     }
 
-    private func loadCache(key: String, maxAge: TimeInterval) -> String? {
+    /// maxAge == nil — использовать кэш при любом возрасте (никогда не перекачивать)
+    private func loadCache(key: String, maxAge: TimeInterval?) -> String? {
         guard let url = cacheFileURL(key: key),
               FileManager.default.fileExists(atPath: url.path),
-              let attrs = try? FileManager.default.attributesOfItem(atPath: url.path),
-              let modified = attrs[.modificationDate] as? Date,
-              Date().timeIntervalSince(modified) < maxAge,
               let data = try? Data(contentsOf: url)
         else { return nil }
+        if let maxAge = maxAge {
+            guard let attrs = try? FileManager.default.attributesOfItem(atPath: url.path),
+                  let modified = attrs[.modificationDate] as? Date,
+                  Date().timeIntervalSince(modified) < maxAge
+            else { return nil }
+        }
         return String(data: data, encoding: .utf8)
     }
 

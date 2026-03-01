@@ -24,7 +24,8 @@
 "Prevent user profiling" = "Prevent user profiling";
 "Anti-Adblock killer" = "Anti-Adblock killer";
 "Avoid detection scripts" = "Avoid detection scripts";
-"WhiteList" = "WhiteList";
+"White list" = "White list";
+"Add websites to not block ads" = "Add websites to not block ads";
 
 // MARK: - Time Range
 "Today" = "Today";

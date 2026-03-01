@@ -38,6 +38,7 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     
     init(){
         flow = hasSeenOnbording ? .main : .onboarding
+        _ = ruleService
     }
     
     @ViewBuilder

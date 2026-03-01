@@ -222,11 +222,11 @@ struct GeneralView: View {
                 .foregroundStyle(.accent)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("WhiteList".localized)
+                Text("White list".localized)
                     .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundStyle(.white)
 
-                Text("Avoid detections scripts".localized)
+                Text("Add websites to not block ads".localized)
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundStyle(.grayText)
             }
