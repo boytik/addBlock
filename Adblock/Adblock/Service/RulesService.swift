@@ -58,8 +58,8 @@ final class RulesService {
     private let jsonFileName = "blockerList.json"
 
     private let filterSources: [(url: URL, cacheKey: String, configFlag: KeyPath<ContentBlockerConfig, Bool>)] = [
-        (URL(string: "https://easylist.to/easylist/easylist.txt")!, "easylist.txt", \.blockAds),
-        (URL(string: "https://easylist.to/easylist/easyprivacy.txt")!, "easyprivacy.txt", \.blockTrackers),
+        (URL(string: "https://raw.githubusercontent.com/boytik/addBlock/048611aa447398290f441445e5743c329d017ad9/easylist.txt")!, "easylist.txt", \.blockAds),
+        (URL(string: "https://raw.githubusercontent.com/boytik/addBlock/048611aa447398290f441445e5743c329d017ad9/easyprivacy.txt")!, "easyprivacy.txt", \.blockTrackers),
     ]
 
     private let defaultVideoWhitelist = [
