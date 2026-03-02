@@ -110,15 +110,22 @@ class GeneralViewModel: ObservableObject {
     func toggleProtection() {
         let newValue = !isWorking
 
+        // Оптимистичный UI — сразу показываем включение
+        isWorking = newValue
+        if newValue {
+            AppInstallDateStore.shared.recordProtectionEnabled()
+        }
+
         Task {
             let result = await ruleServise.updateRules(
                 config: makeConfig(with: newValue)
             )
 
-            if result.success {
-                self.isWorking = newValue
+            if !result.success {
+                // Откат при ошибке
+                isWorking = !newValue
                 if newValue {
-                    AppInstallDateStore.shared.recordProtectionEnabled()
+                    // Отменить recordProtectionEnabled не нужно — защита не включилась
                 }
             }
         }

@@ -108,12 +108,38 @@ final class RulesService {
 
     // MARK: - Public API
 
-    /// Скачивает правила при старте приложения (в фоне). Пока пользователь на онбординге — правила уже в кэше.
+    /// Скачивает правила при старте приложения (в фоне). Конвертирует в JSON и кэширует — включение будет мгновенным.
     func preloadFilters() async {
         for source in filterSources {
             _ = await loadFilterWithRetry(url: source.url, cacheKey: source.cacheKey)
         }
-        print("[RulesService] Preload завершён — правила в кэше")
+
+        // Pre-convert в JSON в фоне — при включении не нужна тяжёлая конвертация
+        let adsText = loadCache(key: filterSources[0].cacheKey, maxAge: nil) ?? ""
+        let trackersText = loadCache(key: filterSources[1].cacheKey, maxAge: nil) ?? ""
+
+        let maxBytes = maxJsonSizeBytes
+        await Task.detached(priority: .utility) {
+            if !adsText.isEmpty {
+                let lines = adsText.components(separatedBy: .newlines)
+                if let json = Self.staticConvertToJson(lines, maxJsonSizeBytes: maxBytes) {
+                    await MainActor.run { self.saveCache(text: json, key: "prebuilt_ads") }
+                }
+            }
+            if !trackersText.isEmpty {
+                let lines = trackersText.components(separatedBy: .newlines)
+                if let json = Self.staticConvertToJson(lines, maxJsonSizeBytes: maxBytes) {
+                    await MainActor.run { self.saveCache(text: json, key: "prebuilt_trackers") }
+                }
+            }
+            if !adsText.isEmpty && !trackersText.isEmpty {
+                let combined = adsText.components(separatedBy: .newlines) + trackersText.components(separatedBy: .newlines)
+                if let json = Self.staticConvertToJson(combined, maxJsonSizeBytes: maxBytes) {
+                    await MainActor.run { self.saveCache(text: json, key: "prebuilt_both") }
+                }
+            }
+        }.value
+        print("[RulesService] Preload завершён — правила и JSON в кэше")
     }
 
     func validateOnLaunch(config: ContentBlockerConfig) {
@@ -150,6 +176,9 @@ final class RulesService {
         for source in filterSources {
             deleteCacheFile(key: source.cacheKey)
         }
+        for key in ["prebuilt_ads", "prebuilt_trackers", "prebuilt_both"] {
+            deleteCacheFile(key: key)
+        }
         lastConfigHash = nil
         let defaults = UserDefaults(suiteName: appGroupID)
         defaults?.removeObject(forKey: "lastConfigHash")
@@ -173,6 +202,30 @@ final class RulesService {
         }
 
         guard !Task.isCancelled else { return .cancelled }
+
+        // ──────────────────────────────────────
+        // Fast path: prebuilt JSON + merge whitelist/custom
+        // ──────────────────────────────────────
+        let prebuiltKey = prebuiltKeyForConfig(config)
+        if let prebuiltKey, let baseJson = loadCache(key: prebuiltKey, maxAge: nil) {
+            let extraLines = buildExtraLines(config: config)
+            if extraLines.isEmpty {
+                let updateResult = await writeAndReload(json: baseJson, rulesCount: countRules(from: baseJson))
+                if updateResult.success {
+                    saveHash(hash, rulesCount: countRules(from: baseJson))
+                    lastRulesCount = countRules(from: baseJson)
+                }
+                return updateResult
+            }
+            if let merged = mergePrebuiltWithExtra(baseJson: baseJson, extraLines: extraLines) {
+                let updateResult = await writeAndReload(json: merged.json, rulesCount: merged.count)
+                if updateResult.success {
+                    saveHash(hash, rulesCount: merged.count)
+                    lastRulesCount = merged.count
+                }
+                return updateResult
+            }
+        }
 
         // ──────────────────────────────────────
         // 1. Global filters (EasyList, EasyPrivacy)
@@ -442,5 +495,68 @@ final class RulesService {
         let defaults = UserDefaults(suiteName: appGroupID)
         defaults?.set(hash, forKey: "lastConfigHash")
         defaults?.set(rulesCount, forKey: "lastRulesCount")
+    }
+
+    // MARK: - Prebuilt JSON helpers
+
+    private func prebuiltKeyForConfig(_ config: ContentBlockerConfig) -> String? {
+        let ads = config.blockAds
+        let trackers = config.blockTrackers
+        if ads && trackers { return "prebuilt_both" }
+        if ads { return "prebuilt_ads" }
+        if trackers { return "prebuilt_trackers" }
+        return nil
+    }
+
+    private func buildExtraLines(config: ContentBlockerConfig) -> [String] {
+        var lines: [String] = []
+        // Whitelist first — перекрывает блокировки
+        let allWhitelist = Set(config.whiteListedDomains + defaultVideoWhitelist)
+        for domain in allWhitelist where !domain.isEmpty {
+            let cleaned = domain
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .lowercased()
+                .replacingOccurrences(of: "https://", with: "")
+                .replacingOccurrences(of: "http://", with: "")
+                .replacingOccurrences(of: "www.", with: "")
+            guard !cleaned.isEmpty else { continue }
+            lines.append("@@||\(cleaned)^$document")
+            lines.append("@@||\(cleaned)^")
+        }
+        lines.append(contentsOf: customRulesStore.filterLines())
+        return lines
+    }
+
+    private func convertToJson(_ lines: [String]) -> String? {
+        Self.staticConvertToJson(lines, maxJsonSizeBytes: maxJsonSizeBytes)
+    }
+
+    private nonisolated static func staticConvertToJson(_ lines: [String], maxJsonSizeBytes: Int) -> String? {
+        let result = ContentBlockerConverter().convertArray(
+            rules: lines,
+            safariVersion: .safari16_4,
+            advancedBlocking: false,
+            maxJsonSizeBytes: maxJsonSizeBytes,
+            progress: nil
+        )
+        return result.safariRulesJSON.isEmpty ? nil : result.safariRulesJSON
+    }
+
+    private func mergePrebuiltWithExtra(baseJson: String, extraLines: [String]) -> (json: String, count: Int)? {
+        let extraJson = convertToJson(extraLines)
+        guard let extraJson, !extraJson.isEmpty else { return nil }
+        guard let baseArray = try? JSONSerialization.jsonObject(with: Data(baseJson.utf8)) as? [[String: Any]],
+              let extraArray = try? JSONSerialization.jsonObject(with: Data(extraJson.utf8)) as? [[String: Any]]
+        else { return nil }
+        // Whitelist/custom first — они перекрывают блокировки
+        let merged = extraArray + baseArray
+        guard let data = try? JSONSerialization.data(withJSONObject: merged),
+              let json = String(data: data, encoding: .utf8)
+        else { return nil }
+        return (json, merged.count)
+    }
+
+    private func countRules(from json: String) -> Int {
+        (try? JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])?.count ?? 0
     }
 }
