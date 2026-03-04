@@ -1,3 +1,9 @@
+//
+//  File.swift
+//  Adblock
+//
+//  Created by Telegram: @Boytik_E on 03.02.2026.
+//
 import SwiftUI
 
 struct AddCustomRule: View {

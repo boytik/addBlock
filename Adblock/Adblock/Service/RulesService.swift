@@ -1,3 +1,10 @@
+//
+//  File.swift
+//  Adblock
+//
+//  Created by Telegram: @Boytik_E on 03.02.2026.
+//
+
 import Foundation
 import SafariServices
 import ContentBlockerConverter
@@ -87,6 +94,11 @@ final class RulesService {
     private var lastConfigHash: String?
     private let session: URLSession
 
+    /// Prebuilt JSON в памяти — при включении не читаем с диска
+    private var prebuiltAdsJson: String?
+    private var prebuiltTrackersJson: String?
+    private var prebuiltBothJson: String?
+
     // MARK: - Init
 
     init(customRulesStore: CustomRulesStore) {
@@ -103,43 +115,58 @@ final class RulesService {
         lastConfigHash = defaults?.string(forKey: "lastConfigHash")
         lastRulesCount = defaults?.integer(forKey: "lastRulesCount") ?? 0
 
+        loadPrebuiltIntoMemory() // Из кэша при перезапуске — включение мгновенно
         Task { await preloadFilters() }
+    }
+
+    /// Загружает prebuilt JSON из кэша в память (при перезапуске приложения)
+    private func loadPrebuiltIntoMemory() {
+        if let json = loadCache(key: "prebuilt_ads", maxAge: nil) { prebuiltAdsJson = json }
+        if let json = loadCache(key: "prebuilt_trackers", maxAge: nil) { prebuiltTrackersJson = json }
+        if let json = loadCache(key: "prebuilt_both", maxAge: nil) { prebuiltBothJson = json }
     }
 
     // MARK: - Public API
 
-    /// Скачивает правила при старте приложения (в фоне). Конвертирует в JSON и кэширует — включение будет мгновенным.
+    /// Скачивает правила при старте приложения (в фоне). Параллельная загрузка + конвертация в JSON в память.
     func preloadFilters() async {
-        for source in filterSources {
-            _ = await loadFilterWithRetry(url: source.url, cacheKey: source.cacheKey)
-        }
+        // Параллельная загрузка обоих фильтров
+        async let adsText = loadFilterWithRetry(url: filterSources[0].url, cacheKey: filterSources[0].cacheKey)
+        async let trackersText = loadFilterWithRetry(url: filterSources[1].url, cacheKey: filterSources[1].cacheKey)
+        let (ads, trackers) = await (adsText, trackersText)
 
-        // Pre-convert в JSON в фоне — при включении не нужна тяжёлая конвертация
-        let adsText = loadCache(key: filterSources[0].cacheKey, maxAge: nil) ?? ""
-        let trackersText = loadCache(key: filterSources[1].cacheKey, maxAge: nil) ?? ""
-
+        // Pre-convert в JSON в фоне + сохранить в память и на диск
         let maxBytes = maxJsonSizeBytes
         await Task.detached(priority: .utility) {
-            if !adsText.isEmpty {
-                let lines = adsText.components(separatedBy: .newlines)
+            if !ads.isEmpty {
+                let lines = ads.components(separatedBy: .newlines)
                 if let json = Self.staticConvertToJson(lines, maxJsonSizeBytes: maxBytes) {
-                    await MainActor.run { self.saveCache(text: json, key: "prebuilt_ads") }
+                    await MainActor.run {
+                        self.prebuiltAdsJson = json
+                        self.saveCache(text: json, key: "prebuilt_ads")
+                    }
                 }
             }
-            if !trackersText.isEmpty {
-                let lines = trackersText.components(separatedBy: .newlines)
+            if !trackers.isEmpty {
+                let lines = trackers.components(separatedBy: .newlines)
                 if let json = Self.staticConvertToJson(lines, maxJsonSizeBytes: maxBytes) {
-                    await MainActor.run { self.saveCache(text: json, key: "prebuilt_trackers") }
+                    await MainActor.run {
+                        self.prebuiltTrackersJson = json
+                        self.saveCache(text: json, key: "prebuilt_trackers")
+                    }
                 }
             }
-            if !adsText.isEmpty && !trackersText.isEmpty {
-                let combined = adsText.components(separatedBy: .newlines) + trackersText.components(separatedBy: .newlines)
+            if !ads.isEmpty && !trackers.isEmpty {
+                let combined = ads.components(separatedBy: .newlines) + trackers.components(separatedBy: .newlines)
                 if let json = Self.staticConvertToJson(combined, maxJsonSizeBytes: maxBytes) {
-                    await MainActor.run { self.saveCache(text: json, key: "prebuilt_both") }
+                    await MainActor.run {
+                        self.prebuiltBothJson = json
+                        self.saveCache(text: json, key: "prebuilt_both")
+                    }
                 }
             }
         }.value
-        print("[RulesService] Preload завершён — правила и JSON в кэше")
+        print("[RulesService] Preload завершён — правила и JSON в памяти и кэше")
     }
 
     func validateOnLaunch(config: ContentBlockerConfig) {
@@ -179,6 +206,9 @@ final class RulesService {
         for key in ["prebuilt_ads", "prebuilt_trackers", "prebuilt_both"] {
             deleteCacheFile(key: key)
         }
+        prebuiltAdsJson = nil
+        prebuiltTrackersJson = nil
+        prebuiltBothJson = nil
         lastConfigHash = nil
         let defaults = UserDefaults(suiteName: appGroupID)
         defaults?.removeObject(forKey: "lastConfigHash")
@@ -204,10 +234,10 @@ final class RulesService {
         guard !Task.isCancelled else { return .cancelled }
 
         // ──────────────────────────────────────
-        // Fast path: prebuilt JSON + merge whitelist/custom
+        // Fast path: prebuilt JSON из памяти или кэша + merge whitelist/custom
         // ──────────────────────────────────────
-        let prebuiltKey = prebuiltKeyForConfig(config)
-        if let prebuiltKey, let baseJson = loadCache(key: prebuiltKey, maxAge: nil) {
+        let baseJson = prebuiltJsonForConfig(config)
+        if let baseJson {
             let extraLines = buildExtraLines(config: config)
             if extraLines.isEmpty {
                 let updateResult = await writeAndReload(json: baseJson, rulesCount: countRules(from: baseJson))
@@ -499,12 +529,19 @@ final class RulesService {
 
     // MARK: - Prebuilt JSON helpers
 
-    private func prebuiltKeyForConfig(_ config: ContentBlockerConfig) -> String? {
+    /// Возвращает prebuilt JSON из памяти или с диска
+    private func prebuiltJsonForConfig(_ config: ContentBlockerConfig) -> String? {
         let ads = config.blockAds
         let trackers = config.blockTrackers
-        if ads && trackers { return "prebuilt_both" }
-        if ads { return "prebuilt_ads" }
-        if trackers { return "prebuilt_trackers" }
+        if ads && trackers {
+            return prebuiltBothJson ?? loadCache(key: "prebuilt_both", maxAge: nil)
+        }
+        if ads {
+            return prebuiltAdsJson ?? loadCache(key: "prebuilt_ads", maxAge: nil)
+        }
+        if trackers {
+            return prebuiltTrackersJson ?? loadCache(key: "prebuilt_trackers", maxAge: nil)
+        }
         return nil
     }
 

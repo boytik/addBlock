@@ -1,3 +1,9 @@
+//
+//  File.swift
+//  Adblock
+//
+//  Created by Telegram: @Boytik_E on 03.02.2026.
+//
 import Foundation
 
 /// Хранит статистику блокировок по дням. Формат: [дата "yyyy-MM-dd": ["ads": Int, "trackers": Int]]

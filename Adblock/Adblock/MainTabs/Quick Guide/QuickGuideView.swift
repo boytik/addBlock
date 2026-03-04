@@ -1,4 +1,9 @@
-
+//
+//  File.swift
+//  Adblock
+//
+//  Created by Telegram: @Boytik_E on 03.02.2026.
+//
 
 import SwiftUI
 
@@ -11,20 +16,27 @@ struct QuickGuideView: View {
     
     var body: some View {
         ZStack {
-            Color.black
+            Color("bgQuic")
                 .ignoresSafeArea()
             ScrollView {
                 VStack {
                     header
                         .padding(.vertical)
                     Image("Image")
+                        .resizable()
+                        .frame(width: 295, height: 295)
                         .padding(.vertical)
-                    Text("Let's kill those ads".localized)
-                        .font(.custom("Inter18pt-Bold", size: 30))
-                        .foregroundColor(.white)
-                    Text("Enable the Safari extension to start \nbrowsing effectively distraction-free.".localized)
-                        .font(.custom("Inter18pt-Regular", size: 14))
-                        .foregroundColor(.grayText)
+                    VStack(spacing: 10) {
+                        Text("Let's kill those ads".localized)
+                            .font(.custom("Inter18pt-Bold", size: 30))
+                            .foregroundColor(.white)
+                        Text("Enable the Safari extension to start \nbrowsing effectively distraction-free.".localized)
+                            .font(.custom("Inter18pt-Regular", size: 15))
+                            .foregroundColor(.grayText)
+                            .multilineTextAlignment(.center)
+                            .lineSpacing(8.75)
+                    }
+                    .padding(.bottom, 30)
                     
                     openSettings
                     tapExtensions
@@ -42,11 +54,12 @@ struct QuickGuideView: View {
                 viewModal.closeSheet()
             }) {
                 Image(systemName: "xmark")
+                    .foregroundColor(.white)
             }
             Spacer()
         }
         .overlay{
-            Text("Add Custom Rule".localized)
+            Text("Quick Guide".localized)
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
@@ -69,7 +82,7 @@ struct QuickGuideView: View {
                  }
                  .padding(.trailing)
         }
-        .frame(maxWidth: .infinity)
+        .frame(width: 295)
         .frame(height: 108)
         .background(RoundedRectangle(cornerRadius: 24))
         .foregroundStyle(.bgForBut)
@@ -99,7 +112,7 @@ struct QuickGuideView: View {
             }
             .padding(.trailing)
         }
-        .frame(maxWidth: .infinity)
+        .frame(width: 295)
         .frame(height: 108)
         .background(RoundedRectangle(cornerRadius: 24))
         .foregroundStyle(.bgForBut)
@@ -125,7 +138,7 @@ struct QuickGuideView: View {
                     .foregroundColor(.green)
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(width: 295)
         .frame(height: 108)
         .background(RoundedRectangle(cornerRadius: 24))
         .foregroundStyle(.bgForBut)
@@ -160,5 +173,6 @@ struct QuickGuideView: View {
                     .frame(height:56)
             }
         }
+        .frame(width: 295)
     }
 }

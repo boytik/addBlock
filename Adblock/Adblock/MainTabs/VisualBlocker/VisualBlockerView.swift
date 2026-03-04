@@ -1,8 +1,8 @@
 //
-//  VisualBlocker.swift
+//  File.swift
 //  Adblock
 //
-//  Created by Евгений on 18.02.2026.
+//  Created by Telegram: @Boytik_E on 03.02.2026.
 //
 
 import SwiftUI

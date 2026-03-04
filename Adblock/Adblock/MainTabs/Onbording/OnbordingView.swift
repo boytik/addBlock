@@ -1,4 +1,9 @@
-
+//
+//  File.swift
+//  Adblock
+//
+//  Created by Telegram: @Boytik_E on 03.02.2026.
+//
 
 import SwiftUI
 import StoreKit
@@ -21,7 +26,7 @@ struct OnbordingView: View {
                 Spacer()
                 basement
             }
-            .padding(.bottom, 50)
+            .padding(.bottom, 70)
         }
         .onChange(of: viewModel.shuoldRequestReview) { newValue in
             if newValue {
@@ -33,31 +38,40 @@ struct OnbordingView: View {
     }
     
     private var basement: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            VStack(spacing: 12) {
+        VStack(alignment: .center, spacing: 0) {
+            
+            VStack() {
                 Text("Ad Blocker \nNo Ads & Trackers".localized)
-                    .font(.custom("Inter18pt-Bold", size: 32))
+                    .font(.custom("Inter18pt-Bold", size: 34))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                Text(" Easily navigate your TV with your phone \nUse the touchpad for fast, smooth control".localized)
-                    .font(.custom("Inter18pt-Medium", size: 14))
+                    .padding(.bottom)
+
+                Text("Easily navigate your TV with your phone\nUse the touchpad for fast, smooth control".localized)
+                    .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundColor(.grayText)
                     .multilineTextAlignment(.center)
+                    .lineSpacing(8)
+                    .padding(.bottom)
             }
+
             PageIndicator(currentPage: viewModel.currentPage, totalPages: 5)
-                .padding(.vertical, 24)
+                .padding(.top, 24)
+                .padding(.bottom, 24)
+
             Button(action: {
                 viewModel.nextStep()
-            } ) {
+            }) {
                 Text(viewModel.textForButton)
                     .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 56)
-                    .background(Color(.red))
+                    .background(Color("redOnb"))
                     .clipShape(RoundedRectangle(cornerRadius: 46))
             }
+            .padding(.bottom)
+
             if viewModel.showTermOfUseAndPrivacy {
                 HStack(spacing: 32) {
                     Button(action: {
@@ -67,6 +81,7 @@ struct OnbordingView: View {
                             .font(.custom("Inter18pt-Regular", size: 14))
                             .foregroundColor(.grayText)
                     }
+
                     Button(action: {
                         viewModel.openPrivacyPolicy()
                     }) {
@@ -75,7 +90,7 @@ struct OnbordingView: View {
                             .foregroundColor(.grayText)
                     }
                 }
-                .padding(.vertical, 10)
+                .padding(.top, 10)
             }
         }
         .padding(.horizontal, 24)
