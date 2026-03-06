@@ -21,23 +21,23 @@ struct SettingsView: View {
                     .padding(.bottom, 24)
 
                 RowForSettings(iconName: "feedback",
-                               titel: "Share feedback".localized,
+                               titel: "Share feedback",
                                action: { viewModal.shareFeedback() })
 
                 RowForSettings(iconName: "rate",
-                               titel: "Rate Our App".localized,
+                               titel: "Rate Our App",
                                action: { viewModal.rateApp() })
 
                 RowForSettings(iconName: "contact",
-                               titel: "Contact Us".localized,
+                               titel: "Contact Us",
                                action: { viewModal.contactUs() })
 
                 RowForSettings(iconName: "privacy",
-                               titel: "Privacy Policy".localized,
+                               titel: "Privacy Policy",
                                action: { viewModal.openPrivacyPolicy() })
 
                 RowForSettings(iconName: "terms",
-                               titel: "Terms of Service".localized,
+                               titel: "Terms of Service",
                                action: { viewModal.openTermsOfService() })
                 Spacer()
              
@@ -61,7 +61,7 @@ struct SettingsView: View {
             Spacer()
         }
         .overlay{
-            Text("Settings".localized)
+            Text("Settings")
                 .font(.custom("Inter18pt-SemiBold", size: 18))
                 .foregroundStyle(.white)
         }

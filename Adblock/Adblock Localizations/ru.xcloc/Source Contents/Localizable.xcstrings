@@ -1,0 +1,201 @@
+{
+  "sourceLanguage" : "ru",
+  "strings" : {
+    "" : {
+
+    },
+    "— rule for this domain already exists" : {
+
+    },
+    "— this domain is already in WhiteList" : {
+
+    },
+    ", then tap \nExtensions." : {
+
+    },
+    "(OPTIONAL)" : {
+
+    },
+    "%@" : {
+
+    },
+    "%lld" : {
+
+    },
+    "1. Open Settings" : {
+
+    },
+    "2. Tap Extensions" : {
+
+    },
+    "3. Toggle On" : {
+
+    },
+    "Ad Blocker \nNo Ads & Trackers" : {
+
+    },
+    "AdBlocker" : {
+
+    },
+    "Add Custom Rule" : {
+
+    },
+    "Add Rule" : {
+
+    },
+    "Add specific rules to block elements\non sites that bypass general filters." : {
+
+    },
+    "Add to White List" : {
+
+    },
+    "Add WebSite" : {
+
+    },
+    "Add websites to not block ads" : {
+
+    },
+    "Are you sure you want to remove this website from the white list?" : {
+
+    },
+    "Blocking Options" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Custom" : {
+
+    },
+    "Custom Rules" : {
+
+    },
+    "Delete Rule" : {
+
+    },
+    "Domain Activity" : {
+
+    },
+    "e.g., youtube.com" : {
+
+    },
+    "Easily navigate your TV with your phone\nUse the touchpad for fast, smooth control" : {
+
+    },
+    "Edit Custom Rule" : {
+
+    },
+    "Enable the Safari extension to start \nbrowsing effectively distraction-free." : {
+
+    },
+    "Find this app in the list and switch \ntoggle to " : {
+
+    },
+    "General" : {
+
+    },
+    "GLOBAL PROTECTION RULES" : {
+
+    },
+    "Go to Settings" : {
+
+    },
+    "https://youtube.com" : {
+
+    },
+    "I'll do this later" : {
+
+    },
+    "Last 24h " : {
+
+    },
+    "Last month" : {
+
+    },
+    "Last week" : {
+
+    },
+    "Let's kill those ads" : {
+
+    },
+    "Manually select and hide annoying elements on \nany webpage to create custom rules." : {
+
+    },
+    "My Favorite Site" : {
+
+    },
+    "NAME " : {
+
+    },
+    "No website in white list yet" : {
+
+    },
+    "ON." : {
+
+    },
+    "Open Safari Tutorial" : {
+
+    },
+    "Privacy Policy" : {
+
+    },
+    "Protection Active" : {
+
+    },
+    "Protection Inactive" : {
+
+    },
+    "Quick Guide" : {
+
+    },
+    "Remove" : {
+
+    },
+    "Remove from White List" : {
+
+    },
+    "Rule applies to this domain and all its subdomains." : {
+
+    },
+    "Safari" : {
+
+    },
+    "Save Rule" : {
+
+    },
+    "Scroll down to find " : {
+
+    },
+    "Search domains..." : {
+
+    },
+    "Settings" : {
+
+    },
+    "Tap the button below to \nautomatically open iOS Settings." : {
+
+    },
+    "Target Website" : {
+
+    },
+    "Terms of use" : {
+
+    },
+    "Visual Blocker" : {
+
+    },
+    "WEBSITE LINK" : {
+
+    },
+    "White List" : {
+
+    },
+    "Your device is not secure from ads & trackers." : {
+
+    },
+    "Your device is secure from ads & trackers." : {
+
+    }
+  },
+  "version" : "1.1"
+}

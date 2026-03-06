@@ -32,15 +32,15 @@ struct GeneralView: View {
                         .padding(.vertical)
                     
                     HStack(spacing: 16) {
-                        ReusableCardView(titel: "ADS BLOCKED".localized,
+                        ReusableCardView(titel: "ADS BLOCKED",
                                          currentCount: viewModel.adsBlockedCount,
                                          icon: "nosign")
-                        ReusableCardView(titel: "TRACKERS".localized,
+                        ReusableCardView(titel: "TRACKERS",
                                          currentCount: viewModel.trackersBlokedCount,
                                          icon: "eye.slash.fill")
                     }
                     HStack {
-                        Text("GLOBAL PROTECTION RULES".localized)
+                        Text("GLOBAL PROTECTION RULES")
                             .font(.custom("Inter18pt-Bold", size: 12))
                             .foregroundStyle(.grayText)
                             .padding(.top)
@@ -86,7 +86,7 @@ struct GeneralView: View {
             .padding(.trailing)
         }
         .overlay {
-            Text("AdBlocker".localized)
+            Text("AdBlocker")
                 .font(.custom("Inter18pt-Bold", size: 20))
                 .tracking(-0.5)
                 .foregroundStyle(.white)
@@ -146,15 +146,13 @@ struct GeneralView: View {
     //MARK: Titels Under Button
     private var titelsUnderButton: some View {
         Group {
-            Text(viewModel.isWorking && viewModel.areExtensionsEnabled ? "Protection Active".localized : "Protection Inactive".localized)
+            Text(viewModel.isWorking && viewModel.areExtensionsEnabled ? "Protection Active" : "Protection Inactive")
                 .font(.custom("Inter18pt-Bold", size: 30))
                 .foregroundStyle(.white)
             
             Text(
                 viewModel.isWorking && viewModel.areExtensionsEnabled
-                ? "Your device is secure from ads & trackers.".localized
-                : "Your device is not secure from ads & trackers.".localized
-            )
+                ? "Your device is secure from ads & trackers."                : "Your device is not secure from ads & trackers."            )
             .font(.custom("Inter18pt-Regular", size: 14))
             .foregroundStyle(.grayText)
             .padding(.top, 5)
@@ -195,22 +193,22 @@ struct GeneralView: View {
         VStack {
             ProtectionRowView(
                 imageName: "phone",
-                title: "Block Ads".localized,
-                subtitle: "Web & In-app banners".localized,
+                title: "Block Ads",
+                subtitle: "Web & In-app banners",
                 isOn: $viewModel.isBlockAds
             )
             
             ProtectionRowView(
                 imageName: "finger",
-                title: "Block Trackers".localized,
-                subtitle: "Prevent user profiling".localized,
+                title: "Block Trackers",
+                subtitle: "Prevent user profiling",
                 isOn: $viewModel.isBlockTrackers
             )
             
             ProtectionRowView(
                 imageName: "bones",
-                title: "Anti-Adblock killer".localized,
-                subtitle: "Avoid detection scripts".localized,
+                title: "Anti-Adblock killer",
+                subtitle: "Avoid detection scripts",
                 isOn: $viewModel.isAntiAdblokKiller
             )
             whiteList
@@ -227,11 +225,11 @@ struct GeneralView: View {
                 .foregroundStyle(.accent)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("White List".localized)
+                Text("White List")
                     .font(.custom("Inter18pt-Medium", size: 16))
                     .foregroundStyle(.white)
 
-                Text("Add websites to not block ads".localized)
+                Text("Add websites to not block ads")
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundStyle(.grayText)
             }

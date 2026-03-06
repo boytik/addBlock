@@ -55,7 +55,7 @@ struct WhiteListView: View {
             Spacer()
         }
         .overlay{
-            Text("White List".localized)
+            Text("White List")
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
@@ -66,7 +66,7 @@ struct WhiteListView: View {
         VStack(spacing: 24) {
             Image("Empty")
                 .frame(width: 96, height: 96)
-            Text("No website in white list yet".localized)
+            Text("No website in white list yet")
                 .font(.custom("Inter18pt-Regular", size: 14))
                 .foregroundColor(.grayText)
         }
@@ -84,21 +84,21 @@ struct WhiteListView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Color.black)
-        .alert("Remove from White List".localized, isPresented: Binding(
+        .alert("Remove from White List", isPresented: Binding(
             get: { itemToDelete != nil },
             set: { if !$0 { itemToDelete = nil } }
         )) {
-            Button("Cancel".localized, role: .cancel) {
+            Button("Cancel", role: .cancel) {
                 itemToDelete = nil
             }
-            Button("Remove".localized, role: .destructive) {
+            Button("Remove", role: .destructive) {
                 if let item = itemToDelete {
                     viewModel.deleteUrl(id: item.id)
                 }
                 itemToDelete = nil
             }
         } message: {
-            Text("Are you sure you want to remove this website from the white list?".localized)
+            Text("Are you sure you want to remove this website from the white list?")
         }
     }
     
@@ -113,7 +113,7 @@ struct WhiteListView: View {
                     .foregroundColor(.white)
                     .frame(width: 16, height: 16)
                     .padding()
-                Text("Add WebSite".localized)
+                Text("Add WebSite")
                     .font(.custom("Inter18pt-SemiBold", size: 16))
                     .foregroundColor(.white)
             }
@@ -138,7 +138,7 @@ struct RowForList: View {
                     Image("ImgRow")
                         .frame(width: 40, height: 40)
                     VStack(alignment: .leading) {
-                        Text("\(titel ?? "Website".localized)")
+                        Text("\(titel ?? "Website")")
                             .font(.custom("Inter18pt-Medium", size: 16))
                             .foregroundColor(.white)
                         Text("\(url)")

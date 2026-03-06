@@ -1,0 +1,540 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "— rule for this domain already exists" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Правило для этого сайта уже существует"
+          }
+        }
+      }
+    },
+    "— this domain is already in WhiteList" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот домен уже есть в белом списке"
+          }
+        }
+      }
+    },
+    ", then tap \nExtensions." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ", затем нажми на расширение."
+          }
+        }
+      }
+    },
+    "(OPTIONAL)" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(По желанию)"
+          }
+        }
+      }
+    },
+    "%@" : {
+
+    },
+    "%lld" : {
+      "localizations" : {
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "needs_review",
+                  "value" : "%lld"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "needs_review",
+                  "value" : "%lld"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "needs_review",
+                  "value" : "%lld"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "1. Open Settings" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1. Открой Настройки"
+          }
+        }
+      }
+    },
+    "2. Tap Extensions" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2. Нажми «Расширение»"
+          }
+        }
+      }
+    },
+    "3. Toggle On" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3. Включи"
+          }
+        }
+      }
+    },
+    "Ad Blocker \nNo Ads & Trackers" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Блокировщик рекламы\nБез рекламы и трекеров"
+          }
+        }
+      }
+    },
+    "AdBlocker" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Блокировщик рекламы "
+          }
+        }
+      }
+    },
+    "Add Custom Rule" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добить собственное правило"
+          }
+        }
+      }
+    },
+    "Add Rule" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить правило"
+          }
+        }
+      }
+    },
+    "Add specific rules to block elements\non sites that bypass general filters." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте специальные правила для блокировки элементов на сайтах, которые обходят общие фильтры."
+          }
+        }
+      }
+    },
+    "Add to White List" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить в белый список"
+          }
+        }
+      }
+    },
+    "Add WebSite" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить сайт"
+          }
+        }
+      }
+    },
+    "Add websites to not block ads" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить сайты, где не блокируется реклама."
+          }
+        }
+      }
+    },
+    "Are you sure you want to remove this website from the white list?" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите удалить сайт из белого списка?"
+          }
+        }
+      }
+    },
+    "Blocking Options" : {
+
+    },
+    "Cancel" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отменить "
+          }
+        }
+      }
+    },
+    "Custom" : {
+
+    },
+    "Custom Rules" : {
+
+    },
+    "Delete Rule" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить правило"
+          }
+        }
+      }
+    },
+    "Domain Activity" : {
+
+    },
+    "e.g., youtube.com" : {
+
+    },
+    "Easily navigate your TV with your phone\nUse the touchpad for fast, smooth control" : {
+
+    },
+    "Edit Custom Rule" : {
+
+    },
+    "Enable the Safari extension to start \nbrowsing effectively distraction-free." : {
+
+    },
+    "Find this app in the list and switch \ntoggle to " : {
+
+    },
+    "General" : {
+
+    },
+    "GLOBAL PROTECTION RULES" : {
+
+    },
+    "Go to Settings" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть Настройки"
+          }
+        }
+      }
+    },
+    "https://youtube.com" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://vk.com/"
+          }
+        }
+      }
+    },
+    "I'll do this later" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сделаю это позже"
+          }
+        }
+      }
+    },
+    "Last 24h " : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последние 24 часа"
+          }
+        }
+      }
+    },
+    "Last month" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прошлый месяц"
+          }
+        }
+      }
+    },
+    "Last week" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прошлая неделя"
+          }
+        }
+      }
+    },
+    "Let's kill those ads" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уничтожим это рекламу"
+          }
+        }
+      }
+    },
+    "Manually select and hide annoying elements on \nany webpage to create custom rules." : {
+
+    },
+    "My Favorite Site" : {
+
+    },
+    "NAME " : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название"
+          }
+        }
+      }
+    },
+    "No website in white list yet" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет сайтов в белом списке"
+          }
+        }
+      }
+    },
+    "ON." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включен"
+          }
+        }
+      }
+    },
+    "Open Safari Tutorial" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть гайд"
+          }
+        }
+      }
+    },
+    "Privacy Policy" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Политика конфиденциальности"
+          }
+        }
+      }
+    },
+    "Protection Active" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Защита включена"
+          }
+        }
+      }
+    },
+    "Protection Inactive" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Защита выключена"
+          }
+        }
+      }
+    },
+    "Quick Guide" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Быстрый Гайд"
+          }
+        }
+      }
+    },
+    "Remove" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        }
+      }
+    },
+    "Remove from White List" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить из белого списка"
+          }
+        }
+      }
+    },
+    "Rule applies to this domain and all its subdomains." : {
+
+    },
+    "Safari" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сафари"
+          }
+        }
+      }
+    },
+    "Save Rule" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить правило"
+          }
+        }
+      }
+    },
+    "Scroll down to find " : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пролистни вниз, чтобы найти"
+          }
+        }
+      }
+    },
+    "Search domains..." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск сайта"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки"
+          }
+        }
+      }
+    },
+    "Tap the button below to \nautomatically open iOS Settings." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите кнопку ниже, чтобы автоматически открыть настройки iOS."
+          }
+        }
+      }
+    },
+    "Target Website" : {
+
+    },
+    "Terms of use" : {
+
+    },
+    "Visual Blocker" : {
+
+    },
+    "WEBSITE LINK" : {
+
+    },
+    "White List" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Белый список"
+          }
+        }
+      }
+    },
+    "Your device is not secure from ads & trackers." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваше устройство не защищено от рекламы и трекеров"
+          }
+        }
+      }
+    },
+    "Your device is secure from ads & trackers." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваше устройство защищено от рекламы и трекеров"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

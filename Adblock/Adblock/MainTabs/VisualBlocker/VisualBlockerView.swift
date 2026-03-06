@@ -24,10 +24,10 @@ struct VisualBlockerView: View {
                         .padding(.vertical)
                     Image("V1")
                     
-                    Text("Visual Blocker".localized)
+                    Text("Visual Blocker")
                         .font(.custom("Inter18pt-Bold", size: 30))
                         .foregroundColor(.white)
-                    Text("Manually select and hide annoying elements on \nany webpage to create custom rules.".localized)
+                    Text("Manually select and hide annoying elements on \nany webpage to create custom rules.")
                         .font(.custom("Inter18pt-Regular", size: 14))
                         .foregroundColor(.grayText)
                     Image("V2")
@@ -37,7 +37,7 @@ struct VisualBlockerView: View {
                         viewModel.openSafariTutorial()
                     }) {
                         HStack {
-                            Text("Open Safari Tutorial".localized)
+                            Text("Open Safari Tutorial")
                                 .font(.custom("Inter18pt-Bold", size: 18))
                                 .foregroundColor(.white)
                             Image("V5")
@@ -64,7 +64,7 @@ struct VisualBlockerView: View {
             Spacer()
         }
         .overlay {
-            Text("Visual Blocker".localized)
+            Text("Visual Blocker")
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }

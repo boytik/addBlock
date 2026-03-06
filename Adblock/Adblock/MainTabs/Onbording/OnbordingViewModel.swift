@@ -12,7 +12,7 @@ class OnbordingViewModel: ObservableObject {
     private weak var coordinator: AppCoordinator?
     
     @Published var currentPage: Int = 0
-    @Published var textForButton: String  = "Start".localized
+    @Published var textForButton: String  = "Start"
     @Published var shuoldRequestReview: Bool = false
     @Published var showTermOfUseAndPrivacy: Bool = false
     @Published var bgTitel: String = "Page1.0"
@@ -46,13 +46,13 @@ class OnbordingViewModel: ObservableObject {
     
     private func maketextForButton() {
         if currentPage == 0 {
-            textForButton = "Start".localized
+            textForButton = "Start"
         } else if currentPage > 0 && currentPage < 3 {
-            textForButton = "Continue".localized
+            textForButton = "Continue"
         } else if currentPage == 3{
-            textForButton = "Try Free Trial & Continue".localized
+            textForButton = "Try Free Trial & Continue"
         } else {
-            textForButton = "Continue".localized
+            textForButton = "Continue"
         }
         changeBg()
     }

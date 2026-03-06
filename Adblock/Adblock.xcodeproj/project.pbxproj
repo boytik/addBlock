@@ -21,6 +21,8 @@
 		3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */; };
 		3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */; };
 		3E6FC6442F33BB3B0068A4A5 /* AdblockSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3E73BD1D2F5AEB64004E5F31 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 3E73BD1C2F5AEB64004E5F31 /* Localizable.xcstrings */; };
+		3E73BD1E2F5AEB64004E5F31 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 3E73BD1C2F5AEB64004E5F31 /* Localizable.xcstrings */; };
 		3E85B4EE2F44820B001583D0 /* OnbordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85B4ED2F44820B001583D0 /* OnbordingViewModel.swift */; };
 		3E85B4F02F4501D5001583D0 /* QuickGuideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85B4EF2F4501D5001583D0 /* QuickGuideViewModel.swift */; };
 		3E85B5832F451234001583D0 /* VisualBlockerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E85B5822F451234001583D0 /* VisualBlockerView.swift */; };
@@ -34,7 +36,6 @@
 		3EBA53122F42674200FEA819 /* DomainActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53142F42674200FEA819 /* DomainActivityStore.swift */; };
 		3EBA53152F42674300FEA819 /* AppInstallDateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBA53162F42674300FEA819 /* AppInstallDateStore.swift */; };
 		3EBF84F52F46FE45004BB27C /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBF84F32F46FE45004BB27C /* LocalizationHelper.swift */; };
-		3EBF84F92F46FE4D004BB27C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3EBF84F72F46FE4D004BB27C /* Localizable.strings */; };
 		3EC50F242F3497C30046D7C3 /* BlockingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F232F3497C30046D7C3 /* BlockingAction.swift */; };
 		3EC50F272F349CFE0046D7C3 /* RulesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F262F349CFE0046D7C3 /* RulesService.swift */; };
 		3EC50F292F349E210046D7C3 /* ContentBlockerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */; };
@@ -95,6 +96,7 @@
 		3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListViewModel.swift; sourceTree = "<group>"; };
 		3E6FC62C2F33BB3B0068A4A5 /* AdblockSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdblockSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E6FC64B2F33BEDD0068A4A5 /* Adblock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Adblock.entitlements; sourceTree = "<group>"; };
+		3E73BD1C2F5AEB64004E5F31 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		3E85B4ED2F44820B001583D0 /* OnbordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnbordingViewModel.swift; sourceTree = "<group>"; };
 		3E85B4EF2F4501D5001583D0 /* QuickGuideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickGuideViewModel.swift; sourceTree = "<group>"; };
 		3E85B5822F451234001583D0 /* VisualBlockerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualBlockerView.swift; sourceTree = "<group>"; };
@@ -107,7 +109,6 @@
 		3EBA53142F42674200FEA819 /* DomainActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainActivityStore.swift; sourceTree = "<group>"; };
 		3EBA53162F42674300FEA819 /* AppInstallDateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInstallDateStore.swift; sourceTree = "<group>"; };
 		3EBF84F32F46FE45004BB27C /* LocalizationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationHelper.swift; sourceTree = "<group>"; };
-		3EBF84F62F46FE4D004BB27C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		3EC50F232F3497C30046D7C3 /* BlockingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingAction.swift; sourceTree = "<group>"; };
 		3EC50F262F349CFE0046D7C3 /* RulesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesService.swift; sourceTree = "<group>"; };
 		3EC50F282F349E210046D7C3 /* ContentBlockerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlockerConfig.swift; sourceTree = "<group>"; };
@@ -272,14 +273,6 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		3EBF84F82F46FE4D004BB27C /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				3EBF84F72F46FE4D004BB27C /* Localizable.strings */,
-			);
-			path = en.lproj;
-			sourceTree = "<group>";
-		};
 		3EC50F222F3497B30046D7C3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,6 +302,7 @@
 		3ECB179B2F2E265900B28404 = {
 			isa = PBXGroup;
 			children = (
+				3E73BD1C2F5AEB64004E5F31 /* Localizable.xcstrings */,
 				3ECB17B52F2E26D900B28404 /* Adblock */,
 				3E6FC62D2F33BB3B0068A4A5 /* AdblockSafariExtension */,
 				3E9FDAA72F3F5455007E892B /* AdblockWebExtension */,
@@ -337,7 +331,6 @@
 				3ECB17BA2F2E270100B28404 /* MainTabs */,
 				3ECB17B92F2E26DC00B28404 /* SystemFiles */,
 				3EBF84F42F46FE45004BB27C /* Helpers */,
-				3EBF84F82F46FE4D004BB27C /* en.lproj */,
 			);
 			path = Adblock;
 			sourceTree = "<group>";
@@ -494,6 +487,9 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
+				fr,
+				de,
 			);
 			mainGroup = 3ECB179B2F2E265900B28404;
 			minimizedProjectReferenceProxies = 1;
@@ -517,6 +513,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E73BD1D2F5AEB64004E5F31 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,7 +530,7 @@
 			files = (
 				3ECB17B82F2E26D900B28404 /* Assets.xcassets in Resources */,
 				3EFB88A12F2F7B930088623E /* Inter_18pt-SemiBold.ttf in Resources */,
-				3EBF84F92F46FE4D004BB27C /* Localizable.strings in Resources */,
+				3E73BD1E2F5AEB64004E5F31 /* Localizable.xcstrings in Resources */,
 				3ECB18402F2E521D00B28404 /* Inter_18pt-Medium.ttf in Resources */,
 				3ECB183C2F2E459600B28404 /* Inter_18pt-Bold.ttf in Resources */,
 				3ECB183E2F2E45A200B28404 /* Inter_18pt-Regular.ttf in Resources */,
@@ -609,17 +606,6 @@
 			targetProxy = 3E6FC6422F33BB3B0068A4A5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		3EBF84F72F46FE4D004BB27C /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3EBF84F62F46FE4D004BB27C /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		3E6FC6472F33BB3B0068A4A5 /* Debug */ = {
@@ -777,6 +763,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -841,6 +828,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

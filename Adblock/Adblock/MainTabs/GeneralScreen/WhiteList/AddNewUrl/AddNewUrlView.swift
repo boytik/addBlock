@@ -29,7 +29,7 @@ struct AddNewUrlView: View {
                            viewModel.addNewUrl()
                        }                }) {
                     HStack {
-                        Text("Add to White List".localized)
+                        Text("Add to White List")
                             .font(.custom("Inter18pt-SemiBold", size: 16))
                             .foregroundColor(.white)
                     }
@@ -48,7 +48,7 @@ struct AddNewUrlView: View {
     
     private var header: some View {
         HStack {
-            Text("Add WebSite".localized)
+            Text("Add WebSite")
                 .font(.custom("Inter18pt-Bold", fixedSize: 20))
                 .foregroundColor(.white)
             
@@ -56,7 +56,7 @@ struct AddNewUrlView: View {
             Button(action: {
                 viewModel.closeSheet()
             }) {
-                Text("Cancel".localized)
+                Text("Cancel")
                     .font(.custom("Inter18pt-Medium", fixedSize: 16))
                     .foregroundColor(.red)
             }
@@ -66,12 +66,12 @@ struct AddNewUrlView: View {
     private var webLink: some View {
         VStack(spacing: 6) {
                     HStack {
-                        Text("WEBSITE LINK".localized)
+                        Text("WEBSITE LINK")
                             .font(.custom("Inter18pt-Bold", size: 10))
                             .foregroundColor(.grayText)
                 
                 if viewModel.showDuplicateError {
-                    Text("— this domain is already in WhiteList".localized)
+                    Text("— this domain is already in WhiteList")
                         .font(.custom("Inter18pt-Medium", size: 10))
                         .foregroundColor(.red)
                         .transition(.opacity)
@@ -87,7 +87,7 @@ struct AddNewUrlView: View {
                 
                 ZStack(alignment: .leading) {
                     if viewModel.url.isEmpty {
-                        Text("https://youtube.com".localized)
+                        Text("https://youtube.com")
                             .foregroundColor(.gray)
                     }
                     TextField("", text: $viewModel.url)
@@ -115,10 +115,10 @@ struct AddNewUrlView: View {
         VStack(spacing: 6) {
             HStack {
                 Group {
-                    Text("NAME ".localized)
+                    Text("NAME ")
                         .font(.custom("Inter18pt-Bold", size: 10))
                         .foregroundColor(.grayText)
-                    + Text("(OPTIONAL)".localized)
+                    + Text("(OPTIONAL)")
                         .font(.custom("Inter18pt-Regular", size: 10))
                         .foregroundColor(.grayText)
                 }
@@ -131,7 +131,7 @@ struct AddNewUrlView: View {
                     .padding(.horizontal)
                 
                 TextField("", text: $viewModel.titel, prompt:
-                            Text("My Favorite Site".localized)
+                            Text("My Favorite Site")
                     .foregroundColor(Color("PlaceHolder"))
                 )
                 .foregroundColor(.white)

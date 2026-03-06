@@ -26,7 +26,7 @@ struct CustomView: View {
 
                     // MARK: - Active Rules
                     if !viewModel.activeRules.isEmpty {
-                        sectionHeader("ACTIVE".localized)
+                        sectionHeader("ACTIVE")
 
                         ForEach(viewModel.activeRules) { rule in
                             CustomRuleRow(
@@ -42,12 +42,12 @@ struct CustomView: View {
 
                     // MARK: - Inactive Rules
                     if !viewModel.inactiveRules.isEmpty {
-                        sectionHeader("INACTIVE".localized)
+                        sectionHeader("INACTIVE")
 
                         ForEach(viewModel.inactiveRules) { rule in
                             CustomRuleRow(
                                 domain: rule.domain,
-                                subtitle: "Paused".localized,
+                                subtitle: "Paused",
                                 isEnabled: false,
                                 onToggle: { viewModel.toggleRule(rule) },
                                 onDelete: { viewModel.deleteRule(rule) },
@@ -97,7 +97,7 @@ struct CustomView: View {
             }
             
             Spacer()
-            Text("Custom Rules".localized)
+            Text("Custom Rules")
                 .font(.custom("Inter18pt-Bold", size: 18))
                 .foregroundStyle(.white)
             Spacer()
@@ -122,7 +122,7 @@ struct CustomView: View {
                 .padding(.leading)
             ZStack(alignment: .leading) {
                 if viewModel.searchText.isEmpty {
-                    Text("Search domains...".localized)
+                    Text("Search domains...")
                         .foregroundColor(Color("PlaceHolder"))
                 }
                 TextField("", text: $viewModel.searchText)
@@ -154,7 +154,7 @@ struct CustomView: View {
             Image("CastomRules")
                 .frame(width: 96, height: 96)
 
-            Text("Add specific rules to block elements\non sites that bypass general filters.".localized)
+            Text("Add specific rules to block elements\non sites that bypass general filters.")
                 .font(.custom("Inter18pt-Regular", size: 14))
                 .foregroundColor(.grayText)
                 .multilineTextAlignment(.center)
@@ -230,7 +230,7 @@ struct CustomRuleRow: View {
             Button(role: .destructive) {
                 onDelete()
             } label: {
-                Label("Delete Rule".localized, systemImage: "trash")
+                Label("Delete Rule", systemImage: "trash")
             }
         }
     }

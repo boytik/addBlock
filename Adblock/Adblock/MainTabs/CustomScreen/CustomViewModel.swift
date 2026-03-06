@@ -78,15 +78,15 @@ class CstomViewModel: ObservableObject {
 
     func subtitle(for rule: CustomRule) -> String {
         var parts: [String] = []
-        if rule.blockAds { parts.append("ads".localized) }
-        if rule.blockTrackers { parts.append("trackers".localized) }
-        if rule.antiAdblock { parts.append("anti-adblock".localized) }
-        if rule.hideElements { parts.append("elements".localized) }
+        if rule.blockAds { parts.append("ads") }
+        if rule.blockTrackers { parts.append("trackers") }
+        if rule.antiAdblock { parts.append("anti-adblock") }
+        if rule.hideElements { parts.append("elements") }
 
         if parts.isEmpty {
-            return "No rules configured".localized
+            return "No rules configured"
         }
-        return "Blocking ".localized + parts.joined(separator: ", ")
+        return "Blocking " + parts.joined(separator: ", ")
     }
 
     func openAddCustomRule() {

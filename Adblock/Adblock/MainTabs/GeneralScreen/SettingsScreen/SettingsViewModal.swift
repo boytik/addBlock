@@ -22,7 +22,7 @@ class SettingsViewModal: ObservableObject {
     
     func shareFeedback() {
         let email = "support@example.com"
-        let subject = "App Feedback".localized
+        let subject = "App Feedback"
         if let url = URL(string: "mailto:\(email)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") {
             UIApplication.shared.open(url)
         }

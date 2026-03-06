@@ -12,8 +12,8 @@ enum FiltersDates: String {
     case lastWeek = "Last week"
     case lastMonth = "Last month"
     
-    var localized: String {
-        return self.rawValue.localized
+    var displayValue: String {
+        return self.rawValue
     }
 }
 

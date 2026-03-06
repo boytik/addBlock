@@ -27,10 +27,10 @@ struct QuickGuideView: View {
                         .frame(width: 295, height: 295)
                         .padding(.vertical)
                     VStack(spacing: 10) {
-                        Text("Let's kill those ads".localized)
+                        Text("Let's kill those ads")
                             .font(.custom("Inter18pt-Bold", size: 30))
                             .foregroundColor(.white)
-                        Text("Enable the Safari extension to start \nbrowsing effectively distraction-free.".localized)
+                        Text("Enable the Safari extension to start \nbrowsing effectively distraction-free.")
                             .font(.custom("Inter18pt-Regular", size: 15))
                             .foregroundColor(.grayText)
                             .multilineTextAlignment(.center)
@@ -59,7 +59,7 @@ struct QuickGuideView: View {
             Spacer()
         }
         .overlay{
-            Text("Quick Guide".localized)
+            Text("Quick Guide")
                 .foregroundStyle(.white)
                 .font(.custom("Inter18pt-Bold", size: 18))
         }
@@ -72,11 +72,11 @@ struct QuickGuideView: View {
                      .frame(width: 40, height: 40)
                      .padding(.horizontal)
                  VStack(alignment: .leading) {
-                     Text("1. Open Settings".localized)
+                     Text("1. Open Settings")
                          .font(.custom("Inter18pt-SemiBold", size: 15))
                          .foregroundStyle(.white)
                          .padding(.bottom, 4)
-                     Text("Tap the button below to \nautomatically open iOS Settings.".localized)
+                     Text("Tap the button below to \nautomatically open iOS Settings.")
                          .font(.custom("Inter18pt-Regular", size: 12))
                          .foregroundColor(.grayText)
                  }
@@ -96,17 +96,17 @@ struct QuickGuideView: View {
                 .frame(width: 40, height: 40)
                 .padding(.horizontal)
             VStack(alignment: .leading) {
-                Text("2. Tap Extensions".localized)
+                Text("2. Tap Extensions")
                     .font(.custom("Inter18pt-SemiBold", size: 15))
                     .foregroundStyle(.white)
                     .padding(.bottom, 4)
-                Text("Scroll down to find ".localized)
+                Text("Scroll down to find ")
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundColor(.grayText)
-                + Text("Safari".localized)
+                + Text("Safari")
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundColor(.red)
-                + Text(", then tap \nExtensions.".localized)
+                + Text(", then tap \nExtensions.")
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundColor(.grayText)
             }
@@ -126,14 +126,14 @@ struct QuickGuideView: View {
                 .frame(width: 40, height: 40)
                 .padding(.horizontal)
             VStack(alignment: .leading) {
-                Text("3. Toggle On".localized)
+                Text("3. Toggle On")
                     .font(.custom("Inter18pt-SemiBold", size: 15))
                     .foregroundStyle(.white)
                     .padding(.bottom, 4)
-                Text("Find this app in the list and switch \ntoggle to ".localized)
+                Text("Find this app in the list and switch \ntoggle to ")
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundColor(.grayText)
-                + Text("ON.".localized)
+                + Text("ON.")
                     .font(.custom("Inter18pt-Regular", size: 12))
                     .foregroundColor(.green)
             }
@@ -151,7 +151,7 @@ struct QuickGuideView: View {
                 viewModal.openSettings()
             }){
                 HStack {
-                    Text("Go to Settings".localized)
+                    Text("Go to Settings")
                         .font(.custom("Inter18pt-SemiBold", size: 16))
                         .foregroundColor(.white)
                     Image("GoTo")
@@ -166,7 +166,7 @@ struct QuickGuideView: View {
             Button(action: {
                 viewModal.closeSheet()
             }) {
-                Text("I'll do this later".localized)
+                Text("I'll do this later")
                     .font(.custom("Inter18pt-Medium", size: 14))
                     .foregroundColor(.grayText)
                     .frame(maxWidth: .infinity)

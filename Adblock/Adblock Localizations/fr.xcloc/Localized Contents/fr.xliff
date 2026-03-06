@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="Adblock/SystemFiles/InfoPlist.xcstrings" source-language="ru" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.3" build-num="17C529"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>Adblock</source>
+        <note>Bundle name</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="AdblockWebExtension/InfoPlist.xcstrings" source-language="ru" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.3" build-num="17C529"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName" xml:space="preserve">
+        <source>AdblockWebExtension</source>
+        <note>Bundle display name</note>
+      </trans-unit>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>AdblockWebExtension</source>
+        <note>Bundle name</note>
+      </trans-unit>
+      <trans-unit id="NSHumanReadableCopyright" xml:space="preserve">
+        <source/>
+        <note>Copyright (human-readable)</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="InfoPlist.xcstrings" source-language="ru" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.3" build-num="17C529"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleDisplayName" xml:space="preserve">
+        <source>AdblockSafariExtension</source>
+        <note>Bundle display name</note>
+      </trans-unit>
+      <trans-unit id="CFBundleName" xml:space="preserve">
+        <source>AdblockSafariExtension</source>
+        <note>Bundle name</note>
+      </trans-unit>
+      <trans-unit id="NSHumanReadableCopyright" xml:space="preserve">
+        <source/>
+        <note>Copyright (human-readable)</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Localizable.xcstrings" source-language="ru" target-language="fr" datatype="plaintext">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="26.3" build-num="17C529"/>
+    </header>
+    <body>
+      <trans-unit id="" xml:space="preserve">
+        <source/>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%@" xml:space="preserve">
+        <source>%@</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="%lld" xml:space="preserve">
+        <source>%lld</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="(OPTIONAL)" xml:space="preserve">
+        <source>(OPTIONAL)</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id=", then tap &#10;Extensions." xml:space="preserve">
+        <source>, then tap 
+Extensions.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="1. Open Settings" xml:space="preserve">
+        <source>1. Open Settings</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="2. Tap Extensions" xml:space="preserve">
+        <source>2. Tap Extensions</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="3. Toggle On" xml:space="preserve">
+        <source>3. Toggle On</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Ad Blocker &#10;No Ads &amp; Trackers" xml:space="preserve">
+        <source>Ad Blocker 
+No Ads &amp; Trackers</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="AdBlocker" xml:space="preserve">
+        <source>AdBlocker</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Add Custom Rule" xml:space="preserve">
+        <source>Add Custom Rule</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Add Rule" xml:space="preserve">
+        <source>Add Rule</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Add WebSite" xml:space="preserve">
+        <source>Add WebSite</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Add specific rules to block elements&#10;on sites that bypass general filters." xml:space="preserve">
+        <source>Add specific rules to block elements
+on sites that bypass general filters.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Add to White List" xml:space="preserve">
+        <source>Add to White List</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Add websites to not block ads" xml:space="preserve">
+        <source>Add websites to not block ads</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Are you sure you want to remove this website from the white list?" xml:space="preserve">
+        <source>Are you sure you want to remove this website from the white list?</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Blocking Options" xml:space="preserve">
+        <source>Blocking Options</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Cancel" xml:space="preserve">
+        <source>Cancel</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Custom" xml:space="preserve">
+        <source>Custom</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Custom Rules" xml:space="preserve">
+        <source>Custom Rules</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Delete Rule" xml:space="preserve">
+        <source>Delete Rule</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Domain Activity" xml:space="preserve">
+        <source>Domain Activity</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Easily navigate your TV with your phone&#10;Use the touchpad for fast, smooth control" xml:space="preserve">
+        <source>Easily navigate your TV with your phone
+Use the touchpad for fast, smooth control</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Edit Custom Rule" xml:space="preserve">
+        <source>Edit Custom Rule</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Enable the Safari extension to start &#10;browsing effectively distraction-free." xml:space="preserve">
+        <source>Enable the Safari extension to start 
+browsing effectively distraction-free.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Find this app in the list and switch &#10;toggle to " xml:space="preserve">
+        <source>Find this app in the list and switch 
+toggle to </source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="GLOBAL PROTECTION RULES" xml:space="preserve">
+        <source>GLOBAL PROTECTION RULES</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="General" xml:space="preserve">
+        <source>General</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Go to Settings" xml:space="preserve">
+        <source>Go to Settings</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="I'll do this later" xml:space="preserve">
+        <source>I'll do this later</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Last 24h " xml:space="preserve">
+        <source>Last 24h </source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Last month" xml:space="preserve">
+        <source>Last month</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Last week" xml:space="preserve">
+        <source>Last week</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Let's kill those ads" xml:space="preserve">
+        <source>Let's kill those ads</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Manually select and hide annoying elements on &#10;any webpage to create custom rules." xml:space="preserve">
+        <source>Manually select and hide annoying elements on 
+any webpage to create custom rules.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="My Favorite Site" xml:space="preserve">
+        <source>My Favorite Site</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="NAME " xml:space="preserve">
+        <source>NAME </source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="No website in white list yet" xml:space="preserve">
+        <source>No website in white list yet</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="ON." xml:space="preserve">
+        <source>ON.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Open Safari Tutorial" xml:space="preserve">
+        <source>Open Safari Tutorial</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Privacy Policy" xml:space="preserve">
+        <source>Privacy Policy</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Protection Active" xml:space="preserve">
+        <source>Protection Active</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Protection Inactive" xml:space="preserve">
+        <source>Protection Inactive</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Quick Guide" xml:space="preserve">
+        <source>Quick Guide</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Remove" xml:space="preserve">
+        <source>Remove</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Remove from White List" xml:space="preserve">
+        <source>Remove from White List</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Rule applies to this domain and all its subdomains." xml:space="preserve">
+        <source>Rule applies to this domain and all its subdomains.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Safari" xml:space="preserve">
+        <source>Safari</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Save Rule" xml:space="preserve">
+        <source>Save Rule</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Scroll down to find " xml:space="preserve">
+        <source>Scroll down to find </source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Search domains..." xml:space="preserve">
+        <source>Search domains...</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Settings" xml:space="preserve">
+        <source>Settings</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Tap the button below to &#10;automatically open iOS Settings." xml:space="preserve">
+        <source>Tap the button below to 
+automatically open iOS Settings.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Target Website" xml:space="preserve">
+        <source>Target Website</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Terms of use" xml:space="preserve">
+        <source>Terms of use</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Visual Blocker" xml:space="preserve">
+        <source>Visual Blocker</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="WEBSITE LINK" xml:space="preserve">
+        <source>WEBSITE LINK</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="White List" xml:space="preserve">
+        <source>White List</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Your device is not secure from ads &amp; trackers." xml:space="preserve">
+        <source>Your device is not secure from ads &amp; trackers.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="Your device is secure from ads &amp; trackers." xml:space="preserve">
+        <source>Your device is secure from ads &amp; trackers.</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="e.g., youtube.com" xml:space="preserve">
+        <source>e.g., youtube.com</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="https://youtube.com" xml:space="preserve">
+        <source>https://youtube.com</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="— rule for this domain already exists" xml:space="preserve">
+        <source>— rule for this domain already exists</source>
+        <note/>
+      </trans-unit>
+      <trans-unit id="— this domain is already in WhiteList" xml:space="preserve">
+        <source>— this domain is already in WhiteList</source>
+        <note/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

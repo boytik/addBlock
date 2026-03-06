@@ -1,0 +1,18 @@
+{
+  "sourceLanguage" : "ru",
+  "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Adblock"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}
