@@ -2,17 +2,15 @@ import Foundation
 
 class ContentBlockerRequestHandler: NSObject, NSExtensionRequestHandling {
 
-    func beginRequest(with context: NSExtensionContext) {
+    private static let appGroupID = "group.test.com.adblock"
+    private static let fallbackResourceName = "blockerList"
 
-        guard
-            let containerURL = FileManager.default
-                .containerURL(forSecurityApplicationGroupIdentifier: "group.test.com.adblock"),
-            let data = try? Data(contentsOf: containerURL.appendingPathComponent("blockerList.json"))
-        else {
+    func beginRequest(with context: NSExtensionContext) {
+        let data: Data? = loadRulesFromContainer() ?? loadRulesFromBundle()
+        guard let data else {
             context.completeRequest(returningItems: nil)
             return
         }
-
         let item = NSExtensionItem()
         item.attachments = [
             NSItemProvider(
@@ -20,7 +18,18 @@ class ContentBlockerRequestHandler: NSObject, NSExtensionRequestHandling {
                 typeIdentifier: "public.json"
             )
         ]
-
         context.completeRequest(returningItems: [item])
+    }
+
+    /// Правила из App Group (основное приложение пишет сюда).
+    private func loadRulesFromContainer() -> Data? {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Self.appGroupID) else { return nil }
+        return try? Data(contentsOf: containerURL.appendingPathComponent("blockerList.json"))
+    }
+
+    /// Запасной вариант при недоступном контейнере (Container: null без VPN): из бандла расширения.
+    private func loadRulesFromBundle() -> Data? {
+        guard let url = Bundle.main.url(forResource: Self.fallbackResourceName, withExtension: "json") else { return nil }
+        return try? Data(contentsOf: url)
     }
 }

@@ -8,10 +8,18 @@ import SwiftUI
 
 
 
-struct RootView: View{
+struct RootView: View {
     @EnvironmentObject var coordinator: AppCoordinator
-   
+
     var body: some View {
+        content
+            .task {
+                await coordinator.ruleService.preloadFilters()
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
         switch coordinator.flow {
         case .onboarding:
             OnbordingView(viewModel: OnbordingViewModel(coordinator: coordinator))

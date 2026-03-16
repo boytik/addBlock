@@ -73,5 +73,5 @@ struct VisualBlockerView: View {
 
 }
 #Preview {
-    VisualBlockerView(viewModel: VisualBlockerViewModel(coordinator: AppCoordinator()))
+    VisualBlockerView(viewModel: VisualBlockerViewModel(coordinator: AppCoordinator.preview()))
 }

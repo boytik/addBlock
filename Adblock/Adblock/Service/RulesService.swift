@@ -63,17 +63,32 @@ final class RulesService {
     private let appGroupID = "group.test.com.adblock"
     private let blockerID = "test.com.adblock.blocker"
     private let jsonFileName = "blockerList.json"
-
-    private let filterSources: [(url: URL, cacheKey: String, configFlag: KeyPath<ContentBlockerConfig, Bool>)] = [
-        (URL(string: "https://easylist.to/easylist/easylist.txt")!, "easylist.txt", \.blockAds),
-        (URL(string: "https://easylist.to/easylist/easyprivacy.txt")!, "easyprivacy.txt", \.blockTrackers),
+    /// Источники фильтров: при старте читаем из бандла (easylist.txt, easyprivacy.txt); url/fallback — только если бандл пуст.
+    private let filterSources: [(url: URL, fallbackUrl: URL, cacheKey: String, configFlag: KeyPath<ContentBlockerConfig, Bool>)] = [
+        (URL(string: "https://easylist.to/easylist/easylist.txt")!, URL(string: "https://raw.githubusercontent.com/boytik/addBlock/refs/heads/main/easylist.txt")!, "easylist.txt", \.blockAds),
+        (URL(string: "https://easylist.to/easylist/easyprivacy.txt")!, URL(string: "https://raw.githubusercontent.com/boytik/addBlock/refs/heads/main/easyprivacy.txt")!, "easyprivacy.txt", \.blockTrackers),
     ]
 
-    private let defaultVideoWhitelist = [
+    private nonisolated static let defaultVideoWhitelistDomains = [
         "youtube.com", "googlevideo.com", "ytimg.com",
         "twitch.tv", "ttvnw.net", "jtvnw.net", "live-video.net",
         "vimeo.com", "vimeocdn.com",
     ]
+    private var defaultVideoWhitelist: [String] { Self.defaultVideoWhitelistDomains }
+
+    /// Whitelist-строки для pre-merge (быстрый путь при первом включении)
+    private nonisolated static var defaultWhitelistLines: [String] {
+        defaultVideoWhitelistDomains.flatMap { domain -> [String] in
+            let cleaned = domain
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .lowercased()
+                .replacingOccurrences(of: "https://", with: "")
+                .replacingOccurrences(of: "http://", with: "")
+                .replacingOccurrences(of: "www.", with: "")
+            guard !cleaned.isEmpty else { return [] }
+            return ["@@||\(cleaned)^$document", "@@||\(cleaned)^"]
+        }
+    }
 
     // MARK: - Stores
 
@@ -84,8 +99,9 @@ final class RulesService {
     /// Кэш правил: 30 дней. Правила скачиваются при первом запуске (preload) и при необходимости.
     private let cacheLifetime: TimeInterval = 60 * 60 * 24 * 30
     private let staleCacheLifetime: TimeInterval = 60 * 60 * 24 * 90
-    private let maxRetries = 3
-    private let retryBaseDelay: UInt64 = 2_000_000_000
+    /// Одна попытка primary — быстрый переход на fallback при таймауте easylist.to
+    private let maxRetries = 1
+    private let retryBaseDelay: UInt64 = 1_000_000_000
     private let maxJsonSizeBytes = 6 * 1024 * 1024
 
     // MARK: - Internal state
@@ -98,6 +114,8 @@ final class RulesService {
     private var prebuiltAdsJson: String?
     private var prebuiltTrackersJson: String?
     private var prebuiltBothJson: String?
+    /// Pre-merged: both + default whitelist — для быстрого включения без merge
+    private var prebuiltBothWithDefaultWhitelist: String?
 
     // MARK: - Init
 
@@ -105,18 +123,22 @@ final class RulesService {
         self.customRulesStore = customRulesStore
 
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 15
-        config.timeoutIntervalForResource = 60
+        config.timeoutIntervalForRequest = 8
+        config.timeoutIntervalForResource = 45
         config.waitsForConnectivity = true
         config.allowsCellularAccess = true
         self.session = URLSession(configuration: config)
 
         let defaults = UserDefaults(suiteName: appGroupID)
+        if defaults == nil { print("[AppGroup] RulesService init: UserDefaults nil") }
         lastConfigHash = defaults?.string(forKey: "lastConfigHash")
         lastRulesCount = defaults?.integer(forKey: "lastRulesCount") ?? 0
 
+        if containerURL() == nil {
+            print("[AppGroup] containerURL is nil")
+        }
         loadPrebuiltIntoMemory() // Из кэша при перезапуске — включение мгновенно
-        Task { await preloadFilters() }
+        // preloadFilters вызывается из RootView.task при первом появлении экрана
     }
 
     /// Загружает prebuilt JSON из кэша в память (при перезапуске приложения)
@@ -124,15 +146,16 @@ final class RulesService {
         if let json = loadCache(key: "prebuilt_ads", maxAge: nil) { prebuiltAdsJson = json }
         if let json = loadCache(key: "prebuilt_trackers", maxAge: nil) { prebuiltTrackersJson = json }
         if let json = loadCache(key: "prebuilt_both", maxAge: nil) { prebuiltBothJson = json }
+        if let json = loadCache(key: "prebuilt_both_whitelist", maxAge: nil) { prebuiltBothWithDefaultWhitelist = json }
     }
 
     // MARK: - Public API
 
     /// Скачивает правила при старте приложения (в фоне). Параллельная загрузка + конвертация в JSON в память.
     func preloadFilters() async {
-        // Параллельная загрузка обоих фильтров
-        async let adsText = loadFilterWithRetry(url: filterSources[0].url, cacheKey: filterSources[0].cacheKey)
-        async let trackersText = loadFilterWithRetry(url: filterSources[1].url, cacheKey: filterSources[1].cacheKey)
+        // Параллельная загрузка обоих фильтров (с fallback на GitHub при таймауте/ошибке)
+        async let adsText = loadFilterWithRetry(url: filterSources[0].url, fallbackUrl: filterSources[0].fallbackUrl, cacheKey: filterSources[0].cacheKey)
+        async let trackersText = loadFilterWithRetry(url: filterSources[1].url, fallbackUrl: filterSources[1].fallbackUrl, cacheKey: filterSources[1].cacheKey)
         let (ads, trackers) = await (adsText, trackersText)
 
         // Pre-convert в JSON в фоне + сохранить в память и на диск
@@ -159,20 +182,25 @@ final class RulesService {
             if !ads.isEmpty && !trackers.isEmpty {
                 let combined = ads.components(separatedBy: .newlines) + trackers.components(separatedBy: .newlines)
                 if let json = Self.staticConvertToJson(combined, maxJsonSizeBytes: maxBytes) {
+                    // Pre-merge с default whitelist в фоне (не блокируем MainActor)
+                    let mergedJson = Self.staticMergePrebuiltWithExtra(baseJson: json, extraLines: Self.defaultWhitelistLines, maxJsonSizeBytes: maxBytes)?.json
                     await MainActor.run {
                         self.prebuiltBothJson = json
                         self.saveCache(text: json, key: "prebuilt_both")
+                        if let merged = mergedJson {
+                            self.prebuiltBothWithDefaultWhitelist = merged
+                            self.saveCache(text: merged, key: "prebuilt_both_whitelist")
+                        }
                     }
                 }
             }
         }.value
-        print("[RulesService] Preload завершён — правила и JSON в памяти и кэше")
     }
 
     func validateOnLaunch(config: ContentBlockerConfig) {
         let newHash = hashConfig(config)
         guard newHash != lastConfigHash else { return }
-        Task { await updateRules(config: config) }
+        Task { await updateRules(config: config, fromLaunch: true) }
     }
 
     @discardableResult
@@ -183,17 +211,14 @@ final class RulesService {
     }
 
     @discardableResult
-    func updateRules(config: ContentBlockerConfig) async -> RulesUpdateResult {
+    func updateRules(config: ContentBlockerConfig, fromLaunch: Bool = false, userRequestedDisable: Bool = false) async -> RulesUpdateResult {
         let newHash = hashConfig(config)
-
         if newHash == lastConfigHash {
             return RulesUpdateResult(success: true, rulesCount: lastRulesCount, jsonSize: 0, errors: [])
         }
-
         currentTask?.cancel()
-
         let task = Task<RulesUpdateResult, Never> {
-            await _performUpdate(config: config, hash: newHash)
+            await _performUpdate(config: config, hash: newHash, fromLaunch: fromLaunch, userRequestedDisable: userRequestedDisable)
         }
         currentTask = task
         return await task.value
@@ -203,12 +228,13 @@ final class RulesService {
         for source in filterSources {
             deleteCacheFile(key: source.cacheKey)
         }
-        for key in ["prebuilt_ads", "prebuilt_trackers", "prebuilt_both"] {
+        for key in ["prebuilt_ads", "prebuilt_trackers", "prebuilt_both", "prebuilt_both_whitelist"] {
             deleteCacheFile(key: key)
         }
         prebuiltAdsJson = nil
         prebuiltTrackersJson = nil
         prebuiltBothJson = nil
+        prebuiltBothWithDefaultWhitelist = nil
         lastConfigHash = nil
         let defaults = UserDefaults(suiteName: appGroupID)
         defaults?.removeObject(forKey: "lastConfigHash")
@@ -217,14 +243,25 @@ final class RulesService {
 
     // MARK: - Core update logic
 
-    private func _performUpdate(config: ContentBlockerConfig, hash: String) async -> RulesUpdateResult {
+    private func _performUpdate(config: ContentBlockerConfig, hash: String, fromLaunch: Bool = false, userRequestedDisable: Bool = false) async -> RulesUpdateResult {
         isUpdating = true
         lastError = nil
         defer { isUpdating = false }
 
         guard config.isEnabled else {
-            // Пустой массив [] иногда вызывает сбой reload. Используем минимальное правило (ignore-previous-rules),
-            // которое не блокирует ничего, но позволяет reload пройти успешно.
+            // Не перезаписываем полные правила пустым, если не пользователь явно выключил (иначе возможно сломанный App Group).
+            if lastRulesCount > 1, !userRequestedDisable {
+                return RulesUpdateResult(success: true, rulesCount: lastRulesCount, jsonSize: 0, errors: [])
+            }
+            if lastConfigHash == nil {
+                if let readyJson = prebuiltBothWithDefaultWhitelist ?? loadCache(key: "prebuilt_both_whitelist", maxAge: nil) {
+                    let count = countRules(from: readyJson)
+                    let updateResult = await writeAndReload(json: readyJson, rulesCount: count)
+                    if updateResult.success { saveHash(hash, rulesCount: count); lastRulesCount = count }
+                    return updateResult
+                }
+                return RulesUpdateResult(success: true, rulesCount: 0, jsonSize: 0, errors: [])
+            }
             let emptyRulesJSON = #"[{"action":{"type":"ignore-previous-rules"},"trigger":{"url-filter":".*"}}]"#
             let result = await writeAndReload(json: emptyRulesJSON, rulesCount: 1)
             if result.success { saveHash(hash, rulesCount: 0) }
@@ -236,9 +273,21 @@ final class RulesService {
         // ──────────────────────────────────────
         // Fast path: prebuilt JSON из памяти или кэша + merge whitelist/custom
         // ──────────────────────────────────────
+        let extraLines = buildExtraLines(config: config)
+        // Самый быстрый путь: blockAds+blockTrackers, только default whitelist — используем pre-merged
+        if config.blockAds && config.blockTrackers,
+           config.whiteListedDomains.isEmpty,
+           customRulesStore.filterLines().isEmpty,
+           let readyJson = prebuiltBothWithDefaultWhitelist ?? loadCache(key: "prebuilt_both_whitelist", maxAge: nil) {
+            let updateResult = await writeAndReload(json: readyJson, rulesCount: countRules(from: readyJson))
+            if updateResult.success {
+                saveHash(hash, rulesCount: countRules(from: readyJson))
+                lastRulesCount = countRules(from: readyJson)
+            }
+            return updateResult
+        }
         let baseJson = prebuiltJsonForConfig(config)
         if let baseJson {
-            let extraLines = buildExtraLines(config: config)
             if extraLines.isEmpty {
                 let updateResult = await writeAndReload(json: baseJson, rulesCount: countRules(from: baseJson))
                 if updateResult.success {
@@ -268,7 +317,7 @@ final class RulesService {
             guard config[keyPath: source.configFlag] else { continue }
             guard !Task.isCancelled else { return .cancelled }
 
-            let text = await loadFilterWithRetry(url: source.url, cacheKey: source.cacheKey)
+            let text = await loadFilterWithRetry(url: source.url, fallbackUrl: source.fallbackUrl, cacheKey: source.cacheKey)
 
             if text.isEmpty {
                 warnings.append("Failed to load \(source.cacheKey)")
@@ -359,21 +408,25 @@ final class RulesService {
         return updateResult
     }
 
-    // MARK: - Filter loading with retry + stale fallback
+    // MARK: - Filter loading (bundle first, then cache/network)
 
-    private func loadFilterWithRetry(url: URL, cacheKey: String) async -> String {
-        if let cached = loadCache(key: cacheKey, maxAge: nil) {
-            print("[RulesService] \(cacheKey): из кэша (\(cached.count) символов)")
-            return cached
-        }
+    /// Загружает фильтры из файла в бандле приложения (easylist.txt / easyprivacy.txt).
+    private func loadFilterFromBundle(cacheKey: String) -> String? {
+        let name = (cacheKey as NSString).deletingPathExtension
+        let ext = (cacheKey as NSString).pathExtension
+        guard let url = Bundle.main.url(forResource: name, withExtension: ext.isEmpty ? "txt" : ext),
+              let data = try? Data(contentsOf: url),
+              let text = String(data: data, encoding: .utf8),
+              text.count > 1000
+        else { return nil }
+        return text
+    }
 
-        for waitSeconds in [2, 4] {
-            try? await Task.sleep(nanoseconds: UInt64(waitSeconds) * 1_000_000_000)
-            if let cached = loadCache(key: cacheKey, maxAge: nil) {
-                print("[RulesService] \(cacheKey): из кэша после ожидания preload (\(cached.count) символов)")
-                return cached
-            }
-        }
+    private func loadFilterWithRetry(url: URL, fallbackUrl: URL, cacheKey: String) async -> String {
+        if let fromBundle = loadFilterFromBundle(cacheKey: cacheKey) { return fromBundle }
+        if let cached = loadCache(key: cacheKey, maxAge: nil) { return cached }
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        if let cached = loadCache(key: cacheKey, maxAge: nil) { return cached }
 
         for attempt in 0 ..< maxRetries {
             guard !Task.isCancelled else { return "" }
@@ -384,18 +437,15 @@ final class RulesService {
                 guard !Task.isCancelled else { return "" }
             }
 
-            if let text = await download(url: url) {
-                guard text.count > 1000 else {
-                    print("[RulesService] Suspicious small response (\(text.count) bytes) from \(url.lastPathComponent), retrying...")
-                    continue
-                }
+            if let text = await download(url: url), text.count > 1000 {
                 saveCache(text: text, key: cacheKey)
-                print("[RulesService] \(cacheKey): скачано (\(text.count) символов)")
                 return text
             }
         }
-
-        print("[RulesService] All attempts failed for \(cacheKey)")
+        if let text = await download(url: fallbackUrl), text.count > 1000 {
+            saveCache(text: text, key: cacheKey)
+            return text
+        }
         return ""
     }
 
@@ -404,15 +454,11 @@ final class RulesService {
     private func download(url: URL) async -> String? {
         do {
             let (data, response) = try await session.data(from: url)
-            if let http = response as? HTTPURLResponse, !(200 ..< 300).contains(http.statusCode) {
-                print("[RulesService] HTTP \(http.statusCode) from \(url.lastPathComponent)")
-                return nil
-            }
+            if let http = response as? HTTPURLResponse, !(200 ..< 300).contains(http.statusCode) { return nil }
             return String(data: data, encoding: .utf8)
         } catch is CancellationError {
             return nil
         } catch {
-            print("[RulesService] Download error (\(url.lastPathComponent)): \(error.localizedDescription)")
             return nil
         }
     }
@@ -446,9 +492,7 @@ final class RulesService {
         guard let url = cacheFileURL(key: key) else { return }
         do {
             try text.data(using: .utf8)?.write(to: url, options: .atomic)
-        } catch {
-            print("[RulesService] Cache write error (\(key)): \(error.localizedDescription)")
-        }
+        } catch { }
     }
 
     private func deleteCacheFile(key: String) {
@@ -460,34 +504,27 @@ final class RulesService {
 
     private func writeAndReload(json: String, rulesCount: Int, warnings: [String] = []) async -> RulesUpdateResult {
         guard let container = containerURL() else {
+            print("[AppGroup] container nil → запись правил пропущена")
             return RulesUpdateResult(success: false, rulesCount: 0, jsonSize: 0, errors: ["App group container unavailable"])
         }
-
         let fileURL = container.appendingPathComponent(jsonFileName)
-
         do {
             try json.data(using: .utf8)?.write(to: fileURL, options: .atomic)
         } catch {
             return RulesUpdateResult(success: false, rulesCount: 0, jsonSize: 0, errors: ["JSON write failed: \(error.localizedDescription)"])
         }
-
-        print("[Обновляем правила] - отправлено \(rulesCount) правил")
         var reloadSuccess = false
         for attempt in 0 ..< 3 {
-            if attempt > 0 {
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-            }
+            if attempt > 0 { try? await Task.sleep(nanoseconds: 1_000_000_000) }
             reloadSuccess = await reloadContentBlocker()
             if reloadSuccess { break }
         }
-
-        let size = json.utf8.count
-        print("[RulesService] Wrote \(rulesCount) rules (\(size) bytes), reload: \(reloadSuccess)")
+        print("[RulesService] Applied \(rulesCount) rules, reload: \(reloadSuccess)")
 
         return RulesUpdateResult(
             success: reloadSuccess,
             rulesCount: rulesCount,
-            jsonSize: size,
+            jsonSize: json.utf8.count,
             errors: reloadSuccess ? warnings : warnings + ["Content blocker reload failed"]
         )
     }
@@ -495,10 +532,6 @@ final class RulesService {
     private func reloadContentBlocker() async -> Bool {
         await withCheckedContinuation { continuation in
             SFContentBlockerManager.reloadContentBlocker(withIdentifier: blockerID) { error in
-                if let error {
-                    print("ОШИБКА ПЕРЕЗАГРУЗКИ ПРАВИЛ")
-                }
-                print("Правила обновились")
                 continuation.resume(returning: error == nil)
             }
         }
@@ -582,10 +615,16 @@ final class RulesService {
     private func mergePrebuiltWithExtra(baseJson: String, extraLines: [String]) -> (json: String, count: Int)? {
         let extraJson = convertToJson(extraLines)
         guard let extraJson, !extraJson.isEmpty else { return nil }
+        guard let result = Self.staticMergePrebuiltWithExtra(baseJson: baseJson, extraLines: extraLines, maxJsonSizeBytes: maxJsonSizeBytes)
+        else { return nil }
+        return (result.json, result.count)
+    }
+
+    private nonisolated static func staticMergePrebuiltWithExtra(baseJson: String, extraLines: [String], maxJsonSizeBytes: Int) -> (json: String, count: Int)? {
+        guard let extraJson = staticConvertToJson(extraLines, maxJsonSizeBytes: maxJsonSizeBytes), !extraJson.isEmpty else { return nil }
         guard let baseArray = try? JSONSerialization.jsonObject(with: Data(baseJson.utf8)) as? [[String: Any]],
               let extraArray = try? JSONSerialization.jsonObject(with: Data(extraJson.utf8)) as? [[String: Any]]
         else { return nil }
-        // Whitelist/custom first — они перекрывают блокировки
         let merged = extraArray + baseArray
         guard let data = try? JSONSerialization.data(withJSONObject: merged),
               let json = String(data: data, encoding: .utf8)

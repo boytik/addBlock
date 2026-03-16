@@ -44,12 +44,15 @@ class GeneralViewModel: ObservableObject {
         self.coordinator = coordinator
         self.ruleServise = ruleService
         self.whiteList = whiteListStore
-        loadState()
+        let hadAppGroupDefaults = loadState()
         bindStatePersistance()
         bindConfigChanges()
-        
-        let config = makeConfig()
-        ruleService.validateOnLaunch(config: config)
+
+        if hadAppGroupDefaults {
+            ruleServise.validateOnLaunch(config: makeConfig())
+        }
+        // Повтор через 1.5 с: к тому времени preload готов; при isEnabled=false и lastConfigHash=nil применим prebuilt
+        scheduleDelayedValidateOnLaunch()
         
         ruleServise.$isUpdating
             .receive(on: DispatchQueue.main)
@@ -123,7 +126,8 @@ class GeneralViewModel: ObservableObject {
 
         Task {
             let result = await ruleServise.updateRules(
-                config: makeConfig(with: newValue)
+                config: makeConfig(with: newValue),
+                userRequestedDisable: !newValue
             )
 
             if !result.success {
@@ -160,9 +164,12 @@ class GeneralViewModel: ObservableObject {
         .store(in: &cancellables)
     }
     
-    private func loadState() {
+    /// Загружает состояние из App Group. Возвращает true, если UserDefaults(suiteName:) был доступен.
+    @discardableResult
+    private func loadState() -> Bool {
         let defaults = UserDefaults(suiteName: "group.test.com.adblock")
-        
+        if defaults == nil { print("[AppGroup] UserDefaults nil при loadState") }
+
         // При первом входе — главная кнопка выключена, остальные тоглы включены
         isWorking = defaults?.bool(forKey: Keys.isWorking) ?? false
         isBlockAds = defaults?.object(forKey: Keys.blockAds) as? Bool ?? true
@@ -173,22 +180,32 @@ class GeneralViewModel: ObservableObject {
         if isWorking {
             AppInstallDateStore.shared.recordProtectionEnabled()
         }
+        return defaults != nil
     }
     
+    /// Повторная попытка прочитать App Group и применить правила после задержки (preload уже готов, контейнер может подняться).
+    private func scheduleDelayedValidateOnLaunch() {
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 1_500_000_000) // 1.5 сек
+            _ = loadState()
+            // Всегда вызываем: при isEnabled=false и lastConfigHash=nil RulesService применит prebuilt, если есть
+            ruleServise.validateOnLaunch(config: makeConfig())
+        }
+    }
+
     private func bindStatePersistance() {
-        let defaults = UserDefaults(suiteName: "group.test.com.adblock")
-        
+        // Читаем suite при каждой записи, чтобы после «поднятия» контейнера сохранение работало
         $isWorking
-            .sink { defaults?.set($0, forKey: Keys.isWorking) }
+            .sink { UserDefaults(suiteName: "group.test.com.adblock")?.set($0, forKey: Keys.isWorking) }
             .store(in: &cancellables)
         $isBlockAds
-            .sink { defaults?.set($0, forKey: Keys.blockAds) }
+            .sink { UserDefaults(suiteName: "group.test.com.adblock")?.set($0, forKey: Keys.blockAds) }
             .store(in: &cancellables)
         $isBlockTrackers
-            .sink { defaults?.set($0, forKey: Keys.blockTrackers) }
+            .sink { UserDefaults(suiteName: "group.test.com.adblock")?.set($0, forKey: Keys.blockTrackers) }
             .store(in: &cancellables)
         $isAntiAdblokKiller
-            .sink { defaults?.set($0, forKey: Keys.antiAdblock) }
+            .sink { UserDefaults(suiteName: "group.test.com.adblock")?.set($0, forKey: Keys.antiAdblock) }
             .store(in: &cancellables)
     }
     

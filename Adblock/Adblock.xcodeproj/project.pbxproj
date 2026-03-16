@@ -17,6 +17,8 @@
 		3E3FF8172F3A08CC0090A937 /* WhiteListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */; };
 		3E3FF8952F3A2B8A0090A937 /* AddNewUrlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8932F3A2B8A0090A937 /* AddNewUrlView.swift */; };
 		3E3FF8972F3A2B930090A937 /* AddNewUrlViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3FF8962F3A2B930090A937 /* AddNewUrlViewModel.swift */; };
+		3E53E0502F681D7600973518 /* easylist.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3E53E04F2F681D7600973518 /* easylist.txt */; };
+		3E53E0522F681D7D00973518 /* easyprivacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3E53E0512F681D7D00973518 /* easyprivacy.txt */; };
 		3E56855E2F31E8E800E29C3A /* QuickGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */; };
 		3E6FC3E02F333AA60068A4A5 /* WhiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */; };
 		3E6FC3E22F333B360068A4A5 /* WhiteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */; };
@@ -90,6 +92,8 @@
 		3E3FF8162F3A08CC0090A937 /* WhiteListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListItem.swift; sourceTree = "<group>"; };
 		3E3FF8932F3A2B8A0090A937 /* AddNewUrlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUrlView.swift; sourceTree = "<group>"; };
 		3E3FF8962F3A2B930090A937 /* AddNewUrlViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUrlViewModel.swift; sourceTree = "<group>"; };
+		3E53E04F2F681D7600973518 /* easylist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = easylist.txt; sourceTree = "<group>"; };
+		3E53E0512F681D7D00973518 /* easyprivacy.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = easyprivacy.txt; sourceTree = "<group>"; };
 		3E56855D2F31E8E800E29C3A /* QuickGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickGuideView.swift; sourceTree = "<group>"; };
 		3E6FC3DF2F333AA60068A4A5 /* WhiteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListView.swift; sourceTree = "<group>"; };
 		3E6FC3E12F333B360068A4A5 /* WhiteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteListViewModel.swift; sourceTree = "<group>"; };
@@ -302,6 +306,8 @@
 				3E3FF8142F3A08B40090A937 /* WhiteListStore.swift */,
 				3EBA53052F42673A00FEA819 /* CustomRulesStore.swift */,
 				3EBA53142F42674200FEA819 /* DomainActivityStore.swift */,
+				3E53E0512F681D7D00973518 /* easyprivacy.txt */,
+				3E53E04F2F681D7600973518 /* easylist.txt */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -535,6 +541,8 @@
 				3EFB88A12F2F7B930088623E /* Inter_18pt-SemiBold.ttf in Resources */,
 				3EBF84F92F46FE4D004BB27C /* Localizable.strings in Resources */,
 				3ECB18402F2E521D00B28404 /* Inter_18pt-Medium.ttf in Resources */,
+				3E53E0502F681D7600973518 /* easylist.txt in Resources */,
+				3E53E0522F681D7D00973518 /* easyprivacy.txt in Resources */,
 				3ECB183C2F2E459600B28404 /* Inter_18pt-Bold.ttf in Resources */,
 				3ECB183E2F2E45A200B28404 /* Inter_18pt-Regular.ttf in Resources */,
 			);

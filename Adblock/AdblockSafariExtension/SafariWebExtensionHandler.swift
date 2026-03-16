@@ -12,12 +12,6 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
     
 
     func beginRequest(with context: NSExtensionContext) {
-        //начало теста
-        let suite = UserDefaults(suiteName: "group.com.botyik.adblock")
-          let value = suite?.string(forKey: "appGroupTest")
-          print("App Group value:", value ?? "nil")
-
-        //Окончание теста
         let request = context.inputItems.first as? NSExtensionItem
 
         let profile: UUID?

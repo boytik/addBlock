@@ -164,6 +164,6 @@ struct RowForList: View {
 }
 
 #Preview {
-    WhiteListView(viewModel: WhiteListViewModel(coordinator: AppCoordinator(),
+    WhiteListView(viewModel: WhiteListViewModel(coordinator: AppCoordinator.preview(),
                                                 whiteListStore: WhiteListStore()))
 }

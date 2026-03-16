@@ -18,9 +18,9 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
     @Published var route: Route?
     @Published var sheet: Sheet?
     
-    let customRulesStore = CustomRulesStore()
+    let customRulesStore: CustomRulesStore
     let domainActivityStore = DomainActivityStore()
-    lazy var ruleService = RulesService(customRulesStore: customRulesStore)
+    let ruleService: RulesService
     private let whiteList = WhiteListStore()
     var whiteListStore: WhiteListStore { whiteList }
     
@@ -41,9 +41,17 @@ final class AppCoordinator: ObservableObject, CoordinatorProtocol {
         }
     }
     
-    init(){
+    init(customRulesStore: CustomRulesStore, ruleService: RulesService) {
+        self.customRulesStore = customRulesStore
+        self.ruleService = ruleService
         flow = hasSeenOnbording ? .main : .onboarding
-        _ = ruleService
+    }
+
+    /// Для SwiftUI Preview
+    static func preview() -> AppCoordinator {
+        let store = CustomRulesStore()
+        let service = RulesService(customRulesStore: store)
+        return AppCoordinator(customRulesStore: store, ruleService: service)
     }
     
     @ViewBuilder
